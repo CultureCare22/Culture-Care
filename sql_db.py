@@ -3,6 +3,7 @@ The database of culture care api
 """
 
 from flask_sqlalchemy import SQLAlchemy
+
 sql_db = SQLAlchemy()
 
 class EmailContent(sql_db.Model):

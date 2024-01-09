@@ -4,7 +4,7 @@ from pprint import pprint
 from bson.objectid import ObjectId
 
 
-CLIENT = MongoClient("mongodb://localhost:27017/")
+CLIENT = MongoClient("mongodb://127.0.0.1:27017")
 mongo_db = CLIENT["culturecaremongodb"]
 
 
@@ -32,12 +32,15 @@ def insert_into_forms_collection(**kwargs):
         "data" : kwargs.get("data"),
         "deleted" : False
     }
+    print(form)
 
     try:
+        print("trying")
         form_id = forms_collection.insert_one(form).inserted_id
     except:
+        print("failed")
         return False, None
-    
+    print("insertion succeeded")
     return True, str(form_id)
 
 # data = {

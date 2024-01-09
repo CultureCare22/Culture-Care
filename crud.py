@@ -9,6 +9,7 @@ def create_form(type, data):
     """
     Creates and returns a form record
     """
+    print("runnng insertion")
     created, form_id = insert_into_forms_collection(data = data, type = type)
 
     if not created:

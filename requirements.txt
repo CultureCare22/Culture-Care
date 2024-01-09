@@ -29,3 +29,4 @@ Flask-Cors==4.0.0
 gunicorn==21.2.0
 matplotlib==3.8.2
 pymongo==4.6.1
+bson==0.5.10

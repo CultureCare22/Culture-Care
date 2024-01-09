@@ -23,7 +23,7 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    sql_db.drop_all()
+    # sql_db.drop_all()
     sql_db.create_all()
 
 
@@ -110,7 +110,7 @@ def send_prewritten_email(email_id):
     if email_content.practitioner_id != practitioner.id:
         return failure_response("No permission")
     
-    sender = os.environ.getenv("GMAIL_SENDER")
+    sender = os.environ.get("GMAIL_SENDER")
     sent, message = email_automater.send_email(email_content.message,
                                                email_content.subject, 
                                                sender, patient.email_address, 
