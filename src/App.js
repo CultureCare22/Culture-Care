@@ -40,7 +40,6 @@ function App() {
 				const jsonResponse = await response.json()
 				alert("Email sent")
 			}
-
 			else {
 				alert("Failed to send email")
 			}
