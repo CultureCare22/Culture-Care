@@ -9,5 +9,5 @@
 */*.sqlite3
 */__pycache__
 *copy_and_paste.txt
-myenv
 node_modules
+myenv
