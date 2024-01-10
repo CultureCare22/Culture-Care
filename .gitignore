@@ -10,5 +10,4 @@
 */*.sqlite3
 */__pycache__
 *copy_and_paste.txt
-node_modules
 myenv
