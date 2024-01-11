@@ -30,7 +30,7 @@ function IntakeForm() {
 						total_therapies: noTherapies,
 						email: email
 					},
-					practitioner_id: 1
+					practitioner_id: 2
 				}),
 				mode: "no-cors"
 			})
@@ -102,3 +102,5 @@ function IntakeForm() {
 }
 
 export default IntakeForm;
+
+

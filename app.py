@@ -7,7 +7,6 @@ db_filename = "culturecaresql.db"
 app = Flask(__name__)
 import crud
 import os
-import dotenv
 from dotenv import load_dotenv, find_dotenv
 from flask_cors import CORS, cross_origin
 from pprint import pprint
@@ -28,7 +27,11 @@ with app.app_context():
 
 
 def assert_none(data):
+    """
+    Returns True if any item in data is None else False
 
+    Precond data: is a list of items of any type
+    """
     for content in data:
         if content is None:
             return True
