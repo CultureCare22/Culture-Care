@@ -9,6 +9,7 @@ function IntakeForm() {
 	const [concern, setConcern] = useState('')
 	const [noTherapies, setNoTherapies] = useState('')
 	const [email, setEmail] = useState('')
+	const [directoryDiscovered, setDirectoryDiscovered] = useState("")
 
 
 	// handle form submission
@@ -24,7 +25,7 @@ function IntakeForm() {
 						name: name,
 						age_group: ageGroup,
 						location: location,
-						directory_discovered: "latinxtherapy.com",
+						directory_discovered: directoryDiscovered,
 						area_of_concern: concern,
 						total_therapies: noTherapies,
 						email: email
@@ -37,7 +38,7 @@ function IntakeForm() {
 			// handle response
 			if (response.ok) {
 				const jsonResponse = await response.json()
-				alert("Email sent")
+				alert(jsonResponse.form_id)
 			}
 			else {
 				alert("Failed to send email")
@@ -51,7 +52,7 @@ function IntakeForm() {
 
 	return (
 		<div className="App">
-			<header className="App-header">Intake Form</header>
+			<h1 className="App-header">Intake Form</h1>
 			<br></br>
 			<form action='/' onSubmit={handleSubmit}>
 				<text>Hello Mrs.Ramirez,</text>
@@ -61,16 +62,24 @@ function IntakeForm() {
 					I hope you are well. My name is <input type='text' placeholder="Name" onChange={(e) => setName(e.target.value)} />.
 
 					I am a <select onChange={(e) => setAgeGroup(e.target.value)}>
-						<option value="Teen">Teen</option>
-						<option value="Adult" selected>Adult</option>
-						<option value="Student">Student</option>
-					</select> in <input type='text' placeholder="Location" onChange={(e) => setLocation(e.target.value)} />.
+						<option value="teen">preteen</option>
+						<option value="adult" selected>teen</option>
+						<option value="student">adult</option>
+						</select>
+						
+					living in <input type='text' placeholder="Location" onChange={(e) => setLocation(e.target.value)} />. 
+
+					I found you on <select onChange={(e) => setDirectoryDiscovered(e.target.value)}>
+						<option value="latinxtherapy.com1" selected>latinxtherapy.com1</option>
+						<option value="latinxtherapy.com2">latinxtherapy.com2</option>
+						<option value="lantixtherapy.com3">latinxtherapy.com3</option>
+					</select>.
 
 					I am reaching out because I am interested in receiving therapy for <input type='text' placeholder="Area of Concerns" onChange={(e) => setConcern(e.target.value)} />.
 
 					It is  <select onChange={(e) => setNoTherapies(e.target.value)}>
 						<option value="First time">my first time</option>
-						<option value="Not first time" selected>NOT my first time</option>
+						<option value="Not first time" selected>not my first time</option>
 					</select> receiving therapy.
 
 					My email is <input type='email' placeholder="Email" onChange={(e) => setEmail(e.target.value)} />.

@@ -3,8 +3,6 @@
 
 
 from fpdf import FPDF
-from io import BytesIO
-import canvas
 
 
 # save FPDF() class into 

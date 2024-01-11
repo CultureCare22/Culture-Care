@@ -91,7 +91,10 @@ def create_patient(name, email_address):
     """
     Creates and returns a patient
     """
-    patient = Patient(name = name, email_address = email_address)
+    try:
+        patient = Patient(name = name, email_address = email_address)
+    except:
+        return False, None
 
     if not patient:
         return False, None

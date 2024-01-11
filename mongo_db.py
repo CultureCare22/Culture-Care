@@ -32,15 +32,12 @@ def insert_into_forms_collection(**kwargs):
         "data" : kwargs.get("data"),
         "deleted" : False
     }
-    print(form)
 
     try:
-        print("trying")
         form_id = forms_collection.insert_one(form).inserted_id
     except:
-        print("failed")
         return False, None
-    print("insertion succeeded")
+
     return True, str(form_id)
 
 # data = {

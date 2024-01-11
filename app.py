@@ -23,7 +23,7 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    # sql_db.drop_all()
+    sql_db.drop_all()
     sql_db.create_all()
 
 
@@ -138,11 +138,12 @@ def create_patient():
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
-    
+
+
     created, patient = crud.create_patient(name, email_address)
 
     if not created:
-        return failure_response("Failed to create email", 400)
+        return failure_response("Failed to create practitioner", 400)
     
     sql_db.session.add(patient)
     sql_db.session.commit()
@@ -221,7 +222,7 @@ def create_intake_form():
     f"I hope you are well. My name is {form['name']}. I am {form['age_group']} in",
     f"{form['location']}. I found you on {form['directory_discovered']}. I am reaching",
     f"out because I am interested in receiving therapy for {form['area_of_concern']}.",
-    f"This is my {form['total_therapies']}'th time receiving therapy. My email is {form['email']}.",
+    f"This is my {form['total_therapies']} receiving therapy. My email is {form['email']}.",
     "",
     f"Is there any way I can begin the process with you?",
     "",
@@ -243,4 +244,4 @@ def create_intake_form():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port="8000")
