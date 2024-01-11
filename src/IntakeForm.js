@@ -1,7 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 
 function IntakeForm() {
+
+	const [practitioners, setPractitioners] = useState('')
+
+	useEffect(() => {
+		async function getPractitioners() {
+			try {
+				const response = await fetch('/api/practitioners/', {
+					method: "GET",
+					mode: "no-cors"
+				});
+				if (response.ok) {
+					const jsonResponse = await response.json()
+					setData(jsonResponse)
+					return (
+						<div>
+							<Schedule schedules={data.lectures} />
+						</div>
+					)
+				}
+				else throw new Error("Request failed");
+
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getPractitioners()
+	}, [])
+
+
 	// set form values
 	const [name, setName] = useState('')
 	const [ageGroup, setAgeGroup] = useState('')

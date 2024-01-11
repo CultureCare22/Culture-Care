@@ -26,7 +26,7 @@ function CreatePractitioner() {
 			// handle response
 			if (response.ok) {
 				const jsonResponse = await response.json()
-				alert(jsonResponse.name)
+				alert("Practitioner created")
 			}
 			else {
 				alert("Failed to create practitioner")
@@ -40,7 +40,7 @@ function CreatePractitioner() {
 
 	return (
 		<div className="App">
-			<h1 className="App-header">Create Practitioner</h1>
+			<header className="App-header">Intake Form</header>
 			<br></br>
 			<form action='/' onSubmit={handleSubmit}>
 				<input type='text' placeholder="Name" onChange={(e) => setName(e.target.value)} />
