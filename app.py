@@ -1,7 +1,7 @@
 from flask import Flask, request
 from sql_db import sql_db
 import email_automater
-from email_media import create_pdf
+from email_media import create_pdf, split_string
 import json
 db_filename = "culturecaresql.db"
 app = Flask(__name__)
@@ -216,15 +216,16 @@ def create_intake_form():
                              "Culture Care."
     
     intake_form_email_subject = "Intake Form PDF"
+    x =  f"I hope you are well. My name is {form['name']}. I am {form['age_group']} in {form['location']}." + \
+         f"I found you on {form['directory_discovered']}. I am reaching " + \
+         f"out because I am interested in receiving therapy for {form['area_of_concern']}." + \
+         f"This is my {form['total_therapies']} receiving therapy. My email is {form['email']}." 
+
+    x = split_string(x, 100)
+
 
     intake_form = [f"Hello Mrs. {practitioner.name}", 
-    "",
-    f"I hope you are well. My name is {form['name']}. I am {form['age_group']} in",
-    f"{form['location']}. I found you on {form['directory_discovered']}. I am reaching",
-    f"out because I am interested in receiving therapy for {form['area_of_concern']}.",
-    f"This is my {form['total_therapies']} receiving therapy. My email is {form['email']}.",
-    "",
-    f"Is there any way I can begin the process with you?",
+    "",] + x + [f"Is there any way I can begin the process with you?",
     "",
     "Sincerely,",
     f"{form['name']}."
