@@ -1,4 +1,5 @@
 .env
+node_modules/
 *.json
 *__pycache__
 *cache
@@ -11,4 +12,4 @@
 */__pycache__
 *copy_and_paste.txt
 myenv
-node_modules/
+
