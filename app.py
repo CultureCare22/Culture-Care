@@ -216,7 +216,7 @@ def create_intake_form():
                              "Culture Care."
     
     intake_form_email_subject = "Intake Form PDF"
-    x =  f"I hope you are well. My name is {form['name']}. I am {form['age_group']} in {form['location']}." + \
+    x =  f"I hope you are well. My name is {form['name']}. I am {form['age_group']} in {form['location']}. " + \
          f"I found you on {form['directory_discovered']}. I am reaching " + \
          f"out because I am interested in receiving therapy for {form['area_of_concern']}." + \
          f"This is my {form['total_therapies']} receiving therapy. My email is {form['email']}." 
@@ -243,6 +243,12 @@ def create_intake_form():
     
     return success_response({"form_id" : form_id}, 201)
 
+@app.route("/practitioners/get/", methods = ["GET"])
+@cross_origin(supports_credentials=True)
+def get_practitioners():
+    practitioners = crud.get_practitioners()
+
+    return success_response({"practitioners": practitioners})
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")

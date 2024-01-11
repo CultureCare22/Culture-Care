@@ -51,6 +51,14 @@ def get_practitioner_by_id(practitioner_id):
     
     return True, practitioner
 
+def get_practitioners():
+    pracitioners = Practitioner.query.filter().all()
+    pracitioners_json = []
+    for practitioner in pracitioners:
+        pracitioners_json.append(practitioner.serialize())
+
+    return pracitioners_json
+
 def get_emailcontent_by_id(emailcontent_id):
     """
     Returns emailcontent with emailcontent_id
