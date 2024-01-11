@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
+import Options from './Options'
+
+
 
 function IntakeForm() {
 
-	const [practitioners, setPractitioners] = useState('')
+	const [practitioners, setPractitioners] = useState([])
 
+	// get all practitioners on load
 	useEffect(() => {
 		async function getPractitioners() {
 			try {
-				const response = await fetch('/api/practitioners/', {
+				const response = await fetch('/practitioners/get/', {
 					method: "GET",
 					mode: "no-cors"
 				});
+
 				if (response.ok) {
 					const jsonResponse = await response.json()
-					setData(jsonResponse)
-					return (
-						<div>
-							<Schedule schedules={data.lectures} />
-						</div>
-					)
+					const res = jsonResponse.practitioners
+					setPractitioners(res)
 				}
 				else throw new Error("Request failed");
 
@@ -39,13 +40,14 @@ function IntakeForm() {
 	const [noTherapies, setNoTherapies] = useState('')
 	const [email, setEmail] = useState('')
 	const [directoryDiscovered, setDirectoryDiscovered] = useState("")
+	const [practitioner_id, setPractitionerID] = useState()
 
 
 	// handle form submission
 	const handleSubmit = async (e) => {
 
 		e.preventDefault();
-
+		console.log("chosen id is", practitioner_id)
 		try {
 			const response = await fetch("/forms/intake/", {
 				method: "POST",
@@ -59,7 +61,7 @@ function IntakeForm() {
 						total_therapies: noTherapies,
 						email: email
 					},
-					practitioner_id: 1
+					practitioner_id: Number(practitioner_id)
 				}),
 				mode: "no-cors"
 			})
@@ -67,7 +69,8 @@ function IntakeForm() {
 			// handle response
 			if (response.ok) {
 				const jsonResponse = await response.json()
-				alert(jsonResponse.form_id)
+				alert("Email sent successfully")
+				console.log(jsonResponse)
 			}
 			else {
 				alert("Failed to send email")
@@ -84,7 +87,19 @@ function IntakeForm() {
 			<h1 className="App-header">Intake Form</h1>
 			<br></br>
 			<form action='/' onSubmit={handleSubmit}>
-				<text>Hello Mrs.Ramirez,</text>
+				<text>Hello
+					<select name="" onChange={(e) => setPractitionerID(e.target.value)}>
+						<option value="" selected>Select Practitioner</option>
+						{practitioners.map(({id, name, email_address}) => {
+							return (
+								<Options practitioner = {{id: id, name: name, email: email_address}}/>
+							)
+						})}
+
+						{console.log("chosen pract id is",practitioner_id)}
+					</select>
+
+				</text>
 				<br></br>
 				<br></br>
 				<text className='form-text'>
@@ -94,9 +109,9 @@ function IntakeForm() {
 						<option value="teen">preteen</option>
 						<option value="adult" selected>teen</option>
 						<option value="student">adult</option>
-						</select>
-						
-					living in <input type='text' placeholder="Location" onChange={(e) => setLocation(e.target.value)} />. 
+					</select>
+
+					living in <input type='text' placeholder="Location" onChange={(e) => setLocation(e.target.value)} />.
 
 					I found you on <select onChange={(e) => setDirectoryDiscovered(e.target.value)}>
 						<option value="latinxtherapy.com1" selected>latinxtherapy.com1</option>
