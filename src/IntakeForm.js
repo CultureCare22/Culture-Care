@@ -107,8 +107,8 @@ function IntakeForm() {
 					I am reaching out because I am interested in receiving therapy for <input type='text' placeholder="Area of Concerns" onChange={(e) => setConcern(e.target.value)} />.
 
 					It is  <select onChange={(e) => setNoTherapies(e.target.value)}>
-						<option value="First time">my first time</option>
-						<option value="Not first time" selected>not my first time</option>
+						<option value="first time">my first time</option>
+						<option value="not first time" selected>not my first time</option>
 					</select> receiving therapy.
 
 					My email is <input type='email' placeholder="Email" onChange={(e) => setEmail(e.target.value)} />.
