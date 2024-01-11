@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css';
-import CreatePractitioner from './CreatePractitioner';
+import CreatePractitioner from './createpractitioner';
 import IntakeForm from './IntakeForm';
 
 function App() {
