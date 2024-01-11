@@ -17,24 +17,25 @@ def create_pdf(content, name):
     """
     pdf = FPDF() 
 
-    # Add a page
     pdf.add_page()
 
-    # set style and size of font 
-    # that you want in the pdf
+
     pdf.set_font("Arial", size = 12)
 
-    # insert the texts in pdf
     for x in content:
         pdf.cell(15, 10, txt = x, ln = 1, align = 'L')
-
-    # save the pdf with name .pdf
 
     pdf_byte = pdf.output(name = name, dest="S")
 
     return pdf_byte
 
 def split_string(string, num_of_chars):
+    """
+    Splits the string into substrings with length num_of_chars
+
+    Precond string: is the string to be splitted
+    Precond num_of_chars: is the number of chars for each split
+    """
     num_of_dividers = len(string)// num_of_chars
     rem = len(string) % num_of_chars
     splits = []
