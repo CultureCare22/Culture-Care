@@ -22,7 +22,7 @@ function App() {
       <Router>
         {/* <Sidebar /> */}
         <Navigation />
-
+        <div className="no-nav">
         <Routes>
           <Route path="/" exact element={<SelectClinician />} />
           <Route path="/pending-request" element={<TherapistPortal />} />
@@ -35,6 +35,7 @@ function App() {
           <Route path="/appt-approved" element={<ApprovedApt />} />
 
         </Routes>
+        </div>
 
       </Router >
     </div>

@@ -2,6 +2,11 @@
   font-family: sans-serif;
 }
 
+.no-nav {
+  margin-left: 3em;
+  margin-right: 3em;
+}
+
 /* * {
   box-sizing: border-box;
   margin: 0px;

@@ -1,3 +1,23 @@
+nav {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    flex-direction: row;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    width: 100%;
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 0 4px 6px -6px #222;
+}
+
+
 /* * {
     box-sizing: border-box;
     margin: 0px;
