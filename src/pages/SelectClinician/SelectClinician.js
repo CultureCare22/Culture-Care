@@ -9,18 +9,13 @@ function Category() {
 
     return (
         <div>
-            
-
             <div className="search-bar">
-            <h1>Select a Clinician</h1>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search by name"
-        />
-        <button>Search</button>
-      </div>
-    </div>
+                <h1>Select a Clinician</h1>
+                <div className="search-container">
+                    <input type="text" placeholder="Search by name"/>
+                    <button>Search</button>
+                </div>
+            </div>
 
 
             <div class="flex-container">
@@ -139,7 +134,7 @@ function Category() {
                 </div>
 
 
-                <div className='cover-box2' style={{ width: '10%' }}>
+                <div className='cover-box2'>
                     <div class="box1">
                         <h2>Clinicians</h2>
                         <div class="summary-box">
@@ -177,7 +172,7 @@ function Category() {
 
                                 </div>
 
-                                <div className='request-2'>
+                                <div className='request-1'>
                                     <img src={'/Tapiapfp.png'} />
                                     <h3>Lilliana Tapia</h3>
                                     <h4>LMSW | NY</h4>
@@ -208,7 +203,7 @@ function Category() {
 
                                 </div>
 
-                                <div className='request-3'>
+                                <div className='request-1'>
                                     <img src={'/Silvapfp.png'} />
                                     <h3>Sierra Silva</h3>
                                     <h4>LICSW, LCSW-C | MD</h4>

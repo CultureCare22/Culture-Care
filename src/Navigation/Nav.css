@@ -3,7 +3,7 @@ nav {
     margin-right: 0;
     display: flex;
     flex-direction: row;
-    padding-top: 1em;
+    padding-top: 0.75em;
     padding-bottom: 1em;
     padding-left: 3em;
     padding-right: 3em;
@@ -17,6 +17,38 @@ nav {
     box-shadow: 0 4px 6px -6px #222;
 }
 
+a {
+    text-decoration: none;
+}
+
+.navbar_container {
+    font-size: 24pt;
+}
+
+.navbar_container a {
+    color: rgb(92, 208, 223);  
+}
+
+.navbar_menu {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    padding-top: 12px;
+    margin-right: 6em;
+    margin-left: auto;
+    /* fix navbar scroll */
+    /* justify-content:end; */
+    /* padding-right: 1em; */
+    /* float: right; */
+    /* margin-left: auto; */
+}
+
+.navbar_menu a {
+    font-size: 14pt;
+    padding-left: 1em;
+    text-align: right;
+    color: black;
+}
 
 /* * {
     box-sizing: border-box;
