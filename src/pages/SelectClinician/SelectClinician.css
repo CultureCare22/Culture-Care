@@ -66,6 +66,10 @@
   margin-bottom: auto;
   margin-top: 1em;
 }
+
+h1 {
+  font-weight: normal;
+}
 /* * {
   box-sizing: border-box;
   margin: 0px;

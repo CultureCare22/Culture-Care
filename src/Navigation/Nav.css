@@ -5,7 +5,7 @@ nav {
     flex-direction: row;
     padding-top: 0.75em;
     padding-bottom: 1em;
-    padding-left: 3em;
+    /* padding-left: 3em; */
     padding-right: 3em;
     overflow: hidden;
     position: sticky;
@@ -23,6 +23,7 @@ a {
 
 .navbar_container {
     font-size: 24pt;
+    margin-left: 1.5em;
 }
 
 .navbar_container a {
@@ -34,109 +35,13 @@ a {
     flex-direction: row;
     padding: 0px;
     padding-top: 12px;
-    margin-right: 6em;
+    margin-right: 3.5em;
     margin-left: auto;
-    /* fix navbar scroll */
-    /* justify-content:end; */
-    /* padding-right: 1em; */
-    /* float: right; */
-    /* margin-left: auto; */
 }
 
 .navbar_menu a {
     font-size: 14pt;
-    padding-left: 1em;
+    padding-left: 2em;
     text-align: right;
     color: black;
 }
-
-/* * {
-    box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-}
-
-nav {
-    background-color: white;
-    border-style: inset;
-    height: 100px;
-    box-sizing: border-box;
-    margin: 0px;
-    margin-bottom: 10px;
-    padding: 3px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-.navbar_container {
-    display: flex;
-    justify-content: space-between;
-    height: px;
-    z-index: 1;
-    width: 120%;
-    max-width: 600px;
-    margin: 0px auto;
-    margin-left: 100px;
-    padding: 0px 50px;
-    margin-left: 100px;
-    padding-left: 0px;
-}
-
-.navbar_container a {
-    font-size: 35px;
-    color: rgb(92, 208, 223);
-    padding-left: 0px;
-}
-
-.navbar_menu {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    text-align: center;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-.navbar_menu a {
-    font-size: 20px;
-    color: black;
-    padding: 10px;
-    margin-right: 70px;
-}
-
-.navbar_item1 a {
-    word-spacing: 30px;
-}
-
-input {
-    padding: 12px 20px;
-    border: none;
-    background: white;
-    outline: none;
-    margin-right: 20px;
-    border-radius: 5px;
-    position: relative;
-    width: 14rem;
-}
-
-.navbar-links {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-left: 2rem;
-    color: #000
-}
-
-.nav-title a {
-    margin-left: -250px;
-    color: #000
-}
-
-a {
-    font-size: 20px;
-    font-family: sans-serif;
-} */
