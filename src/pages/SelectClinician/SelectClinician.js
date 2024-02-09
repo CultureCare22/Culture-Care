@@ -142,29 +142,30 @@ function Category() {
                                 <div className='request-1'>
                                     <img src={'/Ramirezpfp.png'} />
                                     <h3>Jasmine Ramirez</h3>
-                                    <h4>LCSW, CFSW | NY, NJ</h4>
-                                    <div class="clinician_1">Specializes in:</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Life Transition</div>
-                                        <div class="consultation_details">Financial Anxiety</div>
-                                    </div>
+                                    <div className='clin-info'>
+                                        <h4>LCSW, CFSW | NY, NJ</h4>
+                                        <div class="clinician_1">Specializes in:</div>
+                                        <div class="consultation">
+                                            <div class="consultation_details">Life Transition</div>
+                                            <div class="consultation_details">Financial Anxiety</div>
+                                        </div>
 
-                                    <div class="clinician_1">Typically available:</div>
-                                    <div class="consultation">
-                                      <div class="days">
-                                        <div class="consultation_details">Mon</div>
-                                        <div class="consultation_details">Tues-Thurs</div>
-                                        <div class="consultation_details">Friday</div>
-                                      </div>
-                                      <div class="times">
-                                        <div class="consultation_details">3pm-6pm</div>
-                                       
-                                        <div class="consultation_details">9am-6pm</div>
-                                      
-                                        <div class="consultation_details">9am-12pm</div>
-                                        </div>  
+                                        <div class="clinician_1">Typically available:</div>
+                                        <div class="consultation">
+                                        <div class="days">
+                                            <div class="consultation_details">Mon</div>
+                                            <div class="consultation_details">Tues-Thurs</div>
+                                            <div class="consultation_details">Friday</div>
+                                        </div>
+                                        <div class="times">
+                                            <div class="consultation_details">3pm-6pm</div>
+                                        
+                                            <div class="consultation_details">9am-6pm</div>
+                                        
+                                            <div class="consultation_details">9am-12pm</div>
+                                            </div>  
+                                        </div>
                                     </div>
-                             
 
                                     <div class="view_consultation">
                                     <a href="/clinician-j-ramirez">Book an appointment</a>
@@ -175,27 +176,28 @@ function Category() {
                                 <div className='request-1'>
                                     <img src={'/Tapiapfp.png'} />
                                     <h3>Lilliana Tapia</h3>
-                                    <h4>LMSW | NY</h4>
-                                    <div class="clinician_1">Specializes in:</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Anxiety</div>
-                                        <div class="consultation_details">Depression</div>
-                                        <div class="consultation_details">LGBTQ+</div>
+                                    <div className='clin-info'>
+                                        <h4>LMSW | NY</h4>
+                                        <div class="clinician_1">Specializes in:</div>
+                                        <div class="consultation">
+                                            <div class="consultation_details">Anxiety</div>
+                                            <div class="consultation_details">Depression</div>
+                                            <div class="consultation_details">LGBTQ+</div>
 
-                                    </div>
-
-                                    <div class="clinician_1">Typically available:</div>
-                                    <div class="consultation">
-                                    <div class="days">
-                                        <div class="consultation_details">Mon-Wed</div>
-                                        <div class="consultation_details">Sunday</div>
                                         </div>
-                                    <div class="times">
-                                        <div class="consultation_details">6pm-8pm</div>
-                                        <div class="consultation_details">8am-10am</div>
+
+                                        <div class="clinician_1">Typically available:</div>
+                                        <div class="consultation">
+                                        <div class="days">
+                                            <div class="consultation_details">Mon-Wed</div>
+                                            <div class="consultation_details">Sunday</div>
+                                            </div>
+                                        <div class="times">
+                                            <div class="consultation_details">6pm-8pm</div>
+                                            <div class="consultation_details">8am-10am</div>
+                                        </div>
+                                        </div>
                                     </div>
-                                    </div>
-                             
 
                                     <div class="view_consultation">
                                         <a href="/clinician-l-tapia">Book an appointment</a>
@@ -206,25 +208,27 @@ function Category() {
                                 <div className='request-1'>
                                     <img src={'/Silvapfp.png'} />
                                     <h3>Sierra Silva</h3>
-                                    <h4>LICSW, LCSW-C | MD</h4>
-                                    <div class="clinician_1">Specializes in:</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Grief</div>
-                                        <div class="consultation_details">Trauma</div>
-                                        <div class="consultation_details">Depression</div>
+                                    <div className='clin-info'>
+                                        <h4>LICSW, LCSW-C | MD</h4>
+                                        <div class="clinician_1">Specializes in:</div>
+                                        <div class="consultation">
+                                            <div class="consultation_details">Grief</div>
+                                            <div class="consultation_details">Trauma</div>
+                                            <div class="consultation_details">Depression</div>
 
-                                    </div>
-
-                                    <div class="clinician_1">Typically available:</div>
-                                    <div class="consultation">
-                                    <div class="days">
-                                        <div class="consultation_details">Mon-Thurs</div>
-                                        <div class="consultation_details">Saturday</div>
                                         </div>
-                                    <div class="times">
-                                        <div class="consultation_details">6pm-8pm</div>
-                                        <div class="consultation_details">8am-12pm</div>
-                                    </div>
+
+                                        <div class="clinician_1">Typically available:</div>
+                                        <div class="consultation">
+                                        <div class="days">
+                                            <div class="consultation_details">Mon-Thurs</div>
+                                            <div class="consultation_details">Saturday</div>
+                                            </div>
+                                        <div class="times">
+                                            <div class="consultation_details">6pm-8pm</div>
+                                            <div class="consultation_details">8am-12pm</div>
+                                        </div>
+                                        </div>
                                     </div>
                              
                                     
