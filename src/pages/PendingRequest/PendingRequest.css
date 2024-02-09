@@ -1,36 +1,46 @@
-/* * {
+* {
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
 }
 
+
 body {
-    position: fixed;
+    /* position: fixed; */
+    position:relative;
     width: 100%;
 
     overflow: scroll;
 }
 
-.flex-container {
+.scrollable-div {
+    height: 1000px;
+}
+
+
+.flex-container-outer {
     display: flex;
     flex-direction: row;
+    max-width: 100%;
+    height: 970px;
 }
 
 h3 {
-    font-size: 27px;
-    margin-left: 30px;
+    margin: 15px;
+    font-size: 15px;
+    /* margin-left: 30px; */
 }
 
 h4 {
-    font-size: 25px;
+    font-size: 13px;
     font-weight: 100;
     margin-left: 20px;
 }
 
 h5 {
-    font-size: 22px;
+    font-size: 11px;
     font-weight: 100;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 20px;
 }
 
@@ -48,7 +58,7 @@ h5 {
 .patient-box {
     border: 2px inset;
     background-color: white;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     padding: 10px;
     margin: 20px;
     margin-left: 5px;
@@ -57,7 +67,7 @@ h5 {
 .patient_identity {
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 13px;
     text-decoration: underline;
     text-underline-position: below;
 }
@@ -76,25 +86,27 @@ h5 {
 p {
     margin-left: 45px;
     color: #8c8989;
-    font-size: 18px;
+    font-size: 13px;
 }
 
 .tick {
     color: rgb(46, 194, 46);
     margin-left: 20px;
-    font-size: 33px;
+    font-size: 13px;
     align-items: center;
 }
 
 .p-textSpecialization {
     margin-left: 20px;
     margin-top: 20px;
+    font-size: 13px;
 }
 
 .p-textItalic {
     margin-left: 20px;
     margin-top: 20px;
     font-style: italic;
+    font-size: 13px;
 }
 
 .textInfo {
@@ -106,9 +118,10 @@ p {
     font-weight: 300;
     padding: 5px;
     margin-left: 20px;
-    margin-top: 15px;
+    margin-top: 25px;
     width: 120px;
     text-align: center;
+    font-size: 13px;
 }
 
 .comfirmation_box {
@@ -116,12 +129,12 @@ p {
     border: 5px;
     border-style: groove;
     padding: 10px;
-    margin-left: 50px;
-    margin-right: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-top: 0px;
     background: rgb(222, 246, 255);
-    width: 75%;
-    height: 100%;
+    width: 65%;
+    height: 70%;
     margin-bottom: 20%;
 }
 
@@ -129,9 +142,10 @@ p {
     border: 2px inset;
     background-color: white;
     width: 40%;
-    margin-top: 20px;
+    height: fit-content;
+    /* margin-top: 20px; */
     padding: 10px;
-    margin: 20px;
+    /* margin: 20px; */
     margin-left: 30px;
     margin-right: 20px;
 }
@@ -140,7 +154,8 @@ p {
     border: 2px inset;
     border-radius: 7px;
     background-color: #60a96e;
-    margin-top: 30px;
+    max-height: 40px;
+    margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
     margin-right: 20px;
@@ -148,17 +163,18 @@ p {
 
 .taskBox1 p {
     color: white;
-    margin-left: 15px;
-    margin-top: 3px;
-    padding: 10px;
-    font-size: 20px;
+    margin-left: 5px;
+    margin-top: 0px;
+    padding: 5px;
+    font-size: 13px;
 }
 
 .taskBox2 {
     border: 2px inset;
     border-radius: 7px;
     background-color: rgb(25, 119, 241);
-    margin-top: 30px;
+    max-height: 70px;
+    margin-top: 5px;
     margin-bottom: 1px;
     margin-left: 20px;
     margin-right: 20px;
@@ -166,17 +182,18 @@ p {
 
 .taskBox2 p {
     color: white;
-    margin-left: 15px;
-    margin-top: 3px;
+    margin-left: 5px;
+    margin-top: 1px;
     padding: 10px;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .taskBox3 {
     border: 2px inset;
     border-radius: 7px;
     background-color: rgb(24, 168, 245);
-    margin-top: 30px;
+    max-height: 70px;
+    margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
     margin-right: 20px;
@@ -184,14 +201,14 @@ p {
 
 .taskBox3 p {
     color: white;
-    margin-left: 15px;
-    margin-top: 3px;
+    margin-left: 5px;
+    margin-top: 1px;
     padding: 10px;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .negative {
-    font-size: 40px;
+    font-size: 20px;
     border-radius: 50%;
     margin-left: auto;
     margin-top: 6px;
@@ -204,7 +221,8 @@ p {
     border: 2px inset;
     border-radius: 7px;
     background-color: #d3d3d3;
-    margin-top: 30px;
+    max-height: 90px;
+    margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
     margin-right: 20px;
@@ -214,14 +232,14 @@ p {
 .taskBox5 p,
 .taskBox6 p {
     color: rgb(138, 133, 133);
-    margin-left: 15px;
+    margin-left: 5px;
     margin-top: 3px;
     padding: 10px;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .positive {
-    font-size: 40px;
+    font-size: 20px;
     font-weight: bolder;
     border-radius: 50%;
     margin-left: auto;
@@ -233,14 +251,14 @@ p {
     border: 2px inset;
     border-radius: 50px;
     background-color: #d3d3d3;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
     margin-right: 20px;
 }
 
 .drop-down {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bolder;
     border-radius: 50%;
     margin-left: auto;
@@ -260,9 +278,10 @@ p {
 }
 
 .updateStatus h4 {
-    font-size: 30px;
+    font-size: 13px;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .accept {
@@ -276,4 +295,8 @@ p {
     margin-left: 28%;
     background: #EB3D25;
     background: #FFFFFF;
-} */
+}
+
+.flex-container p {
+    font-size:13px;
+}
