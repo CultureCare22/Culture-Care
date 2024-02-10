@@ -39,7 +39,7 @@ function Category() {
                     {/* Checkboxes Section */}
                     <div className='checkbox-container'>
                         <label className='checkbox-item'>
-                            <input type='checkbox' checked='checked' />
+                            <input type='checkbox'/>
                             <span className='checkmark-box'>Relationship</span>
                         </label>
 
@@ -86,7 +86,7 @@ function Category() {
                     {/* Checkboxes Section */}
                     <div className='checkbox-container'>
                         <label className='checkbox-item'>
-                            <input type='checkbox' checked='checked' />
+                            <input type='checkbox'/>
                             <span className='checkmark-box'>Male</span>
                         </label>
 
@@ -122,13 +122,55 @@ function Category() {
 
                     <div className='checkbox-container'>
                         <label className='checkbox-item'>
-                            <input type='checkbox' checked='checked' />
+                            <input type='checkbox' />
                             <span className='checkmark-box'>English</span>
                         </label>
 
                         <label className='checkbox-item'>
                             <input type='checkbox' />
                             <span className='checkmark-box'>Spanish</span>
+                        </label>
+                    </div>
+
+                    {/* Radio Buttons Section */}
+                    <div className='filter-container'>
+                        <div className='filter-menu'>
+                            <h4><u>Ethnicity</u></h4>
+
+                            <div class="radio-button">
+                                <label className='radio-container'>
+                                    <input type='radio' name='radio' />
+                                    <span className='radiomark'>All</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='checkbox-container'>
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>Hispanic/Latinx</span>
+                        </label>
+
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>Asian</span>
+                        </label>
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>Black</span>
+                        </label>
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>White</span>
+                        </label>
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>Native American</span>
+                        </label>
+                        <label className='checkbox-item'>
+                            <input type='checkbox' />
+                            <span className='checkmark-box'>Other</span>
                         </label>
                     </div>
                 </div>
@@ -220,14 +262,14 @@ function Category() {
 
                                         <div class="clinician_1">Typically available:</div>
                                         <div class="consultation">
-                                        <div class="days">
-                                            <div class="consultation_details">Mon-Thurs</div>
-                                            <div class="consultation_details">Saturday</div>
+                                            <div class="days">
+                                                <div class="consultation_details">Mon-Thurs</div>
+                                                <div class="consultation_details">Saturday</div>
                                             </div>
-                                        <div class="times">
-                                            <div class="consultation_details">6pm-8pm</div>
-                                            <div class="consultation_details">8am-12pm</div>
-                                        </div>
+                                            <div class="times">
+                                                <div class="consultation_details">6pm-8pm</div>
+                                                <div class="consultation_details">8am-12pm</div>
+                                            </div>
                                         </div>
                                     </div>
                              

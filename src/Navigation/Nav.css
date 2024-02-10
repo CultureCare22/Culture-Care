@@ -9,6 +9,7 @@ nav {
     padding-right: 3em;
     overflow: hidden;
     position: sticky;
+    z-index: 1;
     top: 0;
     background-color: white;
     width: 100%;

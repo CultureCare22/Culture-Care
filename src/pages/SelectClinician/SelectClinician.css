@@ -1,6 +1,8 @@
 .flex-container {
   display: flex;
   flex-direction: row;
+  margin-top: 2em;
+  margin-bottom: 3em;
   /* margin-bottom: 3em; */
 }
 
@@ -14,6 +16,12 @@
   padding-right: 1em;
 }
 
+.cover-box1 h2 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
 .cover-box2 {
   margin-left: 2em;
   flex: 5;
@@ -25,6 +33,8 @@
 .cover-box2 h2{
   margin-left: 2em;
   flex: 5;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .requests {
@@ -52,6 +62,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 5pt;
+  position: relative;
 }
 
 .request-1 img {
@@ -63,8 +74,8 @@
 .request-1 a {
   background-color: #2563EB;
   color: white;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 3em;
+  padding-right: 3em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   display: block;
@@ -78,18 +89,20 @@
 h1 {
   font-weight: normal;
   font-size: 24pt;
+  margin-top: 0.25em;
 }
 
 .search-bar {
   display: flex;
   flex-direction: row;
+  margin-top: 2em;
 }
 
 .search-container {
   /* align-items: right; */
   margin-right: auto;
   margin-left: 1.5em;
-  margin-top: 1em;
+  margin-top: 0.25em;
   /* background-color: #f8f8f8; */
 }
 
@@ -124,6 +137,7 @@ h1 {
 }
 .request-1 h3 {
   font-size: 20pt;
+  margin-top: 1.5em;
 }
 
 .request-1 h4 {
@@ -154,4 +168,53 @@ h1 {
   padding-bottom: 2px;
   border-radius: 25pt;
   text-align: center;
+  box-shadow: 1px 1px 1px lightgrey;
+}
+
+.filter-menu h4 {
+  font-size: 14pt;
+  margin-bottom: 1em;
+}
+
+.filter-menu {
+  display: flex;
+  flex-direction: row;
+  text-align: start;
+}
+
+.radio-button input {
+  margin-top: 0.5em;
+  margin-left: 3em;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.25em;
+  margin-bottom: 2em;
+}
+
+.checkbox-item {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+.checkmark-box {
+  margin-left: 0.5em;
+}
+
+.view_consultation {
+  position: absolute;
+  margin-top: 1em;
+  bottom: 0;
+  margin-bottom: 1em;
+}
+
+.consultation {
+  margin-bottom: 2em;
+  justify-content: center;
+}
+
+.clin-info {
+  margin-bottom: 1em;
 }
