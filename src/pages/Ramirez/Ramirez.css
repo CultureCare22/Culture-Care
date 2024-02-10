@@ -1,11 +1,11 @@
 .details {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    margin-top: 2em;
 }
 
 .next-button {
-    background-color: blue;
+    /* background-color: blue; */
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 3px;
@@ -13,11 +13,64 @@
     justify-content: flex-end;
     margin-left: auto;
     margin-right: 35px;
-    border-radius: 25px;
+    margin-top: 3em;
+    
 }
 
 .next-button a {
-    font-size: 12px;
-    color: white;
+    font-size: 20px;
+    /* color: white; */
+    color: darkgray;
+    border-left: 2px solid lightgray;
+    padding-left: 0.5em;
+}
 
+.details p {
+    font-size: 12pt;
+}
+
+.schedule-consult h2 {
+    margin-top: 1.5em;
+}
+
+.header-form {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+}
+
+h4{
+    color: black;
+    font-size: 14pt;
+    margin-left: 0;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+}
+
+.pay-type {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-container span {
+    margin-left: 0.5em;
+}
+
+.schedule-consult p {
+    font-size: 12pt;
+    color: black;
+    margin-left: 0;
+}
+
+.pay-method {
+    margin-bottom: 2em;
+}
+
+.google-cal-sched {
+    margin-bottom: 0;
+}
+
+.form-end {
+    display: flex;
+    flex-direction: row;
 }

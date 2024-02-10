@@ -28,7 +28,7 @@ function Category() {
                             <h4><u>Specialization</u></h4>
 
                             <div class="radio-button">
-                                <label className='radio-container'>
+                                <label className='check-all'>
                                     <input type='radio' name='radio' />
                                     <span className='radiomark'>All</span>
                                 </label>
@@ -75,7 +75,7 @@ function Category() {
                             <h4><u>Gender</u></h4>
 
                             <div class="radio-button">
-                                <label className='radio-container'>
+                                <label className='check-all'>
                                     <input type='radio' name='radio' />
                                     <span className='radiomark'>All</span>
                                 </label>
@@ -112,7 +112,7 @@ function Category() {
                             <h4><u>Language</u></h4>
 
                             <div class="radio-button">
-                                <label className='radio-container'>
+                                <label className='check-all'>
                                     <input type='radio' name='radio' />
                                     <span className='radiomark'>All</span>
                                 </label>
@@ -138,7 +138,7 @@ function Category() {
                             <h4><u>Ethnicity</u></h4>
 
                             <div class="radio-button">
-                                <label className='radio-container'>
+                                <label className='check-all'>
                                     <input type='radio' name='radio' />
                                     <span className='radiomark'>All</span>
                                 </label>

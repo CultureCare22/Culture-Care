@@ -16,15 +16,14 @@ function Category() {
 
                 <div class="flex-container">
                     <div className='cover-box1'>
-                        <h2 className='sidebar-title'>Filter by:</h2>
-
+                        <h2>Filter by:</h2>
                         {/* Radio Buttons Section */}
                         <div className='filter-container'>
                             <div className='filter-menu'>
                                 <h4><u>Overview</u></h4>
 
                                 <div class="radio-button">
-                                    <label className='radio-container'>
+                                    <label className='check-all'>
                                         <input type='radio' name='radio' />
                                         <span className='radiomark'>All</span>
                                     </label>
@@ -35,7 +34,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox' checked='checked' />
+                                <input type='checkbox'/>
                                 <span className='checkmark-box'>Consultation Summary</span>
                             </label>
 
@@ -76,7 +75,7 @@ function Category() {
                                 <h4><u>Gender</u></h4>
 
                                 <div class="radio-button">
-                                    <label className='radio-container'>
+                                    <label className='check-all'>
                                         <input type='radio' name='radio' />
                                         <span className='radiomark'>All</span>
                                     </label>
@@ -87,7 +86,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox' checked='checked' />
+                                <input type='checkbox'/>
                                 <span className='checkmark-box'>Male</span>
                             </label>
 
@@ -113,7 +112,7 @@ function Category() {
                                 <h4><u>Language</u></h4>
 
                                 <div class="radio-button">
-                                    <label className='radio-container'>
+                                    <label className='check-all'>
                                         <input type='radio' name='radio' />
                                         <span className='radiomark'>All</span>
                                     </label>
@@ -123,7 +122,7 @@ function Category() {
 
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox' checked='checked' />
+                                <input type='checkbox'/>
                                 <span className='checkmark-box'>English</span>
                             </label>
 
@@ -150,7 +149,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox' checked='checked' />
+                                <input type='checkbox'/>
                                 <span className='checkmark-box'>Jasmine Ramierz (You)</span>
                             </label>
 
@@ -175,16 +174,22 @@ function Category() {
 
                                 <div class="flex-boxes">
                                     <div class="box_1">
-                                        <div class="flex-calender">
-                                            <p><SlCalender style={{ color: 'white' }} className='calender' /></p>
-                                            <div class="p-consultation">Consultation Request</div>
+                                        <div class="tile-head">
+                                            <img src={'/calendar-logo.png'} />
+                                            <div class="flex-calender">
+                                                <p><SlCalender style={{ color: 'white' }} className='calender' /></p>
+                                                <div class="p-consultation">Consultation</div>
+                                                <div class="p-consultation">Requests</div>
+                                            </div>
                                         </div>
 
                                         <div class="flex-datesRate">
                                             <div class="p-22">22</div>
-                                            <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
-                                            <span className='text'>9.5%</span>
-                                            <div class="p-lastline">from last week</div>
+                                            {/* <div class='stat-detail'> */}
+                                                <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
+                                                <span className='text'>9.5%</span>
+                                                <div class="p-lastline">from last week</div>
+                                            {/* </div> */}
 
                                         </div>
                                     </div>
@@ -210,11 +215,11 @@ function Category() {
                                     </div>
                                 </div>
 
-
-                                <h3>Confirm Requests</h3>
+                            </div>
+                                <h2>Confirm Requests</h2>
                                 <div class="requests">
                                     <div className='request-1'>
-                                        <p>Fatima Perez (NY)</p>
+                                        <h3>Fatima Perez (NY)</h3>
                                         <div class="clinician_1">Requested Clinician</div>
                                         <div class="clinician_name1">Jasmine Ramierz</div>
 
@@ -246,8 +251,8 @@ function Category() {
                                         </div>
                                     </div>
 
-                                    <div className='request-2'>
-                                        <p>Aracelis Davis (NY)</p>
+                                    <div className='request-1'>
+                                        <h3>Aracelis Davis (NY)</h3>
                                         <div class="clinician_2">Requested Clinician</div>
                                         <div class="clinician_name2">Lilliana Tapia</div>
 
@@ -280,8 +285,8 @@ function Category() {
                                         </div>
                                     </div>
 
-                                    <div className='request-3'>
-                                        <p>Isa Montes (MD)</p>
+                                    <div className='request-1'>
+                                        <h3>Isa Montes (MD)</h3>
                                         <div class="clinician_3">Requested Clinician</div>
                                         <div class="clinician_name3">Sierra Silva</div>
 
@@ -319,7 +324,7 @@ function Category() {
 
                                 </div>
 
-                            </div>
+                            
                         </div>
 
                     </div>

@@ -144,6 +144,10 @@ h1 {
   font-size: 14pt;
 }
 
+.filter-menu h4 {
+  margin-left: 1em;
+}
+
 .clin-info {
   color: #717171;
 }
@@ -217,4 +221,13 @@ h1 {
 
 .clin-info {
   margin-bottom: 1em;
+}
+
+.check-all span{
+  margin-left: 0.5em;
+}
+
+.check-all {
+  justify-content: flex-end;
+  margin-top: 1em;
 }
