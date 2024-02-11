@@ -40,7 +40,7 @@ function CreatePractitioner() {
 
 	return (
 		<div className="App">
-			<header className="App-header">Intake Form</header>
+			<h1 className="App-header">Create Practitioner</h1>
 			<br></br>
 			<form action='/' onSubmit={handleSubmit}>
 				<input type='text' placeholder="Name" onChange={(e) => setName(e.target.value)} />
