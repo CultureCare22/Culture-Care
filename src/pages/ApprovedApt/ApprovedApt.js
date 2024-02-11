@@ -9,7 +9,6 @@ function Confirmation() {
             <div className='head'>
                 <h1>Approved Appointment</h1>
             </div>
-                
 
                 <div className='confirmation-container'>
                     
