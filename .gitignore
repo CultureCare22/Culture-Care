@@ -15,3 +15,4 @@ myenv
 
 node_modules/.cache
 .python-version
+.devcontainer/*
