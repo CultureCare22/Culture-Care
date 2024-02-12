@@ -106,7 +106,7 @@ function IntakeForm() {
 					I hope you are well. My name is <input type='text' placeholder="Name" onChange={(e) => setName(e.target.value)} />.
 
 					I am a <select onChange={(e) => setAgeGroup(e.target.value)}>
-						<option value="teen">preteen</option>
+						<option value="preteen">preteen</option>
 						<option value="adult" selected>teen</option>
 						<option value="student">adult</option>
 					</select>
@@ -114,6 +114,7 @@ function IntakeForm() {
 					living in <input type='text' placeholder="Location" onChange={(e) => setLocation(e.target.value)} />.
 
 					I found you on <select onChange={(e) => setDirectoryDiscovered(e.target.value)}>
+						<option value="">Select Directory</option>
 						<option value="latinxtherapy.com1" selected>latinxtherapy.com1</option>
 						<option value="latinxtherapy.com2">latinxtherapy.com2</option>
 						<option value="lantixtherapy.com3">latinxtherapy.com3</option>
