@@ -153,7 +153,6 @@ def create_patient():
     
     return success_response(patient.serialize(), 201)
 
-
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -162,6 +161,10 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
+    specializations = body.get("specializations")
+    genders = body.get("genders")
+    languages = body.get("languages")
+    locations = body.get("locations")
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
@@ -170,6 +173,39 @@ def create_practitioner():
 
     if not created:
         return failure_response("Failed to create email", 400)
+    
+    for i in range(len(specializations)):
+        specialization = specializations[i]
+        name = specialization.name
+        specialization = crud.create_specialization(name)
+        specializations[i] = specialization
+
+    crud.append_objects(specializations, practitioner.specializations)
+
+    for i in range(len(locations)):
+        location = locations[i]
+        name = location.name
+        location = crud.create_location(name)
+        locations[i] = location
+        
+    crud.append_objects(locations, practitioner.locations)
+
+    for i in range(len(languages)):
+        language = languages[i]
+        name = language.name
+        language = crud.create_language(name)
+        languages[i] = language
+        
+    crud.append_objects(languages, practitioner.languages)
+
+    for i in range(len(genders)):
+        gender = genders[i]
+        name = gender.name
+        gender = crud.create_gender(name)
+        genders[i] = gender
+        
+    crud.append_objects(genders, practitioner.genders)
+
     
     sql_db.session.add(practitioner)
     sql_db.session.commit()

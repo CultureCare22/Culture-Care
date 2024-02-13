@@ -26,14 +26,6 @@ practitioner_language_table = sql_db.Table('practitioner_language',
     sql_db.Column('language_id', sql_db.Integer, sql_db.ForeignKey('languages.id'), primary_key=True)
 )
 
-
-def append_objects(lst, column): 
-    """
-    Adds objects in lst to column in association table
-    """
-    for elem in lst:
-        column.append(elem)
-
 class EmailContent(sql_db.Model):
     """
     EmailContent Model

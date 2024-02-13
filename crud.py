@@ -5,6 +5,13 @@ from sql_db import Patient, Practitioner, EmailContent
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
+def append_objects(lst, column): 
+    """
+    Adds objects in lst to column in association table
+    """
+    for elem in lst:
+        column.append(elem)
+
 def create_form(type, data):
     """
     Creates and returns a form record
