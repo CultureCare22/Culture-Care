@@ -1,5 +1,5 @@
-from flask import Flask, request
-from sql_db import sql_db
+from flask import Flask, request, jsonify
+from sql_db import sql_db, Practitioner, Language, Location, Gender, Specialization
 import email_automater
 from email_media import create_pdf, split_string
 import json
@@ -252,6 +252,53 @@ def get_practitioners():
     practitioners = crud.get_practitioners()
 
     return success_response({"practitioners": practitioners})
+
+
+@app.route('/practitioners/get/filter', methods=['POST'])
+def get_filtered_practitioners():
+    try:
+        # Get the request data
+        req_data = request.get_json()
+
+        # Extract filters from the request data
+        language_filter = req_data.get('language')
+        specialization_filter = req_data.get('specialization')
+        location_filter = req_data.get('location')
+        gender_filter = req_data.get('gender')
+
+        # Build the query for filtering practitioners
+        query = Practitioner.query
+
+        if language_filter:
+            query = query.filter(Practitioner.languages.any(Language.name == language_filter))
+
+        if specialization_filter:
+            query = query.filter(Practitioner.specializations.any(Specialization.name == specialization_filter))
+
+        if location_filter:
+            query = query.filter(Practitioner.locations.any(Location.name == location_filter))
+
+        if gender_filter:
+            query = query.filter(Practitioner.genders.any(Gender.name == gender_filter))
+
+        # Execute the query and get the filtered practitioners
+        filtered_practitioners = query.all()
+
+        # Serialize the practitioners
+        serialized_practitioners = [practitioner.serialize() for practitioner in filtered_practitioners]
+
+        return jsonify({"practitioners": serialized_practitioners}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Sample request body
+sample_request_body = {
+    "language": "English",
+    "specialization": "Cardiology",
+    "location": "City Hospital",
+    "gender": "Male"
+}
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")

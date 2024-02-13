@@ -182,5 +182,70 @@ class Practitioner(sql_db.Model):
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
         }
+        
+class Language(sql_db.Model):
+    """
+    Language Model
+    """
+    __tablename__ = "languages"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_language_table, back_populates = "languages")  
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a Language object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a language object
+        """
+        return {"id" : self.id, "name" : self.name}
+    
+
+class Location(sql_db.Model):
+    """
+    Location Model
+    """
+    __tablename__ = "locations"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_location_table, back_populates = "locations")  
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a Location object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a location object
+        """
+        return {"id" : self.id, "name" : self.name}
+    
+
+class Specialization(sql_db.Model):
+    """
+    Specialization Model
+    """
+    __tablename__ = "specializations"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_specialization_table, back_populates = "specializations")  
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a Specialization object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a specialization object
+        """
+        return {"id" : self.id, "name" : self.name}
 
 
