@@ -19,33 +19,33 @@ function Confirmation() {
                     <div className='patient-details'>
                         <h3>Patient Details:</h3>
                         <div class="patient-box">
-                            <h4>Personal/Contact Info</h4>
+                            <div className="PCI">Personal/Contact Info</div>
 
-                            <div className='flex-container'>
+                            <div className='flex-container-pr'>
                                 <MdCheck style={{ color: 'white' }} className='check' />
                                 <div class="patient_identity">Name</div>
                             </div>
                             <p>Fatima Perez</p>
 
-                            <div className='flex-container'>
+                            <div className='flex-container-pr'>
                                 <MdCheck style={{ color: 'white' }} className='check' />
                                 <div class="patient_identity">Date Of Birth</div>
                             </div>
                             <p>Jan 01, 2022</p>
 
-                            <div className='flex-container'>
+                            <div className='flex-container-pr'>
                                 <MdCheck style={{ color: 'white' }} className='check' />
                                 <div class="patient_identity">Gender</div>
                             </div>
                             <p>Female</p>
 
-                            <div className='flex-container'>
+                            <div className='flex-container-pr'>
                                 <MdCheck style={{ color: 'white' }} className='check' />
                                 <div class="patient_identity">Phone Number</div>
                             </div>
                             <p>+1-123-456-7890</p>
 
-                            <div className='flex-container'>
+                            <div className='flex-container-pr'>
                                 <MdCheck style={{ color: 'white' }} className='check' />
                                 <div class="patient_identity">Email</div>
                             </div>
@@ -54,17 +54,17 @@ function Confirmation() {
                         </div>
 
                         <div class="patient-box">
-                            <div className='flex-container'>
-                                <h4>Specialization Match</h4>
+                            <div className='flex-container-pr'>
+                                <div className='titlePR'>Specialization Match</div>
                                 <MdCheckCircle className='tick' />
                             </div>
 
-                            <div className='flex-container'>
-                                <div class="p-textSpecialization">Requested Specialization:</div>
+                            <div className='flex-container-pr'>
+                                <div class="p-textSpecialization1">Requested Specialization:</div>
                                 <div className='textInfo'>Life Transition</div>
                             </div>
 
-                            <div class="p-textSpecialization">This consultation request fits in your availability!</div>
+                            <div class="p-textSpecialization2">This consultation request fits in your availability!</div>
                             <div class="p-textItalic">This patient's preferred language is Spanish</div>
 
                         </div>
@@ -73,29 +73,29 @@ function Confirmation() {
                     <div class="comfirmation_box">
                         <h3>Confirmation</h3>
 
-                        <div class="flex-container">
+                        <div class="flex-container-pr">
                             <div className='comfimation_twoBox'>
-                                <h4>Appointments Details</h4>
-                                <div className='flex-container'>
+                                <div className='titlePR'>Appointments Details</div>
+                                <div className='flex-container-pr'>
                                     <MdCheck style={{ color: 'white' }} className='check' />
                                     <div class="patient_identity">Appointment with</div>
                                 </div>
                                 <p>Jasmine Ramierz</p>
 
-                                <div className='flex-container'>
+                                <div className='flex-container-pr'>
                                     <MdCheck style={{ color: 'white' }} className='check' />
                                     <div class="patient_identity">Service</div>
                                 </div>
                                 <p>Initial consultation, 15 minutes</p>
 
-                                <div className='flex-container'>
+                                <div className='flex-container-pr'>
                                     <MdCheck style={{ color: 'white' }} className='check' />
                                     <div class="patient_identity">Date and Time</div>
                                 </div>
                                 <p>Mon. Nov 13, 2023 @ <br></br>
                                     10:00am - 10:15am EST</p>
 
-                                <div className='flex-container'>
+                                <div className='flex-container-pr'>
                                     <MdCheck style={{ color: 'white' }} className='check' />
                                     <div class="patient_identity">Location</div>
                                 </div>
@@ -103,7 +103,7 @@ function Confirmation() {
                                     NJ 07310 <br></br>
                                     (201)305-3575</p>
 
-                                <div className='flex-container'>
+                                <div className='flex-container-pr'>
                                     <MdCheck style={{ color: 'white' }} className='check' />
                                     <div class="patient_identity">Status</div>
                                 </div>
@@ -112,24 +112,24 @@ function Confirmation() {
                             </div>
 
                             <div className='comfimation_twoBox'>
-                                <h4>Automated Tasks</h4>
+                                <div className='titlePR'>Automated Tasks</div>
 
                                 <div className='taskBox1'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Send consultation details</p>
                                         <RxBorderSolid style={{ color: 'white' }} className='negative' />
                                     </div>
                                 </div>
 
                                 <div className='taskBox2'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Verify insurance w/ Reimbursify</p>
                                         <RxBorderSolid style={{ color: 'white' }} className='negative' />
                                     </div>
                                 </div>
 
                                 <div className='taskBox3'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Complete documents</p>
                                         <RxBorderSolid style={{ color: 'white' }} className='negative' />
                                     </div>
@@ -138,21 +138,21 @@ function Confirmation() {
                                 <h5>Add More Tasks:</h5>
 
                                 <div className='taskBox4'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Add to calender</p>
                                         <IoMdAdd style={{ color: 'grey' }} className='positive' />
                                     </div>
                                 </div>
 
                                 <div className='taskBox5'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Verify Residence</p>
                                         <IoMdAdd style={{ color: 'grey' }} className='positive' />
                                     </div>
                                 </div>
 
                                 <div className='taskBox6'>
-                                    <div className='flex-container'>
+                                    <div className='flex-container-pr'>
                                         <p>Search for more options</p>
                                         <RiArrowDropDownLine style={{ color: 'grey' }} className='drop-down' />
                                     </div>
@@ -162,8 +162,8 @@ function Confirmation() {
                         </div>
 
                         <div className='updateStatus'>
-                            <div className='flex-container'>
-                                <h4>Update Status:</h4>
+                            <div className='flex-container-pr'>
+                                <div className='titlePR'>Update Status:</div>
                                 <svg width="25" height="25" viewBox="0 0 68 65" fill="none" className='accept' xmlns="http://www.w3.org/2000/svg">
                                     <a href="/appt-approved">
                                         <path d="M34 0C27.2754 0 20.7019 1.90609 15.1106 5.47724C9.51935 9.04838 5.16149 14.1242 2.58811 20.0628C0.0147316 26.0014 -0.658582 32.536 0.653316 38.8404C1.96521 45.1448 5.2034 50.9357 9.95838 55.481C14.7134 60.0262 20.7716 63.1215 27.3669 64.3755C33.9623 65.6295 40.7986 64.9859 47.0112 62.5261C53.2239 60.0662 58.534 55.9006 62.27 50.556C66.0059 45.2114 68 38.9279 68 32.5C68 23.8805 64.4179 15.614 58.0416 9.51903C51.6654 3.4241 43.0174 0 34 0ZM29.1429 45.4768L17 33.8696L20.8614 30.1786L29.1429 38.0946L47.1386 20.8929L51.0146 24.5746L29.1429 45.4768Z" fill="#00CD81" />

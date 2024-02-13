@@ -31,8 +31,9 @@ h3 {
     /* margin-left: 30px; */
 }
 
-h4 {
-    font-size: 13px;
+.titlePR {
+    /* margin-top: 10px; */
+    font-size: 18px;
     font-weight: 100;
     margin-left: 20px;
 }
@@ -59,6 +60,7 @@ h5 {
     border: 2px inset;
     background-color: white;
     /* margin-top: 20px; */
+    /* height: 370px; */
     padding: 10px;
     margin: 20px;
     margin-left: 5px;
@@ -92,19 +94,25 @@ p {
 .tick {
     color: rgb(46, 194, 46);
     margin-left: 20px;
-    font-size: 13px;
-    align-items: center;
+    font-size: 25px;
+    margin-top: 0px;
+    /* align-items: center; */
 }
 
-.p-textSpecialization {
+.p-textSpecialization1 {
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+.p-textSpecialization2 {
+    margin-left: 20px;
+    /* margin-top: 10px; */
     font-size: 13px;
 }
 
 .p-textItalic {
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-style: italic;
     font-size: 13px;
 }
@@ -116,12 +124,13 @@ p {
     background: #d3d3d3;
     color: #696767;
     font-weight: 300;
-    padding: 5px;
-    margin-left: 20px;
-    margin-top: 25px;
+    padding: 2px;
+    /* margin-left: 20px; */
+    margin-bottom: 10px;
+    margin-top: 10px;
     width: 120px;
     text-align: center;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .comfirmation_box {
@@ -299,4 +308,10 @@ p {
 
 .flex-container p {
     font-size:13px;
+}
+
+
+.flex-container-pr {
+    display: flex;
+    flex-direction: row;
 }
