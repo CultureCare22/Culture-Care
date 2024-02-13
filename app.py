@@ -1,3 +1,6 @@
+"""
+Author: Jephthah Mensah, Blay Ambrose, Jae
+"""
 from flask import Flask, request
 from sql_db import sql_db
 import email_automater
@@ -161,10 +164,10 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
-    specializations = body.get("specializations")
-    genders = body.get("genders")
-    languages = body.get("languages")
-    locations = body.get("locations")
+    specializations = body.get("specializations", [])
+    genders = body.get("genders", [])
+    languages = body.get("languages", [])
+    locations = body.get("locations", [])
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
@@ -174,39 +177,39 @@ def create_practitioner():
     if not created:
         return failure_response("Failed to create email", 400)
     
-    for i in range(len(specializations)):
-        specialization = specializations[i]
-        name = specialization.name
-        specialization = crud.create_specialization(name)
-        specializations[i] = specialization
+    # for i in range(len(specializations)):
+    #     specialization = specializations[i]
+    #     name = specialization.name
+    #     specialization = crud.create_specialization(name)
+    #     specializations[i] = specialization
 
-    crud.append_objects(specializations, practitioner.specializations)
+    # crud.append_objects(specializations, practitioner.specializations)
 
-    for i in range(len(locations)):
-        location = locations[i]
-        name = location.name
-        location = crud.create_location(name)
-        locations[i] = location
+    # for i in range(len(locations)):
+    #     location = locations[i]
+    #     name = location.name
+    #     location = crud.create_location(name)
+    #     locations[i] = location
         
-    crud.append_objects(locations, practitioner.locations)
+    # crud.append_objects(locations, practitioner.locations)
 
-    for i in range(len(languages)):
-        language = languages[i]
-        name = language.name
-        language = crud.create_language(name)
-        languages[i] = language
+    # for i in range(len(languages)):
+    #     language = languages[i]
+    #     name = language.name
+    #     language = crud.create_language(name)
+    #     languages[i] = language
         
-    crud.append_objects(languages, practitioner.languages)
+    # crud.append_objects(languages, practitioner.languages)
 
     for i in range(len(genders)):
-        gender = genders[i]
-        name = gender.name
-        gender = crud.create_gender(name)
+        name = genders[i]
+        exists,gender = crud.get_gender_by_name(name)
+        if not exists:
+            _, gender = crud.create_gender(name)
         genders[i] = gender
-        
+
     crud.append_objects(genders, practitioner.genders)
 
-    
     sql_db.session.add(practitioner)
     sql_db.session.commit()
     
@@ -218,6 +221,13 @@ def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
 
     return success_response(practitioner.serialize(), 201)
+
+@app.route("/practitioners/get/", methods = ["GET"])
+@cross_origin(supports_credentials=True)
+def get_practitioners():
+    practitioners = crud.get_practitioners()
+
+    return success_response({"practitioners": practitioners})
 
 
 @app.route("/forms/intake/", methods = ["POST"])
@@ -281,13 +291,6 @@ def create_intake_form():
         return failure_response("Could not send intake form")
     
     return success_response({"form_id" : form_id}, 201)
-
-@app.route("/practitioners/get/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
-def get_practitioners():
-    practitioners = crud.get_practitioners()
-
-    return success_response({"practitioners": practitioners})
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")

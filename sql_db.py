@@ -11,20 +11,20 @@ practitioner_gender_table = sql_db.Table('practitioner_gender',
     sql_db.Column('gender_id', sql_db.Integer, sql_db.ForeignKey('genders.id'), primary_key=True)
 )
 
-practitioner_location_table = sql_db.Table('practitioner_location',
-    sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
-    sql_db.Column('location_id', sql_db.Integer, sql_db.ForeignKey('locations.id'), primary_key=True)
-)
+# practitioner_location_table = sql_db.Table('practitioner_location',
+#     sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
+#     sql_db.Column('location_id', sql_db.Integer, sql_db.ForeignKey('locations.id'), primary_key=True)
+# )
 
-practitioner_specialization_table = sql_db.Table('practitioner_specialization',
-    sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
-    sql_db.Column('specialization_id', sql_db.Integer, sql_db.ForeignKey('specializations.id'), primary_key=True)
-)
+# practitioner_specialization_table = sql_db.Table('practitioner_specialization',
+#     sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
+#     sql_db.Column('specialization_id', sql_db.Integer, sql_db.ForeignKey('specializations.id'), primary_key=True)
+# )
 
-practitioner_language_table = sql_db.Table('practitioner_language',
-    sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
-    sql_db.Column('language_id', sql_db.Integer, sql_db.ForeignKey('languages.id'), primary_key=True)
-)
+# practitioner_language_table = sql_db.Table('practitioner_language',
+#     sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
+#     sql_db.Column('language_id', sql_db.Integer, sql_db.ForeignKey('languages.id'), primary_key=True)
+# )
 
 class EmailContent(sql_db.Model):
     """
@@ -120,7 +120,7 @@ class Gender(sql_db.Model):
 
     def __init__(self, **kwargs):
         """
-        Initializes a Practitioner object
+        Initializes a Gender object
         """
         self.name = kwargs.get("name")
 
@@ -139,9 +139,9 @@ class Practitioner(sql_db.Model):
     email_address = sql_db.Column(sql_db.String, nullable = False, unique = True)
 
     genders = sql_db.relationship("Gender", secondary = practitioner_gender_table, back_populates = "practitioners")  
-    languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
-    locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
-    specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")  
+    # languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
+    # locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
+    # specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
 
     def __init__(self, **kwargs):
@@ -170,9 +170,9 @@ class Practitioner(sql_db.Model):
             "name" : self.name,
             "email_address" : self.email_address, 
             "genders" : [gender.simple_serialize() for gender in self.genders],
-            "languages" : [language.simple_serialize() for language in self.languages],
-            "locations" : [location.simple_serialize() for location in self.locations],
-            "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
+            # "languages" : [language.simple_serialize() for language in self.languages],
+            # "locations" : [location.simple_serialize() for location in self.locations],
+            # "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
         }
 
 
