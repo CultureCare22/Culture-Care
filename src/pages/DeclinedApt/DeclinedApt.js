@@ -14,7 +14,7 @@ function Confirmation() {
                 <div className='confirmation-container'>
                     
                     <h2>You Have Declined Consultation Request For Fatima Perez</h2>
-                    <img src={'/X.png'} />
+                    <img className="cross-img" src={'/X.png'} />
                   
                     <h3>This client has been notified of their appointment status.</h3>
                   
