@@ -154,6 +154,28 @@ def create_patient():
     return success_response(patient.serialize(), 201)
 
 
+# @app.route("/practitioners/create/", methods = ["POST"])
+# def create_practitioner():
+#     """
+#     Endpoint to create practitioner
+#     """
+#     body = json.loads(request.data)
+#     name = body.get("name")
+#     email_address = body.get("email_address")
+
+#     if assert_none([name, email_address]):
+#         return failure_response("Insufficient inputs", 400)
+    
+#     created, practitioner = crud.create_practitioner(name, email_address)
+
+#     if not created:
+#         return failure_response("Failed to create email", 400)
+    
+#     sql_db.session.add(practitioner)
+#     sql_db.session.commit()
+    
+#     return success_response(practitioner.serialize(), 201)
+
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -162,6 +184,8 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
+    specializations= body.get("specializations")
+    languages = body.get("languages")
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
@@ -172,6 +196,34 @@ def create_practitioner():
         return failure_response("Failed to create email", 400)
     
     sql_db.session.add(practitioner)
+    
+    for specialization in  specializations:
+        saved_specialization = Specialization.query.filter_by(name = specialization).first()
+        if saved_specialization:
+            print("specialization_found")
+            practitioner.specializations.append(saved_specialization)
+            
+        else:
+            success, specialization = crud.create_specialization(specialization)
+            if not success:
+                return failure_response("Failed to create specialization", 400)
+            sql_db.session.add(specialization)
+            # sql_db.session.commit()
+            practitioner.specializations.append(specialization)
+            
+    for language in languages:
+        saved_language = Language.query.filter_by(name = language).first()
+        if saved_language:
+            practitioner.languages.append(saved_language)
+            
+        else:
+            success, language = crud.create_language(language)
+            if not success:
+                return failure_response("Failed to create language", 400)
+            sql_db.session.add(language)
+            # sql_db.session.commit()
+            practitioner.languages.append(language)
+    
     sql_db.session.commit()
     
     return success_response(practitioner.serialize(), 201)
