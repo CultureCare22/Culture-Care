@@ -163,6 +163,15 @@ def create_patient():
 def create_practitioner():
     """
     Endpoint to create practitioner
+    
+    Takes request body of the form:
+    {
+        "name": "Dr. Ambrose",
+        "email_address": "ambrose@gmail.com",
+        "languages": ["French"],
+        "specializations": ["Anxiety"],
+        "genders": ["Male", "Non-binary"]
+    }
     """
     body = json.loads(request.data)
     name = body.get("name")
