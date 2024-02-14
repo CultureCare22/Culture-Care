@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import './SelectClinician.css';
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineArrowOutward } from "react-icons/md";
@@ -7,210 +7,187 @@ import { FaUserCheck } from "react-icons/fa6";
 
 function Category() {
 
+    const filter_groups = {
+        "Specialization": [
+            "Relationship",
+            "Depression",
+            "Life Transition",
+            "Finances",
+            "Grief",
+            "General"
+        ],
+        "Gender": [
+            "Male",
+            "Female",
+            "Non-Binary",
+            "Other"
+        ],
+        "Language": [
+            "English",
+            "Spanish"
+        ],
+        "Ethnicity": [
+            "Hispanic/Latinx",
+            "Asian",
+            "Black",
+            "White",
+            "Native American",
+            "Other"
+        ]
+    }
+
+    const Checkbox = ({ name, onChange, checked }) => {
+        return (
+            <label className='checkbox-item'>
+                <input type='checkbox' onChange={onChange} checked={checked} />
+                <span className='checkmark-box'>{name}</span>
+            </label>
+        )
+    }
+
+    /*
+        This function takes a checkbox group with a category name 
+        and some filter options and returns the HTML for the group.
+
+        @param name: string name of the category
+        @param group: list of strings corresponding to the items in this category
+    */
+    const CheckboxGroup = ({ name, group }) => {
+        const [checked, setChecked] = useState(new Array(group.length).fill(false))
+        const [radioChecked, setRadioChecked] = useState(false)
+
+        const handleCheck = (idx) => (() => {
+            setChecked(checked.map(
+                (v, i) => {
+                    return i == idx ? !v : v
+                }
+            ))
+        })
+
+        return (
+            <div>
+                <div className='filter-container'>
+                    <div className='filter-menu'>
+                        <h4><u>{name}</u></h4>
+
+                        <div className="radio-button">
+                            <label className='check-all'>
+                                <input type='checkbox' onChange={
+                                    () => {
+                                        setChecked(new Array(group.length).fill(!radioChecked));
+                                        setRadioChecked(!radioChecked);
+                                    }
+                                } checked={radioChecked} />
+                                <span className='radiomark'>All</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='checkbox-container'>
+                    {group.map((name, i) => (
+                        <Checkbox name={name} key={i} onChange={handleCheck(i)} checked={checked[i]} />
+                    ))
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    function Practitioner(photo, name, clininfo, specialties, days, times) {
+        return (
+            <div className='request-1'>
+                <img src={photo} />
+                <h3>name</h3>
+                <div className='clin-info'>
+                    <h4>clininfo</h4>
+                    <div className="clinician_1">Specializes in:</div>
+                    <div className="consultation">
+                        {specialties.map((specialty) => (
+                            <div className="consultation_details">{specialty}</div>
+                        ))}
+                    </div>
+
+                    <div className="clinician_1">Typically available:</div>
+                    <div className="consultation">
+                        <div className="days">
+                            {days.map((day) => (
+                                <div className="consultation_details">day</div>
+                            ))}
+                        </div>
+                        <div className="times">
+                            {times.map((time) => (
+                                <div className="consultation_details">time</div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="view_consultation">
+                    <a href="/clinician-j-ramirez">Book an appointment</a>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div>
             <div className="search-bar">
                 <h1>Select a Clinician</h1>
                 <div className="search-container">
-                    <input type="text" placeholder="Search by name"/>
+                    <input type="text" placeholder="Search by name" />
                     <button>Search</button>
                 </div>
             </div>
 
 
-            <div class="flex-container">
+            <div className="flex-container">
                 <div className='cover-box1'>
                     <h2>Filter by:</h2>
 
-                    {/* Radio Buttons Section */}
-                    <div className='filter-container'>
-                        <div className='filter-menu'>
-                            <h4><u>Specialization</u></h4>
-
-                            <div class="radio-button">
-                                <label className='check-all'>
-                                    <input type='radio' name='radio' />
-                                    <span className='radiomark'>All</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Checkboxes Section */}
-                    <div className='checkbox-container'>
-                        <label className='checkbox-item'>
-                            <input type='checkbox'/>
-                            <span className='checkmark-box'>Relationship</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Depression</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Life Transition</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Finances</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Grief</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>General</span>
-                        </label>
-                    </div>
-
-                    {/* Radio Buttons Section */}
-                    <div className='filter-container'>
-                        <div className='filter-menu'>
-                            <h4><u>Gender</u></h4>
-
-                            <div class="radio-button">
-                                <label className='check-all'>
-                                    <input type='radio' name='radio' />
-                                    <span className='radiomark'>All</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Checkboxes Section */}
-                    <div className='checkbox-container'>
-                        <label className='checkbox-item'>
-                            <input type='checkbox'/>
-                            <span className='checkmark-box'>Male</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Female</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Non-binary</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Other</span>
-                        </label>
-                    </div>
-
-                    {/* Radio Buttons Section */}
-                    <div className='filter-container'>
-                        <div className='filter-menu'>
-                            <h4><u>Language</u></h4>
-
-                            <div class="radio-button">
-                                <label className='check-all'>
-                                    <input type='radio' name='radio' />
-                                    <span className='radiomark'>All</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='checkbox-container'>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>English</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Spanish</span>
-                        </label>
-                    </div>
-
-                    {/* Radio Buttons Section */}
-                    <div className='filter-container'>
-                        <div className='filter-menu'>
-                            <h4><u>Ethnicity</u></h4>
-
-                            <div class="radio-button">
-                                <label className='check-all'>
-                                    <input type='radio' name='radio' />
-                                    <span className='radiomark'>All</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='checkbox-container'>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Hispanic/Latinx</span>
-                        </label>
-
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Asian</span>
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Black</span>
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>White</span>
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Native American</span>
-                        </label>
-                        <label className='checkbox-item'>
-                            <input type='checkbox' />
-                            <span className='checkmark-box'>Other</span>
-                        </label>
-                    </div>
+                    {Object.keys(filter_groups).map(
+                        (key) => (
+                            <CheckboxGroup key={key} name={key} group={filter_groups[key]} />
+                        )
+                    )}
                 </div>
 
 
                 <div className='cover-box2'>
-                    <div class="box1">
+                    <div className="box1">
                         <h2>Clinicians</h2>
-                        <div class="summary-box">
-                            <div class="requests">
+                        <div className="summary-box">
+                            <div className="requests">
                                 <div className='request-1'>
                                     <img src={'/Ramirezpfp.png'} />
                                     <h3>Jasmine Ramirez</h3>
                                     <div className='clin-info'>
                                         <h4>LCSW, CFSW | NY, NJ</h4>
-                                        <div class="clinician_1">Specializes in:</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Life Transition</div>
-                                            <div class="consultation_details">Financial Anxiety</div>
+                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="consultation">
+                                            <div className="consultation_details">Life Transition</div>
+                                            <div className="consultation_details">Financial Anxiety</div>
                                         </div>
 
-                                        <div class="clinician_1">Typically available:</div>
-                                        <div class="consultation">
-                                        <div class="days">
-                                            <div class="consultation_details">Mon</div>
-                                            <div class="consultation_details">Tues-Thurs</div>
-                                            <div class="consultation_details">Friday</div>
-                                        </div>
-                                        <div class="times">
-                                            <div class="consultation_details">3pm-6pm</div>
-                                        
-                                            <div class="consultation_details">9am-6pm</div>
-                                        
-                                            <div class="consultation_details">9am-12pm</div>
-                                            </div>  
+                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="consultation">
+                                            <div className="days">
+                                                <div className="consultation_details">Mon</div>
+                                                <div className="consultation_details">Tues-Thurs</div>
+                                                <div className="consultation_details">Friday</div>
+                                            </div>
+                                            <div className="times">
+                                                <div className="consultation_details">3pm-6pm</div>
+
+                                                <div className="consultation_details">9am-6pm</div>
+
+                                                <div className="consultation_details">9am-12pm</div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="view_consultation">
-                                    <a href="/clinician-j-ramirez">Book an appointment</a>
+                                    <div className="view_consultation">
+                                        <a href="/clinician-j-ramirez">Book an appointment</a>
                                     </div>
 
                                 </div>
@@ -220,28 +197,28 @@ function Category() {
                                     <h3>Lilliana Tapia</h3>
                                     <div className='clin-info'>
                                         <h4>LMSW | NY</h4>
-                                        <div class="clinician_1">Specializes in:</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Anxiety</div>
-                                            <div class="consultation_details">Depression</div>
-                                            <div class="consultation_details">LGBTQ+</div>
+                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="consultation">
+                                            <div className="consultation_details">Anxiety</div>
+                                            <div className="consultation_details">Depression</div>
+                                            <div className="consultation_details">LGBTQ+</div>
 
                                         </div>
 
-                                        <div class="clinician_1">Typically available:</div>
-                                        <div class="consultation">
-                                        <div class="days">
-                                            <div class="consultation_details">Mon-Wed</div>
-                                            <div class="consultation_details">Sunday</div>
+                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="consultation">
+                                            <div className="days">
+                                                <div className="consultation_details">Mon-Wed</div>
+                                                <div className="consultation_details">Sunday</div>
                                             </div>
-                                        <div class="times">
-                                            <div class="consultation_details">6pm-8pm</div>
-                                            <div class="consultation_details">8am-10am</div>
-                                        </div>
+                                            <div className="times">
+                                                <div className="consultation_details">6pm-8pm</div>
+                                                <div className="consultation_details">8am-10am</div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="view_consultation">
+                                    <div className="view_consultation">
                                         <a href="/clinician-l-tapia">Book an appointment</a>
                                     </div>
 
@@ -252,29 +229,29 @@ function Category() {
                                     <h3>Sierra Silva</h3>
                                     <div className='clin-info'>
                                         <h4>LICSW, LCSW-C | MD</h4>
-                                        <div class="clinician_1">Specializes in:</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Grief</div>
-                                            <div class="consultation_details">Trauma</div>
-                                            <div class="consultation_details">Depression</div>
+                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="consultation">
+                                            <div className="consultation_details">Grief</div>
+                                            <div className="consultation_details">Trauma</div>
+                                            <div className="consultation_details">Depression</div>
 
                                         </div>
 
-                                        <div class="clinician_1">Typically available:</div>
-                                        <div class="consultation">
-                                            <div class="days">
-                                                <div class="consultation_details">Mon-Thurs</div>
-                                                <div class="consultation_details">Saturday</div>
+                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="consultation">
+                                            <div className="days">
+                                                <div className="consultation_details">Mon-Thurs</div>
+                                                <div className="consultation_details">Saturday</div>
                                             </div>
-                                            <div class="times">
-                                                <div class="consultation_details">6pm-8pm</div>
-                                                <div class="consultation_details">8am-12pm</div>
+                                            <div className="times">
+                                                <div className="consultation_details">6pm-8pm</div>
+                                                <div className="consultation_details">8am-12pm</div>
                                             </div>
                                         </div>
                                     </div>
-                             
-                                    
-                                    <div class="view_consultation">
+
+
+                                    <div className="view_consultation">
                                         <a href="/clinician-s-silva">Book an appointment</a>
                                     </div>
 
