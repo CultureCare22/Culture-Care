@@ -1,5 +1,11 @@
+"""
+Author: Jephthah Mensah, Blay Ambrose, Jae
+"""
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization
+
+from flask import Flask, request
+from sql_db import sql_db
 import email_automater
 from email_media import create_pdf, split_string
 import json
@@ -153,7 +159,6 @@ def create_patient():
     
     return success_response(patient.serialize(), 201)
 
-
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -175,6 +180,39 @@ def create_practitioner():
     if not created:
         return failure_response("Failed to create email", 400)
     
+    # for i in range(len(specializations)):
+    #     specialization = specializations[i]
+    #     name = specialization.name
+    #     specialization = crud.create_specialization(name)
+    #     specializations[i] = specialization
+
+    # crud.append_objects(specializations, practitioner.specializations)
+
+    # for i in range(len(locations)):
+    #     location = locations[i]
+    #     name = location.name
+    #     location = crud.create_location(name)
+    #     locations[i] = location
+        
+    # crud.append_objects(locations, practitioner.locations)
+
+    # for i in range(len(languages)):
+    #     language = languages[i]
+    #     name = language.name
+    #     language = crud.create_language(name)
+    #     languages[i] = language
+        
+    # crud.append_objects(languages, practitioner.languages)
+
+    for i in range(len(genders)):
+        name = genders[i]
+        exists,gender = crud.get_gender_by_name(name)
+        if not exists:
+            _, gender = crud.create_gender(name)
+        genders[i] = gender
+
+    crud.append_objects(genders, practitioner.genders)
+
     sql_db.session.add(practitioner)
     
     if specializations:
@@ -230,6 +268,13 @@ def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
 
     return success_response(practitioner.serialize(), 201)
+
+@app.route("/practitioners/get/", methods = ["GET"])
+@cross_origin(supports_credentials=True)
+def get_practitioners():
+    practitioners = crud.get_practitioners()
+
+    return success_response({"practitioners": practitioners})
 
 
 @app.route("/forms/intake/", methods = ["POST"])
