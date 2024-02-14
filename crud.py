@@ -1,7 +1,7 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent
+from sql_db import Patient, Practitioner, EmailContent, Specialization, Language, Gender
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -108,3 +108,73 @@ def create_patient(name, email_address):
         return False, None
     
     return True, patient
+
+def create_specialization(name):
+    """
+    Creates and returns a specialization
+    """
+    specialization = Specialization(name = name)
+
+    if not specialization:
+        return False, None
+    
+    return True, specialization
+
+
+def create_language(name):
+    """
+    Creates and returns a language
+    """
+    language = Language(name = name)
+
+    if not language:
+        return False, None
+    
+    return True, language
+
+
+def get_specialization(id):
+    """
+    Gets a specialization
+    """
+    specialization = Specialization.query.filter(Specialization.id == id).first()
+
+    if not specialization:
+        return False, None
+    
+    return True
+
+def get_language(id):
+    """
+    Gets a language
+    """
+    language = Language.query.filter(Language.id == id).first()
+
+    if not language:
+        return False, None
+    
+    return True
+
+def create_gender(name):
+    """
+    Creates and returns a gender
+    """
+    gender = Gender(name = name)
+
+    if not gender:
+        return False, None
+    
+    return True, gender
+
+
+def get_gender(id):
+    """
+    Gets a specialization
+    """
+    gender = Gender.query.filter(Gender.id == id).first()
+
+    if not gender:
+        return False, None
+    
+    return True
+

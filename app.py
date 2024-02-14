@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Location, Gender, Specialization
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization
 import email_automater
 from email_media import create_pdf, split_string
 import json
@@ -22,7 +22,7 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    sql_db.drop_all()
+    # sql_db.drop_all()
     sql_db.create_all()
 
 
@@ -154,28 +154,6 @@ def create_patient():
     return success_response(patient.serialize(), 201)
 
 
-# @app.route("/practitioners/create/", methods = ["POST"])
-# def create_practitioner():
-#     """
-#     Endpoint to create practitioner
-#     """
-#     body = json.loads(request.data)
-#     name = body.get("name")
-#     email_address = body.get("email_address")
-
-#     if assert_none([name, email_address]):
-#         return failure_response("Insufficient inputs", 400)
-    
-#     created, practitioner = crud.create_practitioner(name, email_address)
-
-#     if not created:
-#         return failure_response("Failed to create email", 400)
-    
-#     sql_db.session.add(practitioner)
-#     sql_db.session.commit()
-    
-#     return success_response(practitioner.serialize(), 201)
-
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -186,6 +164,8 @@ def create_practitioner():
     email_address = body.get("email_address")
     specializations= body.get("specializations")
     languages = body.get("languages")
+    genders = body.get("genders")
+    
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
@@ -197,33 +177,49 @@ def create_practitioner():
     
     sql_db.session.add(practitioner)
     
-    for specialization in  specializations:
-        saved_specialization = Specialization.query.filter_by(name = specialization).first()
-        if saved_specialization:
-            print("specialization_found")
-            practitioner.specializations.append(saved_specialization)
-            
-        else:
-            success, specialization = crud.create_specialization(specialization)
-            if not success:
-                return failure_response("Failed to create specialization", 400)
-            sql_db.session.add(specialization)
-            # sql_db.session.commit()
-            practitioner.specializations.append(specialization)
-            
-    for language in languages:
-        saved_language = Language.query.filter_by(name = language).first()
-        if saved_language:
-            practitioner.languages.append(saved_language)
-            
-        else:
-            success, language = crud.create_language(language)
-            if not success:
-                return failure_response("Failed to create language", 400)
-            sql_db.session.add(language)
-            # sql_db.session.commit()
-            practitioner.languages.append(language)
+    if specializations:
+        for specialization in  specializations:
+            saved_specialization = Specialization.query.filter_by(name = specialization).first()
+            if saved_specialization:
+                practitioner.specializations.append(saved_specialization)
+                
+            else:
+                success, specialization = crud.create_specialization(specialization)
+                if not success:
+                    return failure_response("Failed to create specialization", 400)
+                sql_db.session.add(specialization)
+                # sql_db.session.commit()
+                practitioner.specializations.append(specialization)
     
+    if languages:       
+        for language in languages:
+            saved_language = Language.query.filter_by(name = language).first()
+            if saved_language:
+                practitioner.languages.append(saved_language)
+                
+            else:
+                success, language = crud.create_language(language)
+                if not success:
+                    return failure_response("Failed to create language", 400)
+                sql_db.session.add(language)
+                # sql_db.session.commit()
+                practitioner.languages.append(language)
+            
+    
+    if genders:
+        for gender in genders:
+            saved_gender = Gender.query.filter_by(name = gender).first()
+            if saved_gender:
+                practitioner.genders.append(saved_gender)
+                
+            else:
+                success, gender = crud.create_gender(gender)
+                if not success:
+                    return failure_response("Failed to create gender", 400)
+                sql_db.session.add(gender)
+                # sql_db.session.commit()
+                practitioner.genders.append(gender)
+        
     sql_db.session.commit()
     
     return success_response(practitioner.serialize(), 201)
@@ -306,51 +302,76 @@ def get_practitioners():
     return success_response({"practitioners": practitioners})
 
 
-@app.route('/practitioners/get/filter', methods=['POST'])
+@app.route('/practitioners/get/filter/', methods=['POST'])
 def get_filtered_practitioners():
-    try:
-        # Get the request data
-        req_data = request.get_json()
+    body = json.loads(request.data)
+    languages = body.get("languages")
+    specializations = body.get("specializations")
+    genders = body.get("genders")
+    locations = body.get("locations")
+    
+    filtered_practitioners_arrays = []
+    
+    
+    if languages:
+        
+        for language in languages:
+            
+            practitioners = Language.query.filter_by(name = language).first()
+            if practitioners:
+                filtered_practitioners_by_language = []
+                for practitioner in practitioners.practitioners:
+                    if practitioner not in filtered_practitioners_by_language:
+                        filtered_practitioners_by_language.append(practitioner)
+                filtered_practitioners_arrays.append(filtered_practitioners_by_language)
+    
+                       
+    if specializations:
+        
+        for specialization in specializations:
+            practitioners = Specialization.query.filter_by(name = specialization).first()
+            if practitioners:
+                filtered_practitioners_by_specialization = [] 
+                for practitioner in practitioners.practitioners:
+                    if practitioner not in filtered_practitioners_by_specialization:
+                        filtered_practitioners_by_specialization.append(practitioner)
+                filtered_practitioners_arrays.append(filtered_practitioners_by_specialization)
+                        
+    
+    if genders:
+        
+        for gender in genders:
+            practitioners = Gender.query.filter_by(name = gender).first()
+            if practitioners:
+                filtered_practitioners_by_gender = []
+                for practitioner in practitioners.practitioners:
+                    if practitioner not in filtered_practitioners_by_gender:
+                        filtered_practitioners_by_gender.append(practitioner)
+                filtered_practitioners_arrays.append(filtered_practitioners_by_gender)
+                        
+    
+    # if locations:
+        
+    #     for location in locations:
+    #         practitioners = Location.query.filter_by(name = location).first()
+    #         if practitioners:
+    #             filtered_practitioners_by_location = []
+    #             for practitioner in practitioners.practitioners:
+    #                 if practitioner not in filtered_practitioners_by_location:
+    #                     filtered_practitioners_by_location.append(practitioner)
+    #             filtered_practitioners_arrays.append(filtered_practitioners_by_location)
+                        
+                        
+    if filtered_practitioners_arrays == []:
+        return failure_response("No practitioners match the filters")
+    common_practitioners = set(filtered_practitioners_arrays[0]).intersection(*filtered_practitioners_arrays[1:])
 
-        # Extract filters from the request data
-        language_filter = req_data.get('language')
-        specialization_filter = req_data.get('specialization')
-        location_filter = req_data.get('location')
-        gender_filter = req_data.get('gender')
+    common_practitioners_list = list(common_practitioners)
+                    
+    return success_response([practitioner.serialize() for practitioner in common_practitioners_list])
+    
 
-        # Build the query for filtering practitioners
-        query = Practitioner.query
 
-        if language_filter:
-            query = query.filter(Practitioner.languages.any(Language.name == language_filter))
-
-        if specialization_filter:
-            query = query.filter(Practitioner.specializations.any(Specialization.name == specialization_filter))
-
-        if location_filter:
-            query = query.filter(Practitioner.locations.any(Location.name == location_filter))
-
-        if gender_filter:
-            query = query.filter(Practitioner.genders.any(Gender.name == gender_filter))
-
-        # Execute the query and get the filtered practitioners
-        filtered_practitioners = query.all()
-
-        # Serialize the practitioners
-        serialized_practitioners = [practitioner.serialize() for practitioner in filtered_practitioners]
-
-        return jsonify({"practitioners": serialized_practitioners}), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# Sample request body
-sample_request_body = {
-    "language": "English",
-    "specialization": "Cardiology",
-    "location": "City Hospital",
-    "gender": "Male"
-}
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
