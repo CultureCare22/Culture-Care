@@ -204,14 +204,14 @@ def create_practitioner():
         
     # crud.append_objects(languages, practitioner.languages)
 
-    for i in range(len(genders)):
-        name = genders[i]
-        exists,gender = crud.get_gender_by_name(name)
-        if not exists:
-            _, gender = crud.create_gender(name)
-        genders[i] = gender
+    # for i in range(len(genders)):
+    #     name = genders[i]
+    #     exists,gender = crud.get_gender_by_name(name)
+    #     if not exists:
+    #         _, gender = crud.create_gender(name)
+    #     genders[i] = gender
 
-    crud.append_objects(genders, practitioner.genders)
+    # crud.append_objects(genders, practitioner.genders)
 
     sql_db.session.add(practitioner)
     
@@ -226,7 +226,6 @@ def create_practitioner():
                 if not success:
                     return failure_response("Failed to create specialization", 400)
                 sql_db.session.add(specialization)
-                # sql_db.session.commit()
                 practitioner.specializations.append(specialization)
     
     if languages:       
@@ -240,7 +239,6 @@ def create_practitioner():
                 if not success:
                     return failure_response("Failed to create language", 400)
                 sql_db.session.add(language)
-                # sql_db.session.commit()
                 practitioner.languages.append(language)
             
     
@@ -255,7 +253,6 @@ def create_practitioner():
                 if not success:
                     return failure_response("Failed to create gender", 400)
                 sql_db.session.add(gender)
-                # sql_db.session.commit()
                 practitioner.genders.append(gender)
         
     sql_db.session.commit()
@@ -268,13 +265,6 @@ def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
 
     return success_response(practitioner.serialize(), 201)
-
-@app.route("/practitioners/get/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
-def get_practitioners():
-    practitioners = crud.get_practitioners()
-
-    return success_response({"practitioners": practitioners})
 
 
 @app.route("/forms/intake/", methods = ["POST"])
@@ -349,6 +339,19 @@ def get_practitioners():
 
 @app.route('/practitioners/get/filter/', methods=['POST'])
 def get_filtered_practitioners():
+    """Endpoint for filtering practitioners
+    
+    Request body takes the form:
+    
+    {
+        "languages": ["English", "French"],
+        "specializations": ["Life Transition"],
+        "genders": ["Male"]
+    }
+
+    Returns:
+        json: all practitioners that match at least one of the filters
+    """
     body = json.loads(request.data)
     languages = body.get("languages")
     specializations = body.get("specializations")
@@ -409,11 +412,13 @@ def get_filtered_practitioners():
                         
     if filtered_practitioners_arrays == []:
         return failure_response("No practitioners match the filters")
-    common_practitioners = set(filtered_practitioners_arrays[0]).intersection(*filtered_practitioners_arrays[1:])
 
-    common_practitioners_list = list(common_practitioners)
-                    
-    return success_response([practitioner.serialize() for practitioner in common_practitioners_list])
+    filtered_practitioners = []
+    for list in filtered_practitioners_arrays:
+        for practitioner in list:
+            if practitioner not in filtered_practitioners:
+                filtered_practitioners.append(practitioner)
+    return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
     
 
 
