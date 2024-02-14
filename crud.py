@@ -5,6 +5,14 @@ from sql_db import Patient, Practitioner, EmailContent, Specialization, Language
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
+def append_objects(lst, column): 
+    """
+    Adds objects in lst to column in association table
+    """
+    for elem in lst:
+        print(elem)
+        column.append(elem)
+
 def create_form(type, data):
     """
     Creates and returns a form record
@@ -108,6 +116,32 @@ def create_patient(name, email_address):
         return False, None
     
     return True, patient
+
+
+def create_gender(name):
+    """
+    Creates and returns a gender
+    """
+    try:
+        gender = Gender(name = name)
+    except:
+        return False, None
+
+    if not gender:
+        return False, None
+    
+    return True, gender
+
+def get_gender_by_name(name):
+    """
+    Returns gender by name
+    """
+    gender = Gender.query.filter(Gender.name == name).first()
+
+    if not gender:
+        return False, None
+    
+    return True, gender
 
 def create_specialization(name):
     """
