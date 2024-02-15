@@ -346,27 +346,54 @@ def get_practitioners():
     return success_response({"practitioners": practitioners})
 
 
-@app.route('/practitioners/get/filter/', methods=['POST'])
-def get_filtered_practitioners():
-    """Endpoint for filtering practitioners
+def strict_filter(languages, specializations, genders, locations):
+    all_practitioners = Practitioner.query.filter().all()
+    filtered_practitioners = all_practitioners[:]
     
-    Request body takes the form:
+    if languages:
+        for language in languages:
+            for practitioner in all_practitioners:
+                practitioner_languages = [language.name for language in practitioner.languages]
+                if language not in practitioner_languages:
+                    try:
+                        filtered_practitioners.remove(practitioner)
+                    except:
+                        pass
     
-    {
-        "languages": ["English", "French"],
-        "specializations": ["Life Transition"],
-        "genders": ["Male"]
-    }
+    if specializations:
+        for specialization in specializations:
+            for practitioner in all_practitioners:
+                practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
+                if specialization not in practitioner_specializations:
+                    try:
+                        filtered_practitioners.remove(practitioner)
+                    except:
+                        pass
+                    
+    if genders:
+        for gender in genders:
+            for practitioner in all_practitioners:
+                practitioner_genders = [gender.name for gender in practitioner.genders]
+                if gender not in practitioner_genders:
+                    try:
+                        filtered_practitioners.remove(practitioner)
+                    except:
+                        pass
+                    
+    if locations:
+        for location in locations:
+            for practitioner in all_practitioners:
+                practitioner_locations = [location.name for location in practitioner.locations]
+                if location not in practitioner_locations:
+                    try:
+                        filtered_practitioners.remove(practitioner)
+                    except:
+                        pass
+    
+    return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
+                        
 
-    Returns:
-        json: all practitioners that match at least one of the filters
-    """
-    body = json.loads(request.data)
-    languages = body.get("languages")
-    specializations = body.get("specializations")
-    genders = body.get("genders")
-    locations = body.get("locations")
-    
+def flexible_filter(languages, specializations, genders, locations):
     filtered_practitioners_arrays = []
     
     
@@ -405,7 +432,7 @@ def get_filtered_practitioners():
                     if practitioner not in filtered_practitioners_by_gender:
                         filtered_practitioners_by_gender.append(practitioner)
                 filtered_practitioners_arrays.append(filtered_practitioners_by_gender)
-                        
+                     
     
     # if locations:
         
@@ -417,8 +444,7 @@ def get_filtered_practitioners():
     #                 if practitioner not in filtered_practitioners_by_location:
     #                     filtered_practitioners_by_location.append(practitioner)
     #             filtered_practitioners_arrays.append(filtered_practitioners_by_location)
-                        
-                        
+    
     if filtered_practitioners_arrays == []:
         return failure_response("No practitioners match the filters")
 
@@ -430,7 +456,29 @@ def get_filtered_practitioners():
     return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
     
 
+@app.route('/practitioners/get/filter/', methods=['POST'])
+def get_filtered_practitioners():
+    """Endpoint for filtering practitioners
+    
+    Request body takes the form:
+    
+    {
+        "languages": ["English", "French"],
+        "specializations": ["Life Transition"],
+        "genders": ["Male"]
+    }
 
+    Returns:
+        json: all practitioners that strictly match all the filters
+    """
+    body = json.loads(request.data)
+    languages = body.get("languages")
+    specializations = body.get("specializations")
+    genders = body.get("genders")
+    locations = body.get("locations")
+    
+    return strict_filter(languages, specializations, genders, locations)                
+                        
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
