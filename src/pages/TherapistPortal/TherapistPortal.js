@@ -166,7 +166,7 @@ function Category() {
                     </div>
 
 
-                    <div className='cover-box2' style={{ width: '10%' }}>
+                    <div className='cover-box2'>
                         <div class="box1">
                             <h2>Patient Consultation Requests</h2>
                             <div class="summary-box">
@@ -196,7 +196,7 @@ function Category() {
 
                                     <div class="boxes">
                                         <div class="box_2">
-                                            <p><AiFillSlackCircle style={{ color: 'white' }} className='circle' /></p>
+                                            <p><AiFillSlackCircle style={{ color: 'white' }} className='fact-check' /></p>
                                             <div class="circle-text_1">4.5</div>
                                             <div class="circle-text_2">Average Request Per Clinician</div>
                                         </div>
@@ -204,7 +204,7 @@ function Category() {
                                         <div class="box_3">
                                             <p><FaUserCheck style={{ color: 'white' }} className='fact-check' /></p>
                                             <div class="circle-text_1">90%</div>
-                                            <div class="circle-text_2">Verified Outt-Of-Network Benefits</div>
+                                            <div class="circle-text_2">Verified Out-Of-Network Benefits</div>
                                         </div>
 
                                         <div class="box_4">

@@ -14,6 +14,7 @@
   box-shadow: 2px 2px 2px lightgrey;
   padding-left: 1em;
   padding-right: 1em;
+  border-radius: 5px;
 }
 
 .cover-box1 h2 {
@@ -69,6 +70,11 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.tile-head img {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 .request-1 a {
@@ -131,13 +137,10 @@ h1 {
 
 .request-1 h3,h4 {
   font-weight: normal;
-  /* display: block;
-  margin-left: auto;
-  margin-right: auto; */
 }
 .request-1 h3 {
   font-size: 20pt;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .request-1 h4 {
@@ -151,10 +154,11 @@ h1 {
 .consultation {
   display: flex;
   flex-direction: row;
+  padding-bottom: 1em;
 }
 
 .clinician_1 {
-  margin-top:1.5em;
+  margin-top:0.5em;
   margin-bottom: 0.5em;
   font-size: 14pt;
 }
@@ -294,33 +298,57 @@ h1 {
   background-color:#2563EB;
   color: white;
   text-align: center;
-  width: 8em;
+  width: 9em;
   /* margin-left: auto; */
   margin-right: 2em;
-  /* padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 1em; */
   padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
 }
 
 .box_3 {
   background-color:#38BDF8;
   color: white;
   text-align: center;
-  width: 8em;
+  width: 9em;
   /* margin-left: auto; */
   margin-right: 2em;
   padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
 }
 
 .box_4 {
   background-color:#717171;
   color: white;
   text-align: center;
-  width: 8em;
+  width: 9em;
   /* margin-left: auto; */
   margin-right: 2em;
   padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.fact-check {
+  width: 5em;
+  height: 100%
+}
+.box_2 p {
+  margin-left: 0px;
+}
+.box_3 p {
+  margin-left: 0px;
+}
+.box_4 p {
+  margin-left: 0px;
+}
+
+.circle-text_1 {
+  font-size: 24pt;
+  margin: 0px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 /* .stat-detail {
   display: flex;

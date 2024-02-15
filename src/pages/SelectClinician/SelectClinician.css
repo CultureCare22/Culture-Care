@@ -44,8 +44,8 @@
   margin-left: 2em;
 }
 
-.request-1 {
-  /* width: 12em; */
+.request-2 {
+  width: 12em;
   flex: 0.3;
   align-items: center;
   margin-left: auto;
@@ -65,13 +65,13 @@
   position: relative;
 }
 
-.request-1 img {
+.request-2 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-.request-1 a {
+.request-2 a {
   background-color: #2563EB;
   color: white;
   padding-left: 3em;
@@ -129,18 +129,18 @@ h1 {
 
 }
 
-.request-1 h3,h4 {
+.request-2 h3,h4 {
   font-weight: normal;
   /* display: block;
   margin-left: auto;
   margin-right: auto; */
 }
-.request-1 h3 {
+.request-2 h3 {
   font-size: 20pt;
   margin-top: 1.5em;
 }
 
-.request-1 h4 {
+.request-2 h4 {
   font-size: 14pt;
 }
 
@@ -157,7 +157,7 @@ h1 {
   flex-direction: row;
 }
 
-.clinician_1 {
+.clinician_2 {
   margin-top:1.5em;
   margin-bottom: 0.5em;
   font-size: 14pt;

@@ -96,19 +96,19 @@ function Category() {
 
     function Practitioner(photo, name, clininfo, specialties, days, times) {
         return (
-            <div className='request-1'>
+            <div className='request-2'>
                 <img src={photo} />
                 <h3>name</h3>
                 <div className='clin-info'>
                     <h4>clininfo</h4>
-                    <div className="clinician_1">Specializes in:</div>
+                    <div className="clinician_2">Specializes in:</div>
                     <div className="consultation">
                         {specialties.map((specialty) => (
                             <div className="consultation_details">{specialty}</div>
                         ))}
                     </div>
 
-                    <div className="clinician_1">Typically available:</div>
+                    <div className="clinician_2">Typically available:</div>
                     <div className="consultation">
                         <div className="days">
                             {days.map((day) => (
@@ -156,20 +156,20 @@ function Category() {
                 <div className='cover-box2'>
                     <div className="box1">
                         <h2>Clinicians</h2>
-                        <div className="summary-box">
+                        <div className="summary-box-sc">
                             <div className="requests">
-                                <div className='request-1'>
+                                <div className='request-2'>
                                     <img src={'/Ramirezpfp.png'} />
                                     <h3>Jasmine Ramirez</h3>
                                     <div className='clin-info'>
                                         <h4>LCSW, CFSW | NY, NJ</h4>
-                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Life Transition</div>
                                             <div className="consultation_details">Financial Anxiety</div>
                                         </div>
 
-                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="clinician_2">Typically available:</div>
                                         <div className="consultation">
                                             <div className="days">
                                                 <div className="consultation_details">Mon</div>
@@ -192,12 +192,12 @@ function Category() {
 
                                 </div>
 
-                                <div className='request-1'>
+                                <div className='request-2'>
                                     <img src={'/Tapiapfp.png'} />
                                     <h3>Lilliana Tapia</h3>
                                     <div className='clin-info'>
                                         <h4>LMSW | NY</h4>
-                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Anxiety</div>
                                             <div className="consultation_details">Depression</div>
@@ -205,7 +205,7 @@ function Category() {
 
                                         </div>
 
-                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="clinician_2">Typically available:</div>
                                         <div className="consultation">
                                             <div className="days">
                                                 <div className="consultation_details">Mon-Wed</div>
@@ -224,12 +224,12 @@ function Category() {
 
                                 </div>
 
-                                <div className='request-1'>
+                                <div className='request-2'>
                                     <img src={'/Silvapfp.png'} />
                                     <h3>Sierra Silva</h3>
                                     <div className='clin-info'>
                                         <h4>LICSW, LCSW-C | MD</h4>
-                                        <div className="clinician_1">Specializes in:</div>
+                                        <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Grief</div>
                                             <div className="consultation_details">Trauma</div>
@@ -237,7 +237,7 @@ function Category() {
 
                                         </div>
 
-                                        <div className="clinician_1">Typically available:</div>
+                                        <div className="clinician_2">Typically available:</div>
                                         <div className="consultation">
                                             <div className="days">
                                                 <div className="consultation_details">Mon-Thurs</div>
