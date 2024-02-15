@@ -124,7 +124,8 @@ function Category() {
                 </div>
 
                 <div className="view_consultation">
-                    <a href="/clinician-j-ramirez">Book an appointment</a>
+                    {/* <a href="/clinician-j-ramirez">Book an appointment</a> */}
+                    <a href="/patient-info">Book an appointment</a>
                 </div>
             </div>
         )
@@ -187,7 +188,8 @@ function Category() {
                                     </div>
 
                                     <div className="view_consultation">
-                                        <a href="/clinician-j-ramirez">Book an appointment</a>
+                                        {/* <a href="/clinician-j-ramirez">Book an appointment</a> */}
+                                        <a href="/patient-info">Book an appointment</a>
                                     </div>
 
                                 </div>
@@ -219,7 +221,8 @@ function Category() {
                                     </div>
 
                                     <div className="view_consultation">
-                                        <a href="/clinician-l-tapia">Book an appointment</a>
+                                        {/* <a href="/clinician-l-tapia">Book an appointment</a> */}
+                                        <a href="/patient-info">Book an appointment</a>
                                     </div>
 
                                 </div>
@@ -252,7 +255,8 @@ function Category() {
 
 
                                     <div className="view_consultation">
-                                        <a href="/clinician-s-silva">Book an appointment</a>
+                                        {/* <a href="/clinician-s-silva">Book an appointment</a> */}
+                                        <a href="/patient-info">Book an appointment</a>
                                     </div>
 
                                 </div>
