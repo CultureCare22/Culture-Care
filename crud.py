@@ -1,7 +1,7 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language
+from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, OutOfNetwork
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -186,3 +186,26 @@ def get_gender(id):
     
     return True
 
+
+def create_location(name):
+    """
+    Creates and returns a location
+    """
+    location = Location(name = name)
+
+    if not location:
+        return False, None
+    
+    return True, location
+
+
+def create_out_of_network(name):
+    """
+    Creates and returns a network
+    """
+    network = OutOfNetwork(name = name)
+
+    if not network:
+        return False, None
+    
+    return True, network

@@ -74,5 +74,21 @@ Ref: practitioner.id <> location.id // many-to-one
 - get_all_practitioners #Jae
 
 
+#Working on soft passes and hard passes
+
+#soft passes location and specialization match. gender doesn't match
+- location
+- specialization
+- out of network
+- gender
+
+#hard passes
+- location doesn't match 
+- out of network doesn't match
+
+#create table for out of network
+#link to the practitioners table
+#create new end point for hard and soft passes /practitioner/get/match/
+
 
 

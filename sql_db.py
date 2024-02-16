@@ -26,6 +26,11 @@ practitioner_language_table = sql_db.Table('practitioner_language',
     sql_db.Column('language_id', sql_db.Integer, sql_db.ForeignKey('languages.id'), primary_key=True)
 )
 
+practitioner_network_table = sql_db.Table('practitioner_networks',
+    sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
+    sql_db.Column('network_id', sql_db.Integer, sql_db.ForeignKey('networks.id'), primary_key=True)
+)
+
 class EmailContent(sql_db.Model):
     """
     EmailContent Model
@@ -141,7 +146,8 @@ class Practitioner(sql_db.Model):
     genders = sql_db.relationship("Gender", secondary = practitioner_gender_table, back_populates = "practitioners")  
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
     locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
-    specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")  
+    specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")
+    networks = sql_db.relationship("OutOfNetwork", secondary = practitioner_network_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
 
     def __init__(self, **kwargs):
@@ -173,6 +179,7 @@ class Practitioner(sql_db.Model):
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
+            "networks" : [network.simple_serialize() for network in self.networks]
         }
         
 class Language(sql_db.Model):
@@ -237,6 +244,28 @@ class Specialization(sql_db.Model):
     def simple_serialize(self):
         """
         Simple serializes a specialization object
+        """
+        return {"id" : self.id, "name" : self.name}
+    
+    
+class OutOfNetwork(sql_db.Model):
+    """
+    Network Model
+    """
+    __tablename__ = "networks"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_network_table, back_populates = "networks")  
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a Network object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a network object
         """
         return {"id" : self.id, "name" : self.name}
 
