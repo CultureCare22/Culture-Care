@@ -163,6 +163,12 @@ h1 {
   font-size: 14pt;
 }
 
+.description {
+  font-size: 12pt;
+  font-weight: 300;
+}
+
+
 .consultation_details {
   background-color: #efefef;
   margin: 2px;

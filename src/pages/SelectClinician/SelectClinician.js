@@ -164,6 +164,10 @@ function Category() {
                                     <h3>Jasmine Ramirez</h3>
                                     <div className='clin-info'>
                                         <h4>LCSW, CFSW | NY, NJ</h4>
+                                        <div className='description'>
+                                            Hello, my name is Jasmine Ramirez, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        </div>
+
                                         <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Life Transition</div>
@@ -199,6 +203,9 @@ function Category() {
                                     <h3>Lilliana Tapia</h3>
                                     <div className='clin-info'>
                                         <h4>LMSW | NY</h4>
+                                        <div className='description'>
+                                            Hello, my name is Lilliana Tapia, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        </div>
                                         <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Anxiety</div>
@@ -232,6 +239,9 @@ function Category() {
                                     <h3>Sierra Silva</h3>
                                     <div className='clin-info'>
                                         <h4>LICSW, LCSW-C | MD</h4>
+                                        <div className='description'>
+                                            Hello, my name is Sierra Silva, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        </div>
                                         <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
                                             <div className="consultation_details">Grief</div>
