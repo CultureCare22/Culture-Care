@@ -2,7 +2,7 @@
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, OutOfNetwork, Location
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, Payment, Location
 
 from flask import Flask, request
 from sql_db import sql_db
@@ -180,7 +180,7 @@ def create_practitioner():
     languages = body.get("languages")
     genders = body.get("genders")
     locations = body.get("locations")
-    networks = body.get("networks")
+    payments = body.get("payments")
     
 
     if assert_none([name, email_address]):
@@ -279,18 +279,18 @@ def create_practitioner():
                 sql_db.session.add(location)
                 practitioner.locations.append(location)
                 
-    if networks:
-        for network in networks:
-            saved_network = OutOfNetwork.query.filter_by(name = network).first()
+    if payments:
+        for payment in payments:
+            saved_network = Payment.query.filter_by(name = payment).first()
             if saved_network:
-                practitioner.networks.append(saved_network)
+                practitioner.payments.append(saved_network)
                 
             else:
-                success, network = crud.create_out_of_network(network)
+                success, payment = crud.create_payment(payment)
                 if not success:
                     return failure_response("Failed to create network", 400)
-                sql_db.session.add(network)
-                practitioner.networks.append(network)
+                sql_db.session.add(payment)
+                practitioner.payments.append(payment)
         
     sql_db.session.commit()
     
@@ -520,29 +520,22 @@ def get_filtered_practitioners():
     genders = body.get("genders")
     locations = body.get("locations")
     
-    return strict_filter(languages=languages, specializations=specializations, gendrs=genders, locations=locations)   
+    return strict_filter(languages=languages, specializations=specializations, gendrs=genders, locations=locations)
 
 
-@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['GET'])             
-def match_practitioners(practitioner_id):
-    """Endpoint for matching practitioners
-    
-    Request body takes the form:
-    
-    {
-    "networks": ["Insurance", "OON"],
-    "locations": ["NY", "NJ"]
-    }
-    """
-    body = json.loads(request.data)
-    
-    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
-    if not success:
-        return failure_response("Practitioner does not exist")
+def check_soft_pass(specializations, practitioner):
+    specialization_matches = []
+    if specializations: 
+        practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
+        for specialization in practitioner_specializations:
+            if specialization in specializations:
+                specialization_matches.append(specialization)
+        if len(specialization_matches) == 0:
+            return False, practitioner
+    return True, practitioner  
 
-    locations = body.get("locations")
-    networks = body.get("networks")
-    
+
+def check_hard_pass(locations, networks, practitioner):
     
     location_matches = []
     network_matches = []
@@ -552,7 +545,7 @@ def match_practitioners(practitioner_id):
             if location in locations:
                 location_matches.append(location)
         if len(location_matches) == 0:
-            return failure_response("Practitioner does not match the location")
+            return False, "No location matches"
     
     if networks:
         practitioner_networks = [network.name for network in practitioner.networks]
@@ -560,10 +553,57 @@ def match_practitioners(practitioner_id):
             if network in networks:
                 network_matches.append(network)
         if len(network_matches) == 0:
-            return failure_response("Practitioner does not match the network")
+            return False, "Payment method not a match"
+        
+    return True, practitioner
+    
+    
+
+@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['GET'])             
+def match_practitioners(practitioner_id):
+    """Endpoint for matching practitioners
+    
+    Request body takes the form:
+    
+    {
+    "payment": ["Insurance", "OON"],
+    "locations": ["NY", "NJ"]
+    }
+    """
+    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    if not success:
+        return False, "Practitioner does not exist"
+    
+    body = json.loads(request.data)
+    locations = body.get("locations")
+    networks = body.get("networks")
+    
+    specializations = body.get("specializations")
+    
+    
+    success, practitioner = check_hard_pass(locations, networks, practitioner)
+    
                 
-    return success_response(practitioner.serialize())
-                
+    if not success :
+        matched_practitioners = []
+        practitioners = Practitioner.query.filter().all()
+        
+        for practitioner in practitioners:
+            success, practitioner = check_hard_pass(locations, networks, practitioner)
+            if success:
+                matched_practitioners.append(practitioner)
+        if len(matched_practitioners) != 0:
+            return success_response([[{"message":"Practitioner not found. Here are other options"}],[practitioner.serialize() for practitioner in matched_practitioners]])
+        return failure_response("Practitioner not a match")
+    
+    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner)   
+    
+    if soft_pass_success:
+        return success_response([practitioner.serialize()])
+    
+    if not soft_pass_success:
+        print(practitioner)
+        return success_response([[{"message": "soft_pass"}], [practitioner.serialize()]])
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")

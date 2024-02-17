@@ -1,7 +1,7 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, OutOfNetwork
+from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, Payment
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -199,13 +199,13 @@ def create_location(name):
     return True, location
 
 
-def create_out_of_network(name):
+def create_payment(name):
     """
     Creates and returns a network
     """
-    network = OutOfNetwork(name = name)
+    payment = Payment(name = name)
 
-    if not network:
+    if not payment:
         return False, None
     
-    return True, network
+    return True, payment
