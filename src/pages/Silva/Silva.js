@@ -19,16 +19,16 @@ function Silva() {
             <div className='form-end'>
                 
                 <div className='pay-method'>
-                    <h4>Payment Method</h4>
+                    {/* <h4>Payment Method</h4> */}
                     <div className="pay-type">
-                        <label className='radio-container'>
+                        {/* <label className='radio-container'>
                             <input type='radio' name='payment-method' />
                             <span className='radiomark'>Pay out of pocket</span>
                         </label>
                         <label className='radio-container'>
                             <input type='radio' name='payment-method' />
                             <span className='radiomark'>Insurance Reimbursement</span>
-                        </label>
+                        </label> */}
                     </div>
                 </div>
                 <div className='next-button'>

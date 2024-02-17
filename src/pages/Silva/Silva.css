@@ -72,4 +72,5 @@ h4{
 .form-end {
     display: flex;
     flex-direction: row;
+    margin-bottom: 3em;
 }
