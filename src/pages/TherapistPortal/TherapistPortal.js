@@ -10,7 +10,7 @@ function Category() {
 
     return (
         <>
-            <div>
+            <div className='therapist-portal-page'>
                 <h1>Therapist Portal</h1>
 
 
