@@ -532,13 +532,13 @@ def check_soft_pass(specializations, practitioner):
                 specialization_matches.append(specialization)
         if len(specialization_matches) == 0:
             return False, practitioner
-    return True, practitioner  
+    return True, practitioner
 
 
-def check_hard_pass(locations, networks, practitioner):
+def check_hard_pass(locations, payments, practitioner):
     
     location_matches = []
-    network_matches = []
+    payment_matches = []
     if locations:
         practitioner_locations = [location.name for location in practitioner.locations]
         for location in practitioner_locations:
@@ -547,12 +547,12 @@ def check_hard_pass(locations, networks, practitioner):
         if len(location_matches) == 0:
             return False, "No location matches"
     
-    if networks:
-        practitioner_networks = [network.name for network in practitioner.networks]
-        for network in practitioner_networks:
-            if network in networks:
-                network_matches.append(network)
-        if len(network_matches) == 0:
+    if payments:
+        practitioner_payments = [payment.name for payment in practitioner.payments]
+        for payment in practitioner_payments:
+            if payment in payments:
+                payment_matches.append(payment)
+        if len(payment_matches) == 0:
             return False, "Payment method not a match"
         
     return True, practitioner
@@ -566,7 +566,7 @@ def match_practitioners(practitioner_id):
     Request body takes the form:
     
     {
-    "payment": ["Insurance", "OON"],
+    "payments": ["Insurance", "OON"],
     "locations": ["NY", "NJ"]
     }
     """
@@ -576,12 +576,12 @@ def match_practitioners(practitioner_id):
     
     body = json.loads(request.data)
     locations = body.get("locations")
-    networks = body.get("networks")
+    payments = body.get("payments")
     
     specializations = body.get("specializations")
     
     
-    success, practitioner = check_hard_pass(locations, networks, practitioner)
+    success, practitioner = check_hard_pass(locations, payments, practitioner)
     
                 
     if not success :
@@ -589,7 +589,7 @@ def match_practitioners(practitioner_id):
         practitioners = Practitioner.query.filter().all()
         
         for practitioner in practitioners:
-            success, practitioner = check_hard_pass(locations, networks, practitioner)
+            success, practitioner = check_hard_pass(locations, payments, practitioner)
             if success:
                 matched_practitioners.append(practitioner)
         if len(matched_practitioners) != 0:
