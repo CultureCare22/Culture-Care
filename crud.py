@@ -230,15 +230,3 @@ def create_paymentmethod(name):
         return False, None
     
     return True, paymentmethod
-
-
-def get_payment_by_name(name):
-    """
-    Gets a payment method
-    """
-    paymentmethod = PaymentMethod.query.filter(PaymentMethod.name == name).first()
-
-    if not paymentmethod:
-        return False, None
-    
-    return True, paymentmethod
