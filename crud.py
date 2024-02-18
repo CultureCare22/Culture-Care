@@ -1,7 +1,7 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, Payment
+from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, PaymentMethod
 
 from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -220,15 +220,16 @@ def create_location(name):
     return True, location
 
 
-def create_payment(name):
+def create_paymentmethod(name):
     """
     Creates and returns a network
     """
-    payment = Payment(name = name)
+    paymentmethod = PaymentMethod(name = name)
 
-    if not payment:
+    if not paymentmethod:
         return False, None
     
+<<<<<<< HEAD
     return True, payment
 
 def get_payment(name):
@@ -241,3 +242,6 @@ def get_payment(name):
         return False, None
     
     return True, payment
+=======
+    return True, paymentmethod
+>>>>>>> d25cc0c5 (testing)

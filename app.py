@@ -2,7 +2,7 @@
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, Payment, Location
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, paymentmethod, Location
 
 from flask import Flask, request
 from sql_db import sql_db
@@ -231,23 +231,23 @@ def add_locations(id):
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
     
-@app.route("/practitioners/<int:id>/payments/add/", methods = ["POST"])
-def add_payments(id):
+@app.route("/practitioners/<int:id>/paymentmethods/add/", methods = ["POST"])
+def add_paymentmethods(id):
     body = json.loads(request.data)
-    payments = body.get("payments")
+    paymentmethods = body.get("paymentmethods")
     exists, practitioner = crud.get_practitioner_by_id(id)
     if not exists:
         return failure_response("Practitioner does not exists")
     for name in payments:
-        exists, payment = crud.get_payment(name)
+        exists, payment = crud.get_payment_by_name(name)
         created = False
         if not exists:
-            created, payment = crud.create_payment(name)
+            created, paymentmethod = crud.create_paymentmethod(name)
             if created:
-                sql_db.session.add(payment)
-                practitioner.payments.append(payment)
-        elif payment not in set(practitioner.payments):
-            practitioner.payments.append(payment)
+                sql_db.session.add(paymentmethod)
+                practitioner.paymentmethods.append(paymentmethod)
+        elif paymentmethod not in set(practitioner.paymentmethods):
+            practitioner.paymentmethods.append(paymentmethod)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
@@ -386,7 +386,6 @@ def strict_filter(**kwargs):
     specializations = kwargs.get("specializations")
     genders= kwargs.get("genders")
     locations = kwargs.get("locations")
-    outOfNetwork = kwargs.get("outOfNetwork")
     
     if languages:
         for language in languages:
@@ -427,16 +426,7 @@ def strict_filter(**kwargs):
                         filtered_practitioners.remove(practitioner)
                     except:
                         pass
-    
-    if outOfNetwork:
-        for network in outOfNetwork:
-            for practitioner in all_practitioners:
-                practitioner_networks = [network.name for network in practitioner.outOfNetwork]
-                if network not in practitioner_networks:
-                    try:
-                        filtered_practitioners.remove(practitioner)
-                    except:
-                        pass
+ 
     
     return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
                         
@@ -540,10 +530,10 @@ def check_soft_pass(specializations, practitioner):
     return True, practitioner
 
 
-def check_hard_pass(locations, payments, practitioner):
+def check_hard_pass(locations, paymentmethods, practitioner):
     
     location_matches = []
-    payment_matches = []
+    paymentmethod_matches = []
     if locations:
         practitioner_locations = [location.name for location in practitioner.locations]
         for location in practitioner_locations:
@@ -552,13 +542,13 @@ def check_hard_pass(locations, payments, practitioner):
         if len(location_matches) == 0:
             return False, "No location matches"
     
-    if payments:
-        practitioner_payments = [payment.name for payment in practitioner.payments]
-        for payment in practitioner_payments:
-            if payment in payments:
-                payment_matches.append(payment)
-        if len(payment_matches) == 0:
-            return False, "Payment method not a match"
+    if paymentmethods:
+        practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
+        for paymentmethod in practitioner_paymentmethods:
+            if paymentmethod in paymentmethods:
+                paymentmethod_matches.append(paymentmethod)
+        if len(paymentmethod_matches) == 0:
+            return False, "paymentmethod method not a match"
         
     return True, practitioner
     
@@ -571,7 +561,7 @@ def match_practitioners(practitioner_id):
     Request body takes the form:
     
     {
-    "payments": ["Insurance", "OON"],
+    "paymentmethods": ["Insurance", "OON"],
     "locations": ["NY", "NJ"]
     }
     """
@@ -581,12 +571,12 @@ def match_practitioners(practitioner_id):
     
     body = json.loads(request.data)
     locations = body.get("locations")
-    payments = body.get("payments")
+    paymentmethods = body.get("paymentmethods")
     
     specializations = body.get("specializations")
     
     
-    success, practitioner = check_hard_pass(locations, payments, practitioner)
+    success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
     
                 
     if not success :
@@ -594,7 +584,7 @@ def match_practitioners(practitioner_id):
         practitioners = Practitioner.query.filter().all()
         
         for practitioner in practitioners:
-            success, practitioner = check_hard_pass(locations, payments, practitioner)
+            success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
             if success:
                 matched_practitioners.append(practitioner)
         if len(matched_practitioners) != 0:
