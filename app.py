@@ -2,7 +2,7 @@
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, paymentmethod, Location
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
 
 from flask import Flask, request
 from sql_db import sql_db
@@ -28,7 +28,6 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    # sql_db.drop_all()
     sql_db.create_all()
 
 
