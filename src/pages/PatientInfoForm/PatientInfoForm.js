@@ -125,7 +125,7 @@ function Form() {
             </div>
         </div>
         <a href="/clinician-s-silva">
-            <button className='return-button'>Request Appointment</button> 
+            <button className='return-button'>Schedule Appointment</button> 
         </a>
         </>
     )
