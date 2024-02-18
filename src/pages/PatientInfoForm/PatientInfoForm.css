@@ -5,6 +5,7 @@
     margin-top: 1em;
 }
 .container-outer {
+    flex: 3;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -34,7 +35,20 @@
     background-color: #f8f8f8;
     padding: 1em;
     padding-left: 2em;
-    padding-right: 20em;
+    padding-right: 10em;
+    border-radius: 25px;
+    box-shadow: 2px 2px 2px lightgrey;
+}
+
+.input-field-date input {
+    margin-right: auto;
+    margin-left: 1.5em;
+    margin-top: 0.25em;
+    border: none;
+    background-color: #f8f8f8;
+    padding: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
     border-radius: 25px;
     box-shadow: 2px 2px 2px lightgrey;
 }
@@ -66,4 +80,9 @@
 .forms {
     display: flex;
     flex-direction: row;
+}
+
+.right-forms {
+    flex: 2;
+    margin-left: 2em;
 }

@@ -65,9 +65,9 @@ function Form() {
                         </div>
                     </div>
                     <div className='flex-row'>
-                        <div className='input-field'>
+                        <div className='input-field-date'>
                             <div className='sub-heading'> Date of Birth </div>
-                            <input type="text" placeholder="MM-DD-YYYY" />
+                            <input type="date" placeholder="MM-DD-YYYY" />
                         </div>
 
                         <div className='input-field'>
