@@ -96,10 +96,8 @@ def create_practitioner(name, email_address):
     Creates and returns a practitioner
     """
     practitioner = Practitioner(name = name, email_address = email_address)
-
     if not practitioner:
         return False, None
-    
     return True, practitioner
 
 
@@ -107,6 +105,7 @@ def create_patient(name, email_address):
     """
     Creates and returns a patient
     """
+    patient = None
     try:
         patient = Patient(name = name, email_address = email_address)
     except:
@@ -141,7 +140,7 @@ def create_language(name):
     return True, language
 
 
-def get_specialization(id):
+def get_specialization_by_id(id):
     """
     Gets a specialization
     """
@@ -150,9 +149,20 @@ def get_specialization(id):
     if not specialization:
         return False, None
     
-    return True
+    return True, specialization
 
-def get_language(id):
+def get_specialization_by_name(name):
+    """
+    Gets a specialization
+    """
+    specialization = Specialization.query.filter(Specialization.name == name).first()
+
+    if not specialization:
+        return False, None
+    
+    return True, specialization
+
+def get_language_by_id(id):
     """
     Gets a language
     """
@@ -161,7 +171,18 @@ def get_language(id):
     if not language:
         return False, None
     
-    return True
+    return True, language
+
+def get_language_by_name(name):
+    """
+    Gets a language
+    """
+    language = Language.query.filter(Language.name == name).first()
+
+    if not language:
+        return False, None
+    
+    return True, language
 
 def create_gender(name):
     """
@@ -184,7 +205,7 @@ def get_gender(id):
     if not gender:
         return False, None
     
-    return True
+    return True, gender
 
 
 def create_location(name):

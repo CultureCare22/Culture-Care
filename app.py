@@ -28,9 +28,16 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    # sql_db.drop_all()
+    sql_db.drop_all()
     sql_db.create_all()
 
+
+def session_commited(db):
+    try:
+        db.session.commit()
+    except:
+        return False
+    return True
 
 def assert_none(data):
     """
@@ -159,6 +166,53 @@ def create_patient():
     
     return success_response(patient.serialize(), 201)
 
+@app.route("/practitioners/<int:id>/specializations/add/", methods = ["POST"])
+def add_specializations(id):
+    body = json.loads(request.data)
+    specializations = body.get("specializations")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return failure_response("Practitioner does not exists")
+    for name in specializations:
+        exists, specialization = crud.get_specialization_by_name(name)
+        created = False
+        if not exists:
+            created, specialization = crud.create_specialization(name)
+            if created:
+                print("here\n\n\n")
+                sql_db.session.add(specialization)
+                practitioner.specializations.append(specialization)
+        else:
+            sql_db.session.add(specialization)
+            practitioner.specializations.append(specialization)
+    sql_db.session.commit()
+    return success_response({"practitioner" : practitioner.serialize()}, 201)
+
+@app.route("/practitioners/<int:id>/languages/add/", methods = ["POST"])
+def add_languages(id):
+    body = json.loads(request.data)
+    languages = body.get("languages")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return failure_response("Practitioner does not exists")
+    for name in languages:
+        exists, language = crud.get_language_by_name(name)
+        created = False
+        if not exists:
+            created, language = crud.create_language(name)
+            if created:
+                sql_db.session.add(language)
+                practitioner.languages.append(language)
+        else:
+            sql_db.session.add(language)
+            practitioner.languages.append(language)
+
+    if session_commited: 
+        return success_response({"practitioner" : practitioner.serialize()}, 201)
+    else:
+        return failure_response("Cannot commit session")
+
+
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -176,7 +230,6 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
-    specializations= body.get("specializations")
     languages = body.get("languages")
     genders = body.get("genders")
     locations = body.get("locations")
@@ -190,68 +243,7 @@ def create_practitioner():
 
     if not created:
         return failure_response("Failed to create email", 400)
-    
-    # for i in range(len(specializations)):
-    #     specialization = specializations[i]
-    #     name = specialization.name
-    #     specialization = crud.create_specialization(name)
-    #     specializations[i] = specialization
-
-    # crud.append_objects(specializations, practitioner.specializations)
-
-    # for i in range(len(locations)):
-    #     location = locations[i]
-    #     name = location.name
-    #     location = crud.create_location(name)
-    #     locations[i] = location
-        
-    # crud.append_objects(locations, practitioner.locations)
-
-    # for i in range(len(languages)):
-    #     language = languages[i]
-    #     name = language.name
-    #     language = crud.create_language(name)
-    #     languages[i] = language
-        
-    # crud.append_objects(languages, practitioner.languages)
-
-    # for i in range(len(genders)):
-    #     name = genders[i]
-    #     exists,gender = crud.get_gender_by_name(name)
-    #     if not exists:
-    #         _, gender = crud.create_gender(name)
-    #     genders[i] = gender
-
-    # crud.append_objects(genders, practitioner.genders)
-
     sql_db.session.add(practitioner)
-    
-    if specializations:
-        for specialization in  specializations:
-            saved_specialization = Specialization.query.filter_by(name = specialization).first()
-            if saved_specialization:
-                practitioner.specializations.append(saved_specialization)
-                
-            else:
-                success, specialization = crud.create_specialization(specialization)
-                if not success:
-                    return failure_response("Failed to create specialization", 400)
-                sql_db.session.add(specialization)
-                practitioner.specializations.append(specialization)
-    
-    if languages:       
-        for language in languages:
-            saved_language = Language.query.filter_by(name = language).first()
-            if saved_language:
-                practitioner.languages.append(saved_language)
-                
-            else:
-                success, language = crud.create_language(language)
-                if not success:
-                    return failure_response("Failed to create language", 400)
-                sql_db.session.add(language)
-                practitioner.languages.append(language)
-            
     
     if genders:
         for gender in genders:
@@ -291,10 +283,12 @@ def create_practitioner():
                     return failure_response("Failed to create network", 400)
                 sql_db.session.add(payment)
                 practitioner.payments.append(payment)
-        
-    sql_db.session.commit()
+
+    if session_commited(sql_db): 
+        return success_response(practitioner.serialize(), 201) 
+    else: 
+        return failure_response("Cannot commit session")
     
-    return success_response(practitioner.serialize(), 201)
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
 @cross_origin(supports_credentials=True)
