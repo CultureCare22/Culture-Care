@@ -173,13 +173,13 @@ def add_specializations(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
     if not exists:
         return failure_response("Practitioner does not exists")
+    print("here\n\n\n")
     for name in specializations:
         exists, specialization = crud.get_specialization_by_name(name)
         created = False
         if not exists:
             created, specialization = crud.create_specialization(name)
             if created:
-                print("here\n\n\n")
                 sql_db.session.add(specialization)
                 practitioner.specializations.append(specialization)
         else:
@@ -287,7 +287,6 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
-    languages = body.get("languages")
     genders = body.get("genders")
     locations = body.get("locations")
     payments = body.get("payments")
