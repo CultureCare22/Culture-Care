@@ -28,7 +28,7 @@ CORS(app, support_credentials=True)
 
 sql_db.init_app(app)
 with app.app_context():
-    sql_db.drop_all()
+    # sql_db.drop_all()
     sql_db.create_all()
 
 
@@ -183,7 +183,6 @@ def add_specializations(id):
                 sql_db.session.add(specialization)
                 practitioner.specializations.append(specialization)
         else:
-            sql_db.session.add(specialization)
             practitioner.specializations.append(specialization)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
@@ -204,14 +203,72 @@ def add_languages(id):
                 sql_db.session.add(language)
                 practitioner.languages.append(language)
         else:
-            sql_db.session.add(language)
             practitioner.languages.append(language)
 
-    if session_commited: 
-        return success_response({"practitioner" : practitioner.serialize()}, 201)
-    else:
-        return failure_response("Cannot commit session")
+    sql_db.session.commit()
+    return success_response({"practitioner" : practitioner.serialize()}, 201)
 
+@app.route("/practitioners/<int:id>/locations/add/", methods=["POST"])
+def add_locations(id):
+    body = json.loads(request.data)
+    locations = body.get("locations")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return failure_response("Practitioner does not exists")
+    for name in locations:
+        exists, location = crud.get_location_by_name(name)
+        created = False
+        if not exists:
+            created, location = crud.create_location(name)
+            if created:
+                sql_db.session.add(location)
+                practitioner.locations.append(location)
+        else:
+            practitioner.locations.append(location)
+    sql_db.session.commit()
+    return success_response({"practitioner" : practitioner.serialize()}, 201)
+    
+@app.route("/practitiners/<int:id>/payments/add/", methods=["POST"])
+def add_payment(id):
+    body = json.loads(request.data)
+    payments = body.get("payments")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return failure_response("Practitioner does not exists")
+    for name in payments:
+        exists, payment = crud.get_payment_by_name(name)
+        created = False
+        if not exists:
+            created, payment = crud.create_payment(name)
+            if created:
+                sql_db.session.add(payment)
+                practitioner.payments.append(payment)
+        else:
+            practitioner.payments.append(payment)
+    sql_db.session.commit()
+    return success_response({"practitioner" : practitioner.serialize()}, 201)
+
+
+@app.route("/practitioners/<int:id>/genders/add/", methods = ["POST"])
+def add_genders(id):
+    body = json.loads(request.data)
+    payments = body.get("payments")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return failure_response("Practitioner does not exists")
+    for name in payments:
+        exists, payment = crud.get_payment_by_name(name)
+        created = False
+        if not exists:
+            created, payment = crud.create_payment(name)
+            if created:
+                sql_db.session.add(payment)
+                practitioner.payments.append(payment)
+        else:
+            practitioner.payments.append(payment)
+    sql_db.session.commit()
+    return success_response({"practitioner" : practitioner.serialize()}, 201)
+    
 
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
