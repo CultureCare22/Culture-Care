@@ -230,3 +230,14 @@ def create_payment(name):
         return False, None
     
     return True, payment
+
+def get_payment(name):
+    """
+    Gets a payment
+    """
+    payment = Payment.query.filter(Payment.name == name).first()
+
+    if not payment:
+        return False, None
+    
+    return True, payment

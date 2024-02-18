@@ -112,25 +112,6 @@ class Patient(sql_db.Model):
             "name" : self.name,
             "email_address" : self.email_address
         }
-
-class Gender(sql_db.Model):
-    """
-    Gender Model
-    """
-    __tablename__ = "genders"
-    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
-    name = sql_db.Column(sql_db.String, nullable = False)
-    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_gender_table, back_populates = "genders")  
-
-
-    def __init__(self, **kwargs):
-        """
-        Initializes a Gender object
-        """
-        self.name = kwargs.get("name")
-
-    def simple_serialize(self):
-        return {"id" : self.id, "name" : self.name}
     
 
 class Practitioner(sql_db.Model):
@@ -181,6 +162,27 @@ class Practitioner(sql_db.Model):
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
             "payments" : [payment.simple_serialize() for payment in self.payments]
         }
+
+
+class Gender(sql_db.Model):
+    """
+    Gender Model
+    """
+    __tablename__ = "genders"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_gender_table, back_populates = "genders")  
+
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a Gender object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        return {"id" : self.id, "name" : self.name}
+    
         
 class Language(sql_db.Model):
     """

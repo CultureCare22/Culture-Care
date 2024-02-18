@@ -168,6 +168,7 @@ def create_patient():
 
 @app.route("/practitioners/<int:id>/specializations/add/", methods = ["POST"])
 def add_specializations(id):
+    print("addddddfdfdfdf.........")
     body = json.loads(request.data)
     specializations = body.get("specializations")
     exists, practitioner = crud.get_practitioner_by_id(id)
@@ -179,12 +180,17 @@ def add_specializations(id):
         if not exists:
             created, specialization = crud.create_specialization(name)
             if created:
-                print("here\n\n\n")
+                
                 sql_db.session.add(specialization)
                 practitioner.specializations.append(specialization)
         else:
+            print("doing this instead ............")
             practitioner.specializations.append(specialization)
+    print("here\n\n\n")
+    print([specialization.name for specialization in practitioner.specializations])
+    print("here\n\n\n")
     sql_db.session.commit()
+    print([specialization.name for specialization in practitioner.specializations])
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
 @app.route("/practitioners/<int:id>/languages/add/", methods = ["POST"])
@@ -228,7 +234,7 @@ def add_locations(id):
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
     
-@app.route("/practitiners/<int:id>/payments/add/", methods=["POST"])
+@app.route("/practitioners/<int:id>/payments/add/", methods=["POST"])
 def add_payment(id):
     body = json.loads(request.data)
     payments = body.get("payments")
@@ -236,7 +242,7 @@ def add_payment(id):
     if not exists:
         return failure_response("Practitioner does not exists")
     for name in payments:
-        exists, payment = crud.get_payment_by_name(name)
+        exists, payment = crud.get_payment(name)
         created = False
         if not exists:
             created, payment = crud.create_payment(name)
@@ -252,20 +258,20 @@ def add_payment(id):
 @app.route("/practitioners/<int:id>/genders/add/", methods = ["POST"])
 def add_genders(id):
     body = json.loads(request.data)
-    payments = body.get("payments")
+    genders = body.get("genders")
     exists, practitioner = crud.get_practitioner_by_id(id)
     if not exists:
         return failure_response("Practitioner does not exists")
-    for name in payments:
-        exists, payment = crud.get_payment_by_name(name)
+    for name in genders:
+        exists, gender = crud.create_gender(name)
         created = False
         if not exists:
-            created, payment = crud.create_payment(name)
+            created, gender = crud.create_gender(name)
             if created:
-                sql_db.session.add(payment)
-                practitioner.payments.append(payment)
+                sql_db.session.add(gender)
+                practitioner.genders.append(gender)
         else:
-            practitioner.payments.append(payment)
+            practitioner.genders.append(gender)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
     
