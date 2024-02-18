@@ -224,9 +224,9 @@ def create_paymentmethod(name):
     """
     Creates and returns a network
     """
-    payment = Payment(name = name)
+    paymentmethod = PaymentMethod(name = name)
 
     if not paymentmethod:
         return False, None
     
-    return True, payment
+    return True, paymentmethod
