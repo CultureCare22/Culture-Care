@@ -2,12 +2,14 @@
     font-size: 30px;
     margin: 10px;
     font-weight: 900;
+    margin-top: 1em;
 }
 .container-outer {
     display: flex;
     flex-direction: column;
     padding: 20px;
     gap: 20px;
+    background-color: #E5F5FD;
 }
 
 .flex-row {
@@ -57,3 +59,11 @@
     box-shadow: 2px 2px 2px lightgrey;
 }
 
+.contact-info-container {
+    background-color: white;
+}
+
+.forms {
+    display: flex;
+    flex-direction: row;
+}
