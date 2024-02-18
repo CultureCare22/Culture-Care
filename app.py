@@ -180,11 +180,9 @@ def add_specializations(id):
         if not exists:
             created, specialization = crud.create_specialization(name)
             if created:
-                
                 sql_db.session.add(specialization)
                 practitioner.specializations.append(specialization)
-        else:
-            print("doing this instead ............")
+        elif specialization not in set(practitioner.specializations):
             practitioner.specializations.append(specialization)
     print("here\n\n\n")
     print([specialization.name for specialization in practitioner.specializations])
@@ -208,13 +206,12 @@ def add_languages(id):
             if created:
                 sql_db.session.add(language)
                 practitioner.languages.append(language)
-        else:
+        elif language not in set(practitioner.languages):
             practitioner.languages.append(language)
-
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
-@app.route("/practitioners/<int:id>/locations/add/", methods=["POST"])
+@app.route("/practitioners/<int:id>/locations/add/", methods = ["POST"])
 def add_locations(id):
     body = json.loads(request.data)
     locations = body.get("locations")
@@ -229,13 +226,13 @@ def add_locations(id):
             if created:
                 sql_db.session.add(location)
                 practitioner.locations.append(location)
-        else:
+        elif location not in set(practitioner.locations):
             practitioner.locations.append(location)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
     
-@app.route("/practitioners/<int:id>/payments/add/", methods=["POST"])
-def add_payment(id):
+@app.route("/practitioners/<int:id>/payments/add/", methods = ["POST"])
+def add_payments(id):
     body = json.loads(request.data)
     payments = body.get("payments")
     exists, practitioner = crud.get_practitioner_by_id(id)
@@ -249,11 +246,10 @@ def add_payment(id):
             if created:
                 sql_db.session.add(payment)
                 practitioner.payments.append(payment)
-        else:
+        elif payment not in set(practitioner.payments):
             practitioner.payments.append(payment)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
-
 
 @app.route("/practitioners/<int:id>/genders/add/", methods = ["POST"])
 def add_genders(id):
@@ -263,18 +259,17 @@ def add_genders(id):
     if not exists:
         return failure_response("Practitioner does not exists")
     for name in genders:
-        exists, gender = crud.create_gender(name)
+        exists, gender = crud.get_gender_by_name(name)
         created = False
         if not exists:
             created, gender = crud.create_gender(name)
             if created:
                 sql_db.session.add(gender)
                 practitioner.genders.append(gender)
-        else:
+        elif gender not in set(practitioner.genders):
             practitioner.genders.append(gender)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
-    
 
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
@@ -293,11 +288,6 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
-    languages = body.get("languages")
-    genders = body.get("genders")
-    locations = body.get("locations")
-    payments = body.get("payments")
-    
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
@@ -308,58 +298,16 @@ def create_practitioner():
         return failure_response("Failed to create email", 400)
     sql_db.session.add(practitioner)
     
-    if genders:
-        for gender in genders:
-            saved_gender = Gender.query.filter_by(name = gender).first()
-            if saved_gender:
-                practitioner.genders.append(saved_gender)
-                
-            else:
-                success, gender = crud.create_gender(gender)
-                if not success:
-                    return failure_response("Failed to create gender", 400)
-                sql_db.session.add(gender)
-                practitioner.genders.append(gender)
-    
-    if locations:
-        for location in locations:
-            saved_location = Location.query.filter_by(name = location).first()
-            if saved_location:
-                practitioner.locations.append(saved_location)
-                
-            else:
-                success, location = crud.create_location(location)
-                if not success:
-                    return failure_response("Failed to create location", 400)
-                sql_db.session.add(location)
-                practitioner.locations.append(location)
-                
-    if payments:
-        for payment in payments:
-            saved_network = Payment.query.filter_by(name = payment).first()
-            if saved_network:
-                practitioner.payments.append(saved_network)
-                
-            else:
-                success, payment = crud.create_payment(payment)
-                if not success:
-                    return failure_response("Failed to create network", 400)
-                sql_db.session.add(payment)
-                practitioner.payments.append(payment)
-
     if session_commited(sql_db): 
         return success_response(practitioner.serialize(), 201) 
     else: 
         return failure_response("Cannot commit session")
-    
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
 @cross_origin(supports_credentials=True)
 def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
-
     return success_response(practitioner.serialize(), 201)
-
 
 @app.route("/forms/intake/", methods = ["POST"])
 def create_intake_form():
