@@ -224,24 +224,9 @@ def create_paymentmethod(name):
     """
     Creates and returns a network
     """
-    paymentmethod = PaymentMethod(name = name)
+    payment = Payment(name = name)
 
     if not paymentmethod:
         return False, None
     
-<<<<<<< HEAD
     return True, payment
-
-def get_payment(name):
-    """
-    Gets a payment
-    """
-    payment = Payment.query.filter(Payment.name == name).first()
-
-    if not payment:
-        return False, None
-    
-    return True, payment
-=======
-    return True, paymentmethod
->>>>>>> d25cc0c5 (testing)

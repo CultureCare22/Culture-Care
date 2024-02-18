@@ -238,8 +238,8 @@ def add_paymentmethods(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
     if not exists:
         return failure_response("Practitioner does not exists")
-    for name in payments:
-        exists, payment = crud.get_payment_by_name(name)
+    for name in paymentmethods:
+        exists, paymentmethod = crud.get_paymentmethod_by_name(name)
         created = False
         if not exists:
             created, paymentmethod = crud.create_paymentmethod(name)
