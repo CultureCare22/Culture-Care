@@ -173,9 +173,11 @@ function Form() {
                 </div>
             </div>
         </div>
+        <div className='schedule-button'>
         <a href="/clinician-s-silva">
             <button className='return-button'>Schedule Appointment</button> 
         </a>
+        </div>
         </>
     )
 }
