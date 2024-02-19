@@ -540,8 +540,6 @@ def match_practitioners(practitioner_id):
     paymentmethods = body.get("paymentmethods")
     specializations = body.get("specializations")
 
-    if not locations or not paymentmethods: return failure_response("Invalid inputs")
-
     success, practitioner = crud.get_practitioner_by_id(practitioner_id)
     if not success:
         return failure_response("Practitioner does not exists")
