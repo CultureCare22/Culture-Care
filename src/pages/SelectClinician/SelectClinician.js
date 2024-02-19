@@ -165,7 +165,12 @@ function Category() {
                                     <div className='clin-info'>
                                         <h4>LCSW, CFSW | NY, NJ</h4>
                                         <div className='description'>
-                                            Hello, my name is Jasmine Ramirez, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        As a dedicated Latina Social Worker with a Certification in Financial 
+                                        Social Work, I focus on helping individuals navigate money-related 
+                                        emotions, alleviate financial anxieties, and embrace achievements 
+                                        without guilt or imposter syndrome, addressing concerns ranging from 
+                                        partner discussions to the fear of financial mistakes and business-related 
+                                        worries.
                                         </div>
 
                                         <div className="clinician_2">Specializes in:</div>
@@ -204,7 +209,12 @@ function Category() {
                                     <div className='clin-info'>
                                         <h4>LMSW | NY</h4>
                                         <div className='description'>
-                                            Hello, my name is Lilliana Tapia, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        I'm Lilliana, a bilingual Latina therapist with over 10 years of experience, 
+                                        specializing in anxiety, depression, trauma, personality disorders, and 
+                                        psychotic disorders. I create a safe and culturally-sensitive space, 
+                                        utilizing evidence-based techniques like Dialectical Behavioral Therapy 
+                                        and Cognitive Behavioral Therapy to help you feel your best, providing 
+                                        personalized support for young adults and BIPOC/LGBTQIA individuals.
                                         </div>
                                         <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">
@@ -240,7 +250,12 @@ function Category() {
                                     <div className='clin-info'>
                                         <h4>LICSW, LCSW-C | MD</h4>
                                         <div className='description'>
-                                            Hello, my name is Sierra Silva, I am a professional practitioner asjdf;oaid aposihfopb aposdivoaiopsd aosdihgpow pioasd.
+                                        My passion lies in providing compassionate support to individuals 
+                                        in Maryland or DC who identify as Black, Indigenous, or Person of 
+                                        Color (BIPOC). I have over 11 years of experience working with 
+                                        individuals experiencing grief, trauma, depression, anxiety, and 
+                                        other life transitions. Know that as your therapist, I'm joining 
+                                        you on your journey and I'll be right by your side!
                                         </div>
                                         <div className="clinician_2">Specializes in:</div>
                                         <div className="consultation">

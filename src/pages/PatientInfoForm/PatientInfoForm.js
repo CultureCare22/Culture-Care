@@ -110,8 +110,8 @@ function Form() {
                         <p>This practice is out-of-network (OON). </p>
                         <p>Many individuals have health insurance plans that will reimburse a portion 
                             of your costs for OON treatments. You can obtain more information on your 
-                            specific coverage and deductible information by filling out  
-                            <a href='https://www.honesthourtherapy.com/'> this questionaire</a>
+                            specific coverage and deductible information by filling out   
+                            <a href='https://practitioner.reimbursify.com/verifast?ec=1D7G2G2F9C' target="_blank"> this questionaire</a>
                         </p>
                         <form className='select-fop'>
                             <h3>Form of Payment</h3>
