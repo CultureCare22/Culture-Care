@@ -167,7 +167,6 @@ def create_patient():
 
 @app.route("/practitioners/<int:id>/specializations/add/", methods = ["POST"])
 def add_specializations(id):
-    print("addddddfdfdfdf.........")
     body = json.loads(request.data)
     specializations = body.get("specializations")
     exists, practitioner = crud.get_practitioner_by_id(id)
@@ -183,12 +182,9 @@ def add_specializations(id):
                 practitioner.specializations.append(specialization)
         elif specialization not in set(practitioner.specializations):
             practitioner.specializations.append(specialization)
-    print("here\n\n\n")
-    print([specialization.name for specialization in practitioner.specializations])
-    print("here\n\n\n")
-    sql_db.session.commit()
-    print([specialization.name for specialization in practitioner.specializations])
-    return success_response({"practitioner" : practitioner.serialize()}, 201)
+
+    if session_commited(sql_db): return success_response({"practitioner" : practitioner.serialize()}, 201) 
+    else: return failure_response("Cannot commit")
 
 @app.route("/practitioners/<int:id>/languages/add/", methods = ["POST"])
 def add_languages(id):
@@ -274,15 +270,6 @@ def add_genders(id):
 def create_practitioner():
     """
     Endpoint to create practitioner
-    
-    Takes request body of the form:
-    {
-        "name": "Dr. Ambrose",
-        "email_address": "ambrose@gmail.com",
-        "languages": ["French"],
-        "specializations": ["Anxiety"],
-        "genders": ["Male", "Non-binary"]
-    }
     """
     body = json.loads(request.data)
     name = body.get("name")
@@ -379,6 +366,7 @@ def get_practitioners():
 
 
 def strict_filter(**kwargs):
+    #TODO: need to look at the logic
     all_practitioners = Practitioner.query.filter().all()
     filtered_practitioners = all_practitioners[:]
     languages = kwargs.get("languages")
@@ -427,13 +415,12 @@ def strict_filter(**kwargs):
                         pass
  
     
-    return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
+    return success_response({"practitioners": [practitioner.serialize() for practitioner in filtered_practitioners]})
                         
 
 def flexible_filter(languages, specializations, genders, locations):
+    #TODO: need to look at the logic
     filtered_practitioners_arrays = []
-    
-    
     if languages:
         
         for language in languages:
@@ -495,18 +482,8 @@ def flexible_filter(languages, specializations, genders, locations):
 
 @app.route('/practitioners/get/filter/', methods=['POST'])
 def get_filtered_practitioners():
-    """Endpoint for filtering practitioners
-    
-    Request body takes the form:
-    
-    {
-        "languages": ["English", "French"],
-        "specializations": ["Life Transition"],
-        "genders": ["Male"]
-    }
-
-    Returns:
-        json: all practitioners that strictly match all the filters
+    """
+    Endpoint for filtering practitioners
     """
     body = json.loads(request.data)
     languages = body.get("languages")
@@ -518,6 +495,7 @@ def get_filtered_practitioners():
 
 
 def check_soft_pass(specializations, practitioner):
+    #TODO: need to look at the logic
     specialization_matches = []
     if specializations: 
         practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
@@ -530,65 +508,57 @@ def check_soft_pass(specializations, practitioner):
 
 
 def check_hard_pass(locations, paymentmethods, practitioner):
-    
+    #TODO: need to look at the logic
     location_matches = []
     paymentmethod_matches = []
-    if locations:
-        practitioner_locations = [location.name for location in practitioner.locations]
-        for location in practitioner_locations:
-            if location in locations:
-                location_matches.append(location)
-        if len(location_matches) == 0:
-            return False, "No location matches"
+
+    practitioner_locations = [location.name for location in practitioner.locations]
+    for location in practitioner_locations:
+        if location in locations:
+            location_matches.append(location)
+    if len(location_matches) == 0:
+        return False, "No location matches"
     
-    if paymentmethods:
-        practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
-        for paymentmethod in practitioner_paymentmethods:
-            if paymentmethod in paymentmethods:
-                paymentmethod_matches.append(paymentmethod)
-        if len(paymentmethod_matches) == 0:
-            return False, "paymentmethod method not a match"
+    practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
+    for paymentmethod in practitioner_paymentmethods:
+        if paymentmethod in paymentmethods:
+            paymentmethod_matches.append(paymentmethod)
+    if len(paymentmethod_matches) == 0:
+        return False, "paymentmethod method not a match"
         
     return True, practitioner
-    
-    
 
 @app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['GET'])             
 def match_practitioners(practitioner_id):
-    """Endpoint for matching practitioners
-    
-    Request body takes the form:
-    
-    {
-    "paymentmethods": ["Insurance", "OON"],
-    "locations": ["NY", "NJ"]
-    }
+    #TODO: need to look at the logic
     """
-    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
-    if not success:
-        return False, "Practitioner does not exist"
-    
+    Endpoint for matching practitioners
+    """
     body = json.loads(request.data)
     locations = body.get("locations")
     paymentmethods = body.get("paymentmethods")
-    
     specializations = body.get("specializations")
-    
+
+    if not locations or not paymentmethods: return failure_response("Invalid inputs")
+
+    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    if not success:
+        return failure_response("Practitioner does not exists")
     
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
     
                 
-    if not success :
-        matched_practitioners = []
-        practitioners = Practitioner.query.filter().all()
+    # if not success :
+    #     matched_practitioners = []
+    #     practitioners = Practitioner.query.filter().all()
         
-        for practitioner in practitioners:
-            success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-            if success:
-                matched_practitioners.append(practitioner)
-        if len(matched_practitioners) != 0:
-            return success_response([[{"message":"Practitioner not found. Here are other options"}],[practitioner.serialize() for practitioner in matched_practitioners]])
-        return failure_response("Practitioner not a match")
+    #     for practitioner in practitioners:
+    #         success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
+    #         if success:
+    #             matched_practitioners.append(practitioner)
+    #     if len(matched_practitioners) != 0:
+    #         return success_response([[{"message":"Practitioner not found. Here are other options"}],[practitioner.serialize() for practitioner in matched_practitioners]])
+    #     return failure_response("Practitioner not a match")
     
     soft_pass_success, practitioner = check_soft_pass(specializations, practitioner)   
     
@@ -596,7 +566,6 @@ def match_practitioners(practitioner_id):
         return success_response([practitioner.serialize()])
     
     if not soft_pass_success:
-        print(practitioner)
         return success_response([[{"message": "soft_pass"}], [practitioner.serialize()]])
 
 if __name__ == "__main__":
