@@ -196,7 +196,7 @@ def create_gender(name):
     return True, gender
 
 
-def get_gender(id):
+def get_gender_by_id(id):
     """
     Gets a specialization
     """
@@ -243,6 +243,18 @@ def create_paymentmethod(name):
     return True, paymentmethod
 
 
+def get_paymentmethod_by_name(name):
+    """
+    Gets a specialization
+    """
+    paymentmethod = PaymentMethod.query.filter(PaymentMethod.name == name).first()
+
+    if not paymentmethod:
+        return False, None
+    
+    return True, paymentmethod
+
+
 def get_location_by_name(name):
     """
     Gets a location
@@ -253,15 +265,3 @@ def get_location_by_name(name):
         return False, None
     
     return True, location
-
-
-def get_paymentmethod_by_name(name):
-    """
-    Gets a network
-    """
-    paymentmethod = PaymentMethod.query.filter(PaymentMethod.name == name).first()
-
-    if not paymentmethod:
-        return False, None
-    
-    return True, paymentmethod

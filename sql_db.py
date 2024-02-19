@@ -26,9 +26,9 @@ practitioner_language_table = sql_db.Table('practitioner_language',
     sql_db.Column('language_id', sql_db.Integer, sql_db.ForeignKey('languages.id'), primary_key=True)
 )
 
-practitioner_network_table = sql_db.Table('practitioner_payment_method',
+practitioner_network_table = sql_db.Table('practitioner_paymentmethod',
     sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
-    sql_db.Column('payment_method_id', sql_db.Integer, sql_db.ForeignKey('payment_methods.id'), primary_key=True)
+    sql_db.Column('paymentmethod_id', sql_db.Integer, sql_db.ForeignKey('paymentmethods.id'), primary_key=True)
 )
 
 class EmailContent(sql_db.Model):
@@ -128,7 +128,7 @@ class Practitioner(sql_db.Model):
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
     locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
     specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")
-    payment_methods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
+    paymentmethods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
 
     def __init__(self, **kwargs):
@@ -160,7 +160,7 @@ class Practitioner(sql_db.Model):
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
-            "payment_methods" : [payment_method.simple_serialize() for payment_method in self.payment_methods]
+            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods]
         }
 
 
@@ -254,10 +254,10 @@ class PaymentMethod(sql_db.Model):
     """
     Network Model
     """
-    __tablename__ = "payment_methods"
+    __tablename__ = "paymentmethods"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
-    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_network_table, back_populates = "payment_methods")  
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_network_table, back_populates = "paymentmethods")  
 
     def __init__(self, **kwargs):
         """
