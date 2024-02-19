@@ -1,1 +1,1 @@
-web: gunicorn -w 4 app:app
+web: gunicorn app:app --error-logfile /var/log/gunicorn/error.log --access-logfile /var/log/gunicorn/access.log --preload
