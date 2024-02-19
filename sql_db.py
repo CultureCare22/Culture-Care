@@ -128,7 +128,7 @@ class Practitioner(sql_db.Model):
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
     locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
     specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")
-    payment_methods = sql_db.relationship("payment_method", secondary = practitioner_network_table, back_populates = "practitioners")  
+    payment_methods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
 
     def __init__(self, **kwargs):

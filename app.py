@@ -2,7 +2,7 @@
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, paymentmethod, Location
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
 
 from flask import Flask, request
 from sql_db import sql_db
@@ -245,9 +245,9 @@ def add_paymentmethods(id):
             created, paymentmethod = crud.create_paymentmethod(name)
             if created:
                 sql_db.session.add(paymentmethod)
-                practitioner.paymentmethods.append(paymentmethod)
-        elif paymentmethod not in set(practitioner.paymentmethods):
-            practitioner.paymentmethods.append(paymentmethod)
+                practitioner.payment_methods.append(paymentmethod)
+        elif paymentmethod not in set(practitioner.payment_methods):
+            practitioner.payment_methods.append(paymentmethod)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
@@ -543,7 +543,7 @@ def check_hard_pass(locations, paymentmethods, practitioner):
             return False, "No location matches"
     
     if paymentmethods:
-        practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
+        practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.payment_methods]
         for paymentmethod in practitioner_paymentmethods:
             if paymentmethod in paymentmethods:
                 paymentmethod_matches.append(paymentmethod)
