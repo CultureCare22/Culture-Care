@@ -240,9 +240,9 @@ def add_paymentmethods(id):
             created, paymentmethod = crud.create_paymentmethod(name)
             if created:
                 sql_db.session.add(paymentmethod)
-                practitioner.payment_methods.append(paymentmethod)
-        elif paymentmethod not in set(practitioner.payment_methods):
-            practitioner.payment_methods.append(paymentmethod)
+                practitioner.paymentmethods.append(paymentmethod)
+        elif paymentmethod not in set(practitioner.paymentmethods):
+            practitioner.paymentmethods.append(paymentmethod)
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
@@ -547,6 +547,8 @@ def match_practitioners(practitioner_id):
     
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
     
+    if not success:
+        return failure_response("Practitioner does not match")
                 
     # if not success :
     #     matched_practitioners = []
@@ -560,13 +562,13 @@ def match_practitioners(practitioner_id):
     #         return success_response([[{"message":"Practitioner not found. Here are other options"}],[practitioner.serialize() for practitioner in matched_practitioners]])
     #     return failure_response("Practitioner not a match")
     
-    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner)   
+    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
     
     if soft_pass_success:
-        return success_response([practitioner.serialize()])
+        return success_response({"matched": True})
     
     if not soft_pass_success:
-        return success_response([[{"message": "soft_pass"}], [practitioner.serialize()]])
+        return success_response({"matched": False})
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
