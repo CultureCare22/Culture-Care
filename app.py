@@ -514,18 +514,20 @@ def check_hard_pass(locations, paymentmethods, practitioner):
     paymentmethod_matches = []
 
     practitioner_locations = [location.name for location in practitioner.locations]
-    for location in practitioner_locations:
-        if location in locations:
-            location_matches.append(location)
-    if len(location_matches) == 0:
-        return False, "No location matches"
+    if locations:
+        for location in practitioner_locations:
+            if location in locations:
+                location_matches.append(location)
+        if len(location_matches) == 0:
+            return False, "No location matches"
     
     practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
-    for paymentmethod in practitioner_paymentmethods:
-        if paymentmethod in paymentmethods:
-            paymentmethod_matches.append(paymentmethod)
-    if len(paymentmethod_matches) == 0:
-        return False, "paymentmethod method not a match"
+    if paymentmethods:
+        for paymentmethod in practitioner_paymentmethods:
+            if paymentmethod in paymentmethods:
+                paymentmethod_matches.append(paymentmethod)
+        if len(paymentmethod_matches) == 0:
+            return False, "paymentmethod method not a match"
         
     return True, practitioner
 
