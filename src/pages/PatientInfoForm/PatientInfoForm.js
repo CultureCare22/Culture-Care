@@ -75,8 +75,8 @@ function Form() {
                             {/* <input type="text" placeholder="English or Spanish" /> */}
                             <select id='language' name='language'>
                                 <option value=''> Please select a preferred language</option>
-                                <option value='ENGLISH'> English</option>
-                                <option value='SPANISH'> Spanish</option>
+                                <option value='English'> English</option>
+                                <option value='Spanish'> Spanish</option>
                             </select>
                         </div>
                     </div>
@@ -85,24 +85,24 @@ function Form() {
                             <div className='sub-heading'> Referral Source</div>
                             <select id='referral-source' name='referral-souce'>
                                 <option value=''> Please select a referral source</option>
-                                <option value='directory-links'> Directory Links</option>
-                                <option value='latinx'> LatinxTherapy</option>
-                                <option value='therapy-for-b'> Therapyforblackgirls</option>
-                                <option value='zocdoc'> ZocDoc</option>
-                                <option value='psychtoday'> Psychology Today</option>
-                                <option value='google-ad'> Google Ads</option>
-                                <option value='referral-ff'> Referral (Friends/Family)</option>
-                                <option value='referral-p'> Referral (Practitioner)</option>
-                                <option value='other'> Other</option>
+                                <option value='Directory-links'> Directory Links</option>
+                                <option value='Latinx'> LatinxTherapy</option>
+                                <option value='Therapy-for-b'> Therapyforblackgirls</option>
+                                <option value='Zocdoc'> ZocDoc</option>
+                                <option value='Psychtoday'> Psychology Today</option>
+                                <option value='Google-ad'> Google Ads</option>
+                                <option value='Referral-ff'> Referral (Friends/Family)</option>
+                                <option value='Referral-p'> Referral (Practitioner)</option>
+                                <option value='Other'> Other</option>
                             </select>
                         </div>
                         <div className='input-field'>
                             <div className='sub-heading'> Preferred Method of Communication</div>
                             <select id='method-of-comm' name='method-of-comm'>
                                 <option value=''> Please select a preferred method of communication</option>
-                                <option value='texting'> Text</option>
-                                <option value='phone-call'> Phone Call</option>
-                                <option value='email'> Email</option>
+                                <option value='Texting'> Text</option>
+                                <option value='Phone-call'> Phone Call</option>
+                                <option value='Email'> Email</option>
                             </select>
                         </div>
                     </div>
@@ -120,9 +120,9 @@ function Form() {
                         </p>
                         <form className='select-fop'>
                             <h3>Form of Payment</h3>
-                            <input type='radio' id='self-pay' name='payment-form' value='SELFPAY'></input>
+                            <input type='radio' id='self-pay' name='payment-form' value='Selfpay'></input>
                             <label for='self-pay'>Self-Pay</label><br></br>
-                            <input type='radio' id='oon' name='payment-form' value='OON'></input>
+                            <input type='radio' id='oon' name='payment-form' value='Oon'></input>
                             <label for='oon'>I would like more information about OON payment</label>
 
                         </form>
