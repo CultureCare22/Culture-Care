@@ -14,7 +14,6 @@ def find_form_by_id(id):
     """
     Returns forms given id
     """
-    print("id", id)
     form = forms_collection.find_one({"_id" : ObjectId(id)})
 
     if not form:

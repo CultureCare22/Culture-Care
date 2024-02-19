@@ -3,38 +3,30 @@ A module to access data from database
 """
 from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, PaymentMethod
 
-from mongo_db import insert_into_forms_collection, find_form_by_id
+# from mongo_db import insert_into_forms_collection, find_form_by_id
 
-def append_objects(lst, column): 
-    """
-    Adds objects in lst to column in association table
-    """
-    for elem in lst:
-        print(elem)
-        column.append(elem)
+# def create_form(type, data):
+#     """
+#     Creates and returns a form record
+#     """
+#     print("runnng insertion")
+#     created, form_id = insert_into_forms_collection(data = data, type = type)
 
-def create_form(type, data):
-    """
-    Creates and returns a form record
-    """
-    print("runnng insertion")
-    created, form_id = insert_into_forms_collection(data = data, type = type)
-
-    if not created:
-        return False, None
+#     if not created:
+#         return False, None
     
-    return True, form_id
+#     return True, form_id
 
-def get_form_by_id(id):
-    """
-    Returns a form by id
-    """
-    exists, form = find_form_by_id(id)
+# def get_form_by_id(id):
+#     """
+#     Returns a form by id
+#     """
+#     exists, form = find_form_by_id(id)
 
-    if not exists:
-        return False, None
+#     if not exists:
+#         return False, None
     
-    return True, form
+#     return True, form
 
 
 def get_patient_by_id(patient_id):
