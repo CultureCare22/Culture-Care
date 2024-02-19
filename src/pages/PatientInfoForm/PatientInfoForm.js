@@ -72,7 +72,12 @@ function Form() {
 
                         <div className='input-field'>
                             <div className='sub-heading'> Language </div>
-                            <input type="text" placeholder="English or Spanish" />
+                            {/* <input type="text" placeholder="English or Spanish" /> */}
+                            <select id='language' name='language'>
+                                <option value=''> Please select a preferred language</option>
+                                <option value='ENGLISH'> English</option>
+                                <option value='SPANISH'> Spanish</option>
+                            </select>
                         </div>
                     </div>
                     <div className='flex-row'>
