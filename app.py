@@ -529,7 +529,7 @@ def check_hard_pass(locations, paymentmethods, practitioner):
         
     return True, practitioner
 
-@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['GET'])             
+@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
 def match_practitioners(practitioner_id):
     #TODO: need to look at the logic
     """
