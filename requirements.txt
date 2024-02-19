@@ -1,5 +1,4 @@
 bson==0.5.10
-canvas==0.3
 Flask==2.2.2
 Flask-Cors==4.0.0
 Flask-SQLAlchemy==3.0.2
