@@ -120,15 +120,62 @@ function Form() {
                             <div className='sub-sub-heading'> City </div>
                             <input type="text" placeholder="City" />
                         </div>
-                        {/* State */}
-                        <div className='super-short-input-field'>
+
+                        <div className='input-field'>
                             <div className='sub-sub-heading'> State </div>
-                            
-                            <input required type="text" placeholder="State" onChange={(e) => {setState([
-                            ...details,
-                            {name: e.target.value }
-                            ]);
-                        }} />
+                            <select id='state' name='state'>
+                                <option value=''>Select State</option>
+                                <option value='AL'>Alabama</option>
+                                <option value='AK'>Alaska</option>
+                                <option value='AZ'>Arizona</option>
+                                <option value='AR'>Arkansas</option>
+                                <option value='CA'>California</option>
+                                <option value='CO'>Colorado</option>
+                                <option value='CT'>Connecticut</option>
+                                <option value='DE'>Delaware</option>
+                                <option value='FL'>Florida</option>
+                                <option value='GA'>Georgia</option>
+                                <option value='HI'>Hawaii</option>
+                                <option value='ID'>Idaho</option>
+                                <option value='IL'>Illinois</option>
+                                <option value='IN'>Indiana</option>
+                                <option value='IA'>Iowa</option>
+                                <option value='KS'>Kansas</option>
+                                <option value='KY'>Kentucky</option>
+                                <option value='LA'>Louisiana</option>
+                                <option value='ME'>Maine</option>
+                                <option value='MD'>Maryland</option>                                
+                                <option value='MA'>Massachusetts</option>
+                                <option value='MI'>Michigan</option>
+                                <option value='MN'>Minnesota</option>
+                                <option value='MS'>Mississippi</option>
+                                <option value='MO'>Missouri</option>
+                                <option value='MT'>Montana</option>
+                                <option value='NE'>Nebraska</option>
+                                <option value='NV'>Nevada</option>
+                                <option value='NH'>New Hampshire</option>
+                                <option value='NJ'>New Jersey</option>                                
+                                <option value='NM'>New Mexico</option>
+                                <option value='NY'>New York</option>
+                                <option value='NC'>North Carolina</option>
+                                <option value='ND'>North Dakota</option>
+                                <option value='OH'>Ohio</option>
+                                <option value='OK'>Oklahoma</option>
+                                <option value='OR'>Oregon</option>
+                                <option value='PA'>Pennsylvania</option>
+                                <option value='RI'>Rhode Island</option>
+                                <option value='SC'>South Carolina</option>                                
+                                <option value='SD'>South Dakota</option>
+                                <option value='TN'>Tennessee</option>
+                                <option value='TX'>Texas</option>
+                                <option value='UT'>Utah</option>
+                                <option value='VT'>Vermont</option>
+                                <option value='VA'>Virginia</option>
+                                <option value='WA'>Washington</option>
+                                <option value='WV'>West Virginia</option>
+                                <option value='WI'>Wisconsin</option>
+                                <option value='WY'>Wyoming</option>
+                            </select>
                         </div>
                         <div className='short-input-field'>
                             <div className='sub-sub-heading'> Zip Code </div>
@@ -149,7 +196,12 @@ function Form() {
 
                         <div className='input-field'>
                             <div className='sub-heading'> Language </div>
-                            <input type="text" placeholder="English or Spanish"/>
+                            {/* <input type="text" placeholder="English or Spanish" /> */}
+                            <select id='language' name='language'>
+                                <option value=''> Please select a preferred language</option>
+                                <option value='English'> English</option>
+                                <option value='Spanish'> Spanish</option>
+                            </select>
                         </div>
                     </div>
                     <div className='flex-row'>
@@ -157,24 +209,24 @@ function Form() {
                             <div className='sub-heading'> Referral Source</div>
                             <select id='referral-source' name='referral-souce'>
                                 <option value=''> Please select a referral source</option>
-                                <option value='directory-links'> Directory Links</option>
-                                <option value='latinx'> LatinxTherapy</option>
-                                <option value='therapy-for-b'> Therapyforblackgirls</option>
-                                <option value='zocdoc'> ZocDoc</option>
-                                <option value='psychtoday'> Psychology Today</option>
-                                <option value='google-ad'> Google Ads</option>
-                                <option value='referral-ff'> Referral (Friends/Family)</option>
-                                <option value='referral-p'> Referral (Practitioner)</option>
-                                <option value='other'> Other</option>
+                                <option value='Directory-links'> Directory Links</option>
+                                <option value='Latinx'> LatinxTherapy</option>
+                                <option value='Therapy-for-b'> Therapyforblackgirls</option>
+                                <option value='Zocdoc'> ZocDoc</option>
+                                <option value='Psychtoday'> Psychology Today</option>
+                                <option value='Google-ad'> Google Ads</option>
+                                <option value='Referral-ff'> Referral (Friends/Family)</option>
+                                <option value='Referral-p'> Referral (Practitioner)</option>
+                                <option value='Other'> Other</option>
                             </select>
                         </div>
                         <div className='input-field'>
                             <div className='sub-heading'> Preferred Method of Communication</div>
                             <select id='method-of-comm' name='method-of-comm'>
                                 <option value=''> Please select a preferred method of communication</option>
-                                <option value='texting'> Text</option>
-                                <option value='phone-call'> Phone Call</option>
-                                <option value='email'> Email</option>
+                                <option value='Texting'> Text</option>
+                                <option value='Phone-call'> Phone Call</option>
+                                <option value='Email'> Email</option>
                             </select>
                         </div>
                     </div>
@@ -187,8 +239,8 @@ function Form() {
                         <p>This practice is out-of-network (OON). </p>
                         <p>Many individuals have health insurance plans that will reimburse a portion 
                             of your costs for OON treatments. You can obtain more information on your 
-                            specific coverage and deductible information by filling out  
-                            <a href='https://www.honesthourtherapy.com/'> this questionaire</a>
+                            specific coverage and deductible information by filling out   
+                            <a href='https://practitioner.reimbursify.com/verifast?ec=1D7G2G2F9C' target="_blank"> this questionaire</a>
                         </p>
                         <form required className='select-fop' onChange={(e) => {setPayment([
                             ...details,
@@ -196,9 +248,9 @@ function Form() {
                             ]);
                         }} >
                             <h3>Form of Payment</h3>
-                            <input type='radio' id='self-pay' name='payment-form' value='SELFPAY' ></input>
+                            <input type='radio' id='self-pay' name='payment-form' value='Selfpay'></input>
                             <label for='self-pay'>Self-Pay</label><br></br>
-                            <input type='radio' id='oon' name='payment-form' value='OON'></input>
+                            <input type='radio' id='oon' name='payment-form' value='Oon'></input>
                             <label for='oon'>I would like more information about OON payment</label>
 
                         </form>

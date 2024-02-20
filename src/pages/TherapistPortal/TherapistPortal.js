@@ -150,7 +150,7 @@ function Category() {
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
                                 <input type='checkbox'/>
-                                <span className='checkmark-box'>Jasmine Ramierz (You)</span>
+                                <span className='checkmark-box'>Jasmine Ramirez (You)</span>
                             </label>
 
                             <label className='checkbox-item'>

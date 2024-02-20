@@ -102,6 +102,7 @@
     margin-top:0.5em;
     border-radius: 25px;
     box-shadow: 1px 1px 1px lightgrey;
+    color: #717171;
 }
 
 .contact-info-container {
@@ -155,7 +156,7 @@
 
 .payment-selection h3, .look-discuss h3 {
     font-weight: normal;
-    font-size: 16pt;
+    font-size: 14pt;
     margin-left: 0;
     margin-right: 0;
 }
@@ -216,6 +217,10 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+select option {
+    color:#717171;
 }
 /* .look-discuss input:checked + .look-discuss label {
     background-color: #2563EB;
