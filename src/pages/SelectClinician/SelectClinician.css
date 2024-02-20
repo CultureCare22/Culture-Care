@@ -30,7 +30,7 @@
   box-shadow: 2px 2px 2px lightgrey;
 }
 
-.cover-box2 h2{
+.cover-box2 h2 {
   margin-left: 2em;
   flex: 5;
   margin-top: 1em;
@@ -129,12 +129,14 @@ h1 {
 
 }
 
-.request-2 h3,h4 {
+.request-2 h3,
+h4 {
   font-weight: normal;
   /* display: block;
   margin-left: auto;
   margin-right: auto; */
 }
+
 .request-2 h3 {
   font-size: 20pt;
   margin-top: 1em;
@@ -158,7 +160,7 @@ h1 {
 }
 
 .clinician_2 {
-  margin-top:1.5em;
+  margin-top: 1.5em;
   margin-bottom: 0.5em;
   font-size: 14pt;
 }
@@ -229,7 +231,7 @@ h1 {
   margin-bottom: 1em;
 }
 
-.check-all span{
+.check-all span {
   margin-left: 0.5em;
 }
 

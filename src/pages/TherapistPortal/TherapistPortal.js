@@ -34,7 +34,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox'/>
+                                <input type='checkbox' />
                                 <span className='checkmark-box'>Consultation Summary</span>
                             </label>
 
@@ -86,7 +86,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox'/>
+                                <input type='checkbox' />
                                 <span className='checkmark-box'>Male</span>
                             </label>
 
@@ -122,7 +122,7 @@ function Category() {
 
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox'/>
+                                <input type='checkbox' />
                                 <span className='checkmark-box'>English</span>
                             </label>
 
@@ -149,7 +149,7 @@ function Category() {
                         {/* Checkboxes Section */}
                         <div className='checkbox-container'>
                             <label className='checkbox-item'>
-                                <input type='checkbox'/>
+                                <input type='checkbox' />
                                 <span className='checkmark-box'>Jasmine Ramirez (You)</span>
                             </label>
 
@@ -186,9 +186,9 @@ function Category() {
                                         <div class="flex-datesRate">
                                             <div class="p-22">22</div>
                                             {/* <div class='stat-detail'> */}
-                                                <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
-                                                <span className='text'>9.5%</span>
-                                                <div class="p-lastline">from last week</div>
+                                            <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
+                                            <span className='text'>9.5%</span>
+                                            <div class="p-lastline">from last week</div>
                                             {/* </div> */}
 
                                         </div>
@@ -216,115 +216,130 @@ function Category() {
                                 </div>
 
                             </div>
-                                <h2>Confirm Requests</h2>
-                                <div class="requests">
-                                    <div className='request-1'>
-                                        <h3>Fatima Perez (NY)</h3>
-                                        <div class="clinician_1">Requested Clinician</div>
-                                        <div class="clinician_name1">Jasmine Ramierz</div>
+                            <h2>Confirm Requests</h2>
+                            <div class="requests">
+                                <div className='request-1'>
+                                    <h3>Fatima Perez (NY)</h3>
+                                    <div class="clinician_1">Requested Clinician</div>
+                                    <div class="clinician_name1">Jasmine Ramirez</div>
 
-                                        <div class="clinician_1">Consultation Type</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Life Transition</div>
-                                            <div class="consultation_details">Financial Anxiety</div>
-                                        </div>
-
-                                        <div class="clinician_1">Consultation Request</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">November 13</div>
-                                            <div class="consultation_details">10:00am</div>
-                                        </div>
-
-                                        <div class="clinician_1">Payment Status</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Self-Pay</div>
-                                            <div class="consultation_details">Confirmed</div>
-                                        </div>
-
-                                        <div class="view_consultation">
-                                            <form method="get" action="/pending-request-details">
-                                                <input type="hidden" name="request" value="consultation" />
-                                                <a href='/pending-request-details'>View Consultation Request
-                                                    {/* <button>View Consultation Request</button> */}
-                                                </a>
-                                            </form>
-                                        </div>
+                                    <div class="clinician_1">Consultation Type</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Life Transition</div>
+                                        <div class="consultation_details">Financial Anxiety</div>
                                     </div>
 
-                                    <div className='request-1'>
-                                        <h3>Aracelis Davis (NY)</h3>
-                                        <div class="clinician_2">Requested Clinician</div>
-                                        <div class="clinician_name2">Lilliana Tapia</div>
-
-                                        <div class="clinician_1">Consultation Type</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Depression</div>
-                                            <div class="consultation_details">LGBTQ+</div>
-                                        </div>
-
-
-                                        <div class="clinician_1">Consultation Request</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">December 5</div>
-                                            <div class="consultation_details">2:30pm</div>
-                                        </div>
-
-                                        <div class="clinician_1">Payment Status</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">O-O-N</div>
-                                            <div class="consultation_details">Confirmed</div>
-                                        </div>
-
-                                        <div class="view_consultation">
-                                            <form method="get" action="/pending-request-details">
-                                                <input type="hidden" name="request" value="consultation" />
-                                                <a href='/pending-request-details'>View Consultation Request
-                                                    {/* <button>View Consultation Request</button> */}
-                                                </a>
-                                            </form>
-                                        </div>
+                                    <div class="clinician_1">Consultation Request</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">November 13</div>
+                                        <div class="consultation_details">10:00am</div>
                                     </div>
 
-                                    <div className='request-1'>
-                                        <h3>Isa Montes (MD)</h3>
-                                        <div class="clinician_3">Requested Clinician</div>
-                                        <div class="clinician_name3">Sierra Silva</div>
+                                    <div class="clinician_1">Payment Status</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Self-Pay</div>
+                                        <div class="consultation_details">Confirmed</div>
+                                    </div>
 
-                                        <div class="clinician_1">Consultation Type</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">Grief</div>
-                                            <div class="consultation_details">Anxiety</div>
-                                        </div>
+                                    <div class="clinician_1">Directory Source</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Zocdoc</div>
+                                    </div>
 
-                                        <div class="clinician_1">Consultation Request</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">December 18</div>
-                                            <div class="consultation_details">3:15pm</div>
-                                        </div>
+                                    <div class="view_consultation">
+                                        <form method="get" action="/pending-request-details">
+                                            <input type="hidden" name="request" value="consultation" />
+                                            <a href='/pending-request-details'>View Consultation Request
+                                                {/* <button>View Consultation Request</button> */}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
 
-                                        <div class="clinician_1">Payment Status</div>
-                                        <div class="consultation">
-                                            <div class="consultation_details">O-O-N</div>
-                                            <div class="consultation_details">In Progress</div>
-                                        </div>
+                                <div className='request-1'>
+                                    <h3>Aracelis Davis (NY)</h3>
+                                    <div class="clinician_2">Requested Clinician</div>
+                                    <div class="clinician_name2">Lilliana Tapia</div>
+
+                                    <div class="clinician_1">Consultation Type</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Depression</div>
+                                        <div class="consultation_details">LGBTQ+</div>
+                                    </div>
 
 
-                                        <div class="view_consultation">
+                                    <div class="clinician_1">Consultation Request</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">December 5</div>
+                                        <div class="consultation_details">2:30pm</div>
+                                    </div>
 
-                                            <form method="get" action="/pending-request-details">
-                                                <input type="hidden" name="request" value="consultation" />
-                                                <a href='/pending-request-details'>View Consultation Request
-                                                    {/* <button>View Consultation Request</button> */}
-                                                </a>
-                                            </form>
+                                    <div class="clinician_1">Payment Status</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">O-O-N</div>
+                                        <div class="consultation_details">Confirmed</div>
+                                    </div>
 
-                                        </div>
+                                    <div class="clinician_1">Directory Source</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Zocdoc</div>
+                                    </div>
+
+                                    <div class="view_consultation">
+                                        <form method="get" action="/pending-request-details">
+                                            <input type="hidden" name="request" value="consultation" />
+                                            <a href='/pending-request-details'>View Consultation Request
+                                                {/* <button>View Consultation Request</button> */}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div className='request-1'>
+                                    <h3>Isa Montes (MD)</h3>
+                                    <div class="clinician_3">Requested Clinician</div>
+                                    <div class="clinician_name3">Sierra Silva</div>
+
+                                    <div class="clinician_1">Consultation Type</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Grief</div>
+                                        <div class="consultation_details">Anxiety</div>
+                                    </div>
+
+                                    <div class="clinician_1">Consultation Request</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">December 18</div>
+                                        <div class="consultation_details">3:15pm</div>
+                                    </div>
+
+                                    <div class="clinician_1">Payment Status</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">O-O-N</div>
+                                        <div class="consultation_details">In Progress</div>
+                                    </div>
+
+                                    <div class="clinician_1">Directory Source</div>
+                                    <div class="consultation">
+                                        <div class="consultation_details">Zocdoc</div>
+                                    </div>
+
+
+                                    <div class="view_consultation">
+
+                                        <form method="get" action="/pending-request-details">
+                                            <input type="hidden" name="request" value="consultation" />
+                                            <a href='/pending-request-details'>View Consultation Request
+                                                {/* <button>View Consultation Request</button> */}
+                                            </a>
+                                        </form>
 
                                     </div>
 
                                 </div>
 
-                            
+                            </div>
+
+
                         </div>
 
                     </div>
