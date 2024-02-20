@@ -415,7 +415,6 @@ def strict_filter(**kwargs):
                     except:
                         pass
  
-    
     return success_response({"practitioners": [practitioner.serialize() for practitioner in filtered_practitioners]})
                         
 
@@ -492,7 +491,7 @@ def get_filtered_practitioners():
     genders = body.get("genders")
     locations = body.get("locations")
     
-    return strict_filter(languages=languages, specializations=specializations, gendrs=genders, locations=locations)
+    return strict_filter(languages=languages, specializations=specializations, genders=genders, locations=locations)
 
 
 def check_soft_pass(specializations, practitioner):
