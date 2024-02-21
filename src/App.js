@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navigation from './Navigation/Nav';
 import TherapistPortal from './pages/TherapistPortal/TherapistPortal';
@@ -36,7 +35,7 @@ function App() {
           <Route path="/appt-declined" element={<DeclinedApt />} />
           <Route path="/appt-approved" element={<ApprovedApt />} />
 
-          <Route path="/patient-info" element={<PatientInfo/>}/>
+          <Route path="/patient-info/:pId" element={<PatientInfo/>}/>
 
         </Routes>
         </div>

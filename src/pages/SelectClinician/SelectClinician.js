@@ -134,7 +134,7 @@ function Category() {
     }
 
 
-    const Practitioner = ({ image, name, description, specializations, availibility, licenses, locations }) => {
+    const Practitioner = ({ id, image, name, description, specializations, availibility, licenses, locations }) => {
         return (
             <div className='request-2'>
                 <img src={image} />
@@ -161,7 +161,7 @@ function Category() {
 
                 <div className="view_consultation">
                     {/* <a href="/clinician-j-ramirez">Book an appointment</a> */}
-                    <a href="/patient-info">Book an appointment</a>
+                    <a href={`/patient-info/${id}`}>Book an appointment</a>
                 </div>
 
             </div>
@@ -224,6 +224,7 @@ function Category() {
             {practitioners.map(practitioner => (
                 <Practitioner
                     key={practitioner["name"]}
+                    id={practitioner["id"]}
                     image={practitioner["image"]}
                     name={practitioner["name"]}
                     description={practitioner["description"]}
