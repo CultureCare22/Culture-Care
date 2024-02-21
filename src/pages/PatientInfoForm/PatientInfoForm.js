@@ -73,7 +73,7 @@ function Form() {
             }
             else {
                 console.log("Failed the Hard Pass")
-                alert("Sorry you are not a match! \n We are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \n Here are four websites where you can find qualified therapists in your area:")
+                alert("Sorry you are not a match! \nWe are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \nHere are four websites where you can find qualified therapists in your area: \n    Zocdoc.com \n    PsychologyToday.com \n    LatinxTherapy.com \n    TherapyForBlackGirls.com")
             }
         }
         catch (error) {
