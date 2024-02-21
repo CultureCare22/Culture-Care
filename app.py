@@ -548,7 +548,7 @@ def match_practitioners(practitioner_id):
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
     
     if not success:
-        return failure_response("Practitioner does not match")
+        return failure_response({"matched": 0})
                 
     # if not success :
     #     matched_practitioners = []
@@ -565,10 +565,10 @@ def match_practitioners(practitioner_id):
     soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
     
     if soft_pass_success:
-        return success_response({"matched": True})
+        return success_response({"matched": 1})
     
     if not soft_pass_success:
-        return success_response({"matched": False})
+        return success_response({"matched": 2})
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
