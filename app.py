@@ -545,6 +545,7 @@ def match_practitioners(practitioner_id):
     if not success:
         return failure_response("Practitioner does not exists")
     
+    
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
     
     if not success:
