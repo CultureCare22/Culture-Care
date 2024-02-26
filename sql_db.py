@@ -199,6 +199,12 @@ class Language(sql_db.Model):
         """
         self.name = kwargs.get("name")
 
+    def serialize(self):
+        """
+        Serializes a language object
+        """
+        return {"id" : self.id, "name" : self.name, "practitioners" : [prac.simple_serialize() for prac in self.practitioners]}
+    
     def simple_serialize(self):
         """
         Simple serializes a language object
