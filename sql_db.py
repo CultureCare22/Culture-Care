@@ -3,6 +3,11 @@ The database of culture care api
 """
 
 from flask_sqlalchemy import SQLAlchemy
+import bcrypt
+
+import datetime
+import hashlib
+import os
 
 sql_db = SQLAlchemy()
 
@@ -131,12 +136,49 @@ class Practitioner(sql_db.Model):
     paymentmethods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
 
+    password_digest = sql_db.Column(sql_db.String, nullable= False, unique = True)
+
+    session_token = sql_db.Column(sql_db.String, nullable=False, unique=True)
+    session_expiration = sql_db.Column(sql_db.DateTime, nullable=False)
+    update_token = sql_db.Column(sql_db.String, nullable=False, unique=True)
+
     def __init__(self, **kwargs):
         """
         Initializes a Practitioner object
         """
         self.name = kwargs.get("name")
         self.email_address = kwargs.get("email_address")
+        self.password_digest = bcrypt.hashpw(kwargs.get("password").encode("utf8"), bcrypt.gensalt(rounds=13))
+        self.renew_session()
+
+
+    def verify_session_token(self, session_token):
+        """
+        Verifies the session token of a user
+        """
+
+        return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
+
+    def verify_password(self, password):
+        """
+        Verifies the password of a polling agent
+        """
+        return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
+    
+    def renew_session(self):
+        """
+        Renews session
+        """
+        self.session_token = self._urlsafe_base_64()
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        self.update_token = self._urlsafe_base_64()
+
+    def _urlsafe_base_64(self):
+        """
+        Randomly generates hashed tokens (used for session/update tokens)
+        """
+        return hashlib.sha1(os.urandom(64)).hexdigest()
+
 
     def simple_serialize(self):
         """
