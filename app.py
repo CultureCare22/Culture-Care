@@ -540,10 +540,10 @@ def get_filtered_practitioners():
     Endpoint for filtering practitioners
     """
     body = json.loads(request.data)
-    languages = body.get("languages")
-    specializations = body.get("specializations")
-    genders = body.get("genders")
-    locations = body.get("locations")
+    languages = body.get("languages", [])
+    specializations = body.get("specializations", [])
+    genders = body.get("genders", [])
+    locations = body.get("locations", [])
     
     return strict_filter(languages=languages, specializations=specializations, genders=genders, locations=locations)
 
