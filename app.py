@@ -374,22 +374,33 @@ def strict_filter(**kwargs):
     specializations = kwargs.get("specializations")
     genders= kwargs.get("genders")
     locations = kwargs.get("locations")
-    
+    practitioners_l = set()
+    # set and intersection
+    dict = {}
     if languages:
-        for language in languages:
-            for practitioner in all_practitioners:
-                practitioner_languages = [language.name for language in practitioner.languages]
-                if language not in practitioner_languages:
-                    try:
-                        filtered_practitioners.remove(practitioner)
-                    except:
-                        pass
-    
+        for i in range(len(languages)):
+            language = languages[i]
+            practitioners_l = Language.query.filter(name = language).all()
+            for practitioner in practitioners_l:
+                if i == 0 and i not in dict:
+                    dict[i] = set()
+                    dict[i].add(practitioner)
+
+                elif i == 0 and i in dict:
+                    dict[i].add(practitioner)
+                    
+                elif practitioner in dict[i-1] and i not in dict:
+                    dict[i] = set()
+                    dict[i].add(practitioner)
+                elif practitioner in dict[i-1] and i in dict:
+                    dict[i].add(practitioner)
+
+
     if specializations:
         for specialization in specializations:
             for practitioner in all_practitioners:
                 practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
-                if specialization not in practitioner_specializations:
+                if specialization not in set(practitioner_specializations):
                     try:
                         filtered_practitioners.remove(practitioner)
                     except:
@@ -399,7 +410,7 @@ def strict_filter(**kwargs):
         for gender in genders:
             for practitioner in all_practitioners:
                 practitioner_genders = [gender.name for gender in practitioner.genders]
-                if gender not in practitioner_genders:
+                if gender not in set(practitioner_genders):
                     try:
                         filtered_practitioners.remove(practitioner)
                     except:
@@ -409,7 +420,7 @@ def strict_filter(**kwargs):
         for location in locations:
             for practitioner in all_practitioners:
                 practitioner_locations = [location.name for location in practitioner.locations]
-                if location not in practitioner_locations:
+                if location not in set(practitioner_locations):
                     try:
                         filtered_practitioners.remove(practitioner)
                     except:
@@ -429,7 +440,7 @@ def flexible_filter(languages, specializations, genders, locations):
             if practitioners:
                 filtered_practitioners_by_language = []
                 for practitioner in practitioners.practitioners:
-                    if practitioner not in filtered_practitioners_by_language:
+                    if practitioner not in set(filtered_practitioners_by_language):
                         filtered_practitioners_by_language.append(practitioner)
                 filtered_practitioners_arrays.append(filtered_practitioners_by_language)
     
@@ -441,7 +452,7 @@ def flexible_filter(languages, specializations, genders, locations):
             if practitioners:
                 filtered_practitioners_by_specialization = [] 
                 for practitioner in practitioners.practitioners:
-                    if practitioner not in filtered_practitioners_by_specialization:
+                    if practitioner not in set(filtered_practitioners_by_specialization):
                         filtered_practitioners_by_specialization.append(practitioner)
                 filtered_practitioners_arrays.append(filtered_practitioners_by_specialization)
                         
@@ -453,7 +464,7 @@ def flexible_filter(languages, specializations, genders, locations):
             if practitioners:
                 filtered_practitioners_by_gender = []
                 for practitioner in practitioners.practitioners:
-                    if practitioner not in filtered_practitioners_by_gender:
+                    if practitioner not in set(filtered_practitioners_by_gender):
                         filtered_practitioners_by_gender.append(practitioner)
                 filtered_practitioners_arrays.append(filtered_practitioners_by_gender)
                      
@@ -475,7 +486,7 @@ def flexible_filter(languages, specializations, genders, locations):
     filtered_practitioners = []
     for list in filtered_practitioners_arrays:
         for practitioner in list:
-            if practitioner not in filtered_practitioners:
+            if practitioner not in set(filtered_practitioners):
                 filtered_practitioners.append(practitioner)
     return success_response([practitioner.serialize() for practitioner in filtered_practitioners])
     
@@ -500,7 +511,7 @@ def check_soft_pass(specializations, practitioner):
     if specializations: 
         practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
         for specialization in practitioner_specializations:
-            if specialization in specializations:
+            if specialization in set(specializations):
                 specialization_matches.append(specialization)
         if len(specialization_matches) == 0:
             return False, practitioner
@@ -513,20 +524,18 @@ def check_hard_pass(locations, paymentmethods, practitioner):
     paymentmethod_matches = []
 
     practitioner_locations = [location.name for location in practitioner.locations]
-    if locations:
-        for location in practitioner_locations:
-            if location in locations:
-                location_matches.append(location)
-        if len(location_matches) == 0:
-            return False, "No location matches"
+    for location in practitioner_locations:
+        if location in set(locations):
+            location_matches.append(location)
+    if len(location_matches) == 0:
+        return False, "No location matches"
     
     practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
-    if paymentmethods:
-        for paymentmethod in practitioner_paymentmethods:
-            if paymentmethod in paymentmethods:
-                paymentmethod_matches.append(paymentmethod)
-        if len(paymentmethod_matches) == 0:
-            return False, "paymentmethod method not a match"
+    for paymentmethod in practitioner_paymentmethods:
+        if paymentmethod in set(paymentmethods):
+            paymentmethod_matches.append(paymentmethod)
+    if len(paymentmethod_matches) == 0:
+        return False, "paymentmethod method not a match"
         
     return True, practitioner
 
