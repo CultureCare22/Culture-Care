@@ -368,64 +368,81 @@ def get_practitioners():
 
 def strict_filter(**kwargs):
     #TODO: need to look at the logic
-    all_practitioners = Practitioner.query.filter().all()
-    filtered_practitioners = all_practitioners[:]
-    languages = kwargs.get("languages")
-    specializations = kwargs.get("specializations")
-    genders= kwargs.get("genders")
-    locations = kwargs.get("locations")
+    filtered_practitioners = set()
+    languages = kwargs.get("languages", [])
+    specializations = kwargs.get("specializations", [])
+    genders= kwargs.get("genders", [])
+    locations = kwargs.get("locations", [])
     practitioners_l = set()
     # set and intersection
     dict = {}
-    if languages:
-        for i in range(len(languages)):
-            language = languages[i]
-            practitioners_l = Language.query.filter(name = language).all()
-            for practitioner in practitioners_l:
-                if i == 0 and i not in dict:
-                    dict[i] = set()
-                    dict[i].add(practitioner)
+    idx = None
+    for i in range(len(languages)):
+        idx = i
+        dict[i] = set()
+        if i == 0:
+            dict[i] = filtered_practitioners
+            
+        language = languages[i]
+        language = Language.query.filter(Language.name == language).first()
+        if language:
+            practitioners_l = language.practitioners
+        else:
+            break
+        for practitioner in practitioners_l:
+            if i == 0:
+                dict[i].add(practitioner)
 
-                elif i == 0 and i in dict:
-                    dict[i].add(practitioner)
-                    
-                elif practitioner in dict[i-1] and i not in dict:
-                    dict[i] = set()
-                    dict[i].add(practitioner)
-                elif practitioner in dict[i-1] and i in dict:
-                    dict[i].add(practitioner)
+            elif practitioner in dict[i-1]:
+                dict[i].add(practitioner)
 
+    filtered_practitioners = dict[idx]
 
-    if specializations:
-        for specialization in specializations:
-            for practitioner in all_practitioners:
-                practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
-                if specialization not in set(practitioner_specializations):
-                    try:
-                        filtered_practitioners.remove(practitioner)
-                    except:
-                        pass
+    
+    for i in range(len(specializations)):
+        idx = i
+        dict[i] = set()
+        if i == 0:
+            dict[i] = filtered_practitioners
+            
+        specialization = specializations[i]
+        specialization = Specialization.query.filter(Specialization.name == specialization).first()
+        if specialization:
+            practitioners_l = specialization.practitioners
+        else:
+            break
+        for practitioner in practitioners_l:
+            if i == 0:
+                dict[i] = filtered_practitioners
+                dict[i].add(practitioner)
+            
+            elif practitioner in dict[i-1]:
+                dict[i].add(practitioner)
+    
+    
                     
-    if genders:
-        for gender in genders:
-            for practitioner in all_practitioners:
-                practitioner_genders = [gender.name for gender in practitioner.genders]
-                if gender not in set(practitioner_genders):
-                    try:
-                        filtered_practitioners.remove(practitioner)
-                    except:
-                        pass
+    # if genders:
+    #     for gender in genders:
+    #         for practitioner in all_practitioners:
+    #             practitioner_genders = [gender.name for gender in practitioner.genders]
+    #             if gender not in set(practitioner_genders):
+    #                 try:
+    #                     filtered_practitioners.remove(practitioner)
+    #                 except:
+    #                     pass
                     
-    if locations:
-        for location in locations:
-            for practitioner in all_practitioners:
-                practitioner_locations = [location.name for location in practitioner.locations]
-                if location not in set(practitioner_locations):
-                    try:
-                        filtered_practitioners.remove(practitioner)
-                    except:
-                        pass
+    # if locations:
+    #     for location in locations:
+    #         for practitioner in all_practitioners:
+    #             practitioner_locations = [location.name for location in practitioner.locations]
+    #             if location not in set(practitioner_locations):
+    #                 try:
+    #                     filtered_practitioners.remove(practitioner)
+    #                 except:
+    #                     pass
  
+    if idx is not None:
+        filtered_practitioners = list(dict[idx])
     return success_response({"practitioners": [practitioner.serialize() for practitioner in filtered_practitioners]})
                         
 
