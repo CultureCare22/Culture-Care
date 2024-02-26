@@ -417,28 +417,54 @@ def strict_filter(**kwargs):
                     dict[i].add(practitioner)
             elif practitioner in dict[i-1]:
                 dict[i].add(practitioner)
+                
+    if idx is not None:
+        filtered_practitioners = dict[idx]
 
-    
-                    
-    # if genders:
-    #     for gender in genders:
-    #         for practitioner in all_practitioners:
-    #             practitioner_genders = [gender.name for gender in practitioner.genders]
-    #             if gender not in set(practitioner_genders):
-    #                 try:
-    #                     filtered_practitioners.remove(practitioner)
-    #                 except:
-    #                     pass
-                    
-    # if locations:
-    #     for location in locations:
-    #         for practitioner in all_practitioners:
-    #             practitioner_locations = [location.name for location in practitioner.locations]
-    #             if location not in set(practitioner_locations):
-    #                 try:
-    #                     filtered_practitioners.remove(practitioner)
-    #                 except:
-    #                     pass
+
+    for i in range(len(genders)):
+        idx = i
+        dict[i] = set()
+            
+        gender = genders[i]
+        gender = Gender.query.filter(Gender.name == gender).first()
+        if gender:
+            practitioners_l = gender.practitioners
+        else:
+            break
+        for practitioner in practitioners_l:
+            if i == 0:
+                if filtered_practitioners:
+                    if practitioner in filtered_practitioners:
+                        dict[i].add(practitioner)
+                else:
+                    dict[i].add(practitioner)
+            elif practitioner in dict[i-1]:
+                dict[i].add(practitioner)
+                
+    if idx is not None:
+        filtered_practitioners = dict[idx]
+
+
+    for i in range(len(locations)):
+        idx = i
+        dict[i] = set()
+            
+        location = locations[i]
+        location = Location.query.filter(Location.name == location).first()
+        if location:
+            practitioners_l = location.practitioners
+        else:
+            break
+        for practitioner in practitioners_l:
+            if i == 0:
+                if filtered_practitioners:
+                    if practitioner in filtered_practitioners:
+                        dict[i].add(practitioner)
+                else:
+                    dict[i].add(practitioner)
+            elif practitioner in dict[i-1]:
+                dict[i].add(practitioner)
  
     if idx is not None:
         filtered_practitioners = dict[idx]
