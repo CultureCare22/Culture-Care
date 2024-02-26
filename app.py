@@ -380,8 +380,6 @@ def strict_filter(**kwargs):
     for i in range(len(languages)):
         idx = i
         dict[i] = set()
-        if i == 0:
-            dict[i] = filtered_practitioners
             
         language = languages[i]
         language = Language.query.filter(Language.name == language).first()
@@ -396,14 +394,13 @@ def strict_filter(**kwargs):
             elif practitioner in dict[i-1]:
                 dict[i].add(practitioner)
 
-    filtered_practitioners = dict[idx]
+    if idx is not None:
+        filtered_practitioners = dict[idx]
 
-    
+
     for i in range(len(specializations)):
         idx = i
         dict[i] = set()
-        if i == 0:
-            dict[i] = filtered_practitioners
             
         specialization = specializations[i]
         specialization = Specialization.query.filter(Specialization.name == specialization).first()
@@ -413,12 +410,14 @@ def strict_filter(**kwargs):
             break
         for practitioner in practitioners_l:
             if i == 0:
-                dict[i] = filtered_practitioners
-                dict[i].add(practitioner)
-            
+                if filtered_practitioners:
+                    if practitioner in filtered_practitioners:
+                        dict[i].add(practitioner)
+                else:
+                    dict[i].add(practitioner)
             elif practitioner in dict[i-1]:
                 dict[i].add(practitioner)
-    
+
     
                     
     # if genders:
@@ -442,7 +441,8 @@ def strict_filter(**kwargs):
     #                     pass
  
     if idx is not None:
-        filtered_practitioners = list(dict[idx])
+        filtered_practitioners = dict[idx]
+
     return success_response({"practitioners": [practitioner.serialize() for practitioner in filtered_practitioners]})
                         
 
