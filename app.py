@@ -623,5 +623,12 @@ def match_practitioners(practitioner_id):
     if not soft_pass_success:
         return success_response({"matched": 2})
 
+
+
+#TODO: 
+    # 1. We have: verify_password, verify_session_token, verify_update_token, renew_session
+    # 2. To write: get session token and update token from the (Authorization header)
+    # 3. Endpoints: Endpoint to renew_token , endpoint login, endpoint logout, add pass to create_practitioner endpoint
+
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
