@@ -3,7 +3,7 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
-import users_dao
+import verification
 import datetime
 from flask import Flask, request
 from sql_db import sql_db
@@ -94,7 +94,7 @@ def login():
     if email_address is None or password is None:
         return failure_response("Invalid body")
     
-    success, practitioner = users_dao.verify_credentials(email_address, password)
+    success, practitioner = verification.verify_credentials(email_address, password)
     if not success:
         return failure_response("invalid credentials")
     
@@ -114,7 +114,12 @@ def update_session():
         return response
     update_token = response
     try:
-        practitioner = users_dao.renew_session(update_token)
+        practitioner = crud.get_practitioner_by_update_token(update_token)
+        if practitioner is None:
+            return failure_response("Invalid update token")
+        if not practitioner.verify_token(practitioner.update_token, practitioner.update_token_expiration, update_token):
+            return failure_response("Expired update token")
+        practitioner = verification.renew_session(update_token)
         sql_db.session.commit()
     except Exception as e:
         return failure_response("Invalid update token")
@@ -137,8 +142,8 @@ def secret_message():
     if not success:
         return response
     session_token = response
-    practitioner = users_dao.get_practitioner_by_session_token(session_token)
-    if not practitioner or not practitioner.verify_session_token(session_token):
+    practitioner = crud.get_practitioner_by_session_token(session_token)
+    if not practitioner or not practitioner.verify_token(practitioner.session_token, practitioner.session_expiration, session_token):
         return failure_response("Invalid session token")
     return success_response({"success":"Hello " + practitioner.name})
 
@@ -151,10 +156,11 @@ def logout():
     if not success:
         return response
     session_token = response
-    practitioner = users_dao.get_practitioner_by_session_token(session_token)
-    if not practitioner or not practitioner.verify_session_token(session_token):
+    practitioner = crud.get_practitioner_by_session_token(session_token)
+    if not practitioner or not practitioner.verify_token(practitioner.session_token, practitioner.session_expiration,session_token):
         return failure_response("Invalid session token")
     practitioner.session_expiration = datetime.datetime.now()
+    practitioner.update_token_expiration = datetime.datetime.now()
     sql_db.session.commit()
     return success_response({"success": "You have been logged out"})
 
@@ -371,7 +377,7 @@ def create_practitioner():
     if assert_none([name, email_address, password]):
         return failure_response("Insufficient inputs", 400)
     
-    created, practitioner = users_dao.create_practitioner(name, email_address, password)
+    created, practitioner = crud.create_practitioner(name, email_address, password)
 
     if not created:
         return failure_response("Failed to create practitioner", 400)

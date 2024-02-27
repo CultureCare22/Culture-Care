@@ -141,6 +141,7 @@ class Practitioner(sql_db.Model):
     session_token = sql_db.Column(sql_db.String, nullable=False, unique=True)
     session_expiration = sql_db.Column(sql_db.DateTime, nullable=False)
     update_token = sql_db.Column(sql_db.String, nullable=False, unique=True)
+    update_token_expiration = sql_db.Column(sql_db.DateTime, nullable=False)
 
     def __init__(self, **kwargs):
         """
@@ -152,12 +153,11 @@ class Practitioner(sql_db.Model):
         self.renew_session()
 
 
-    def verify_session_token(self, session_token):
+    def verify_token(self, token, token_expiration, input_token):
         """
         Verifies the session token of a user
         """
-
-        return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
+        return token == input_token and datetime.datetime.now() < token_expiration
 
     def verify_password(self, password):
         """
@@ -172,6 +172,7 @@ class Practitioner(sql_db.Model):
         self.session_token = self._urlsafe_base_64()
         self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=15)
         self.update_token = self._urlsafe_base_64()
+        self.update_token_expiration = datetime.datetime.now() + datetime.timedelta(minutes=30)
 
     def _urlsafe_base_64(self):
         """
