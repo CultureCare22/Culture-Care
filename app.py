@@ -97,10 +97,11 @@ def login():
     success, practitioner = users_dao.verify_credentials(email_address, password)
     if not success:
         return failure_response("invalid credentials")
+    
     practitioner.renew_session()
     sql_db.session.commit()
+    
     return success_response({"session_token": practitioner.session_token,
-                       "session_expiration": str(practitioner.session_expiration),
                        "update_token": practitioner.update_token})
 
 @app.route("/session/", methods=["POST"])
@@ -114,11 +115,12 @@ def update_session():
     update_token = response
     try:
         practitioner = users_dao.renew_session(update_token)
+        sql_db.session.commit()
     except Exception as e:
         return failure_response("Invalid update token")
+    
     return json.dumps({
                        "session_token": practitioner.session_token,
-                       "session_expiration": str(practitioner.session_expiration),
                        "update_token": practitioner.update_token
     })
 
@@ -366,7 +368,7 @@ def create_practitioner():
     email_address = body.get("email_address")
     password = body.get("password")
 
-    if assert_none([name, email_address]):
+    if assert_none([name, email_address, password]):
         return failure_response("Insufficient inputs", 400)
     
     created, practitioner = users_dao.create_practitioner(name, email_address, password)
@@ -374,13 +376,10 @@ def create_practitioner():
     if not created:
         return failure_response("Failed to create practitioner", 400)
     
-    return success_response(practitioner.simple_serialize(), 201)
-    # sql_db.session.add(practitioner)
+    sql_db.session.add(practitioner)
+    sql_db.session.commit()
     
-    # if session_commited(sql_db): 
-    #     return success_response(practitioner.serialize(), 201) 
-    # else: 
-    #     return failure_response("Cannot commit session")
+    return success_response(practitioner.serialize(), 201)
     
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])

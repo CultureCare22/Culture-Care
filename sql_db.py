@@ -199,6 +199,8 @@ class Practitioner(sql_db.Model):
             "id" : self.id,
             "name" : self.name,
             "email_address" : self.email_address, 
+            "session_token" : self.session_token,
+            "update_token" : self.update_token,
             "genders" : [gender.simple_serialize() for gender in self.genders],
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],

@@ -29,6 +29,13 @@ from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, 
 #     return True, form
 
 
+
+def get_practitioner_by_email(email_address):
+    """
+    Returns a practitioner object from the database given an email
+    """
+    return Practitioner.query.filter(Practitioner.email_address == email_address).first()
+
 def get_patient_by_id(patient_id):
     """
     Returns patient with patient_id
@@ -83,14 +90,31 @@ def create_email_content(subject, message, practitioner_id):
     return True, email_content
 
 
-def create_practitioner(name, email_address):
+def create_practitioner(name, email_address, password):
     """
-    Creates and returns a practitioner
+    Creates a practitioner object in the database
+
+    Returns if creation was successful, and the User object
     """
-    practitioner = Practitioner(name = name, email_address = email_address)
-    if not practitioner:
-        return False, None
+    practitioner = get_practitioner_by_email(email_address)
+    if practitioner is not None:
+        return False, practitioner
+    practitioner = Practitioner(name=name, email_address=email_address, password=password)
     return True, practitioner
+
+
+def get_practitioner_by_session_token(session_token):
+    """
+    Returns a practitioner object from the database given a session token
+    """
+    return Practitioner.query.filter(Practitioner.session_token == session_token).first()
+
+
+def get_practitioner_by_update_token(update_token):
+    """
+    Returns a practitioner object from the database given an update token
+    """
+    return Practitioner.query.filter(Practitioner.update_token == update_token).first()
 
 
 def create_patient(name, email_address):
