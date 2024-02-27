@@ -188,6 +188,7 @@ class Practitioner(sql_db.Model):
             "id" : self.id,
             "name" : self.name,
             "email_address" : self.email_address,
+            "password" : self.session_token
         }
     
     def serialize(self):

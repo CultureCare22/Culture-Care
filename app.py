@@ -3,7 +3,8 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
-
+import users_dao
+import datetime
 from flask import Flask, request
 from sql_db import sql_db
 import email_automater
@@ -66,6 +67,94 @@ def get_automatic_email_response():
     """
     Retrieves and returns pre-written email response written by practitioner
     """
+
+def extract_token(request):
+    """
+    Helper function that extracts the token from the header of a request
+    """
+    auth_token = request.headers.get("Authorization")
+    if auth_token is None:
+        return False, failure_response("Missing authorization")
+    
+    bearer_token = auth_token.replace("Bearer", "").strip()
+    if not bearer_token:
+        return False, failure_response("Invalid Authorization header")
+    return True, bearer_token
+
+
+@app.route("/login/", methods=["POST"])
+def login():
+    """
+    Endpoint for logging in a user
+    """
+    body = json.loads(request.data)
+    email_address = body.get("email_address")
+    password = body.get("password")
+    
+    if email_address is None or password is None:
+        return failure_response("Invalid body")
+    
+    success, practitioner = users_dao.verify_credentials(email_address, password)
+    if not success:
+        return failure_response("invalid credentials")
+    practitioner.renew_session()
+    sql_db.session.commit()
+    return success_response({"session_token": practitioner.session_token,
+                       "session_expiration": str(practitioner.session_expiration),
+                       "update_token": practitioner.update_token})
+
+@app.route("/session/", methods=["POST"])
+def update_session():
+    """
+    Endpoint for updating a user's session
+    """
+    success, response = extract_token(request)
+    if not success:
+        return response
+    update_token = response
+    try:
+        practitioner = users_dao.renew_session(update_token)
+    except Exception as e:
+        return failure_response("Invalid update token")
+    return json.dumps({
+                       "session_token": practitioner.session_token,
+                       "session_expiration": str(practitioner.session_expiration),
+                       "update_token": practitioner.update_token
+    })
+
+
+@app.route("/secret/", methods=["GET"])
+def secret_message():
+    """
+    Endpoint for verifying a session token and returning a secret message
+
+    In your project, you will use the same logic for any endpoint that needs 
+    authentication
+    """
+    success, response = extract_token(request)
+    if not success:
+        return response
+    session_token = response
+    practitioner = users_dao.get_practitioner_by_session_token(session_token)
+    if not practitioner or not practitioner.verify_session_token(session_token):
+        return failure_response("Invalid session token")
+    return success_response({"success":"Hello " + practitioner.name})
+
+@app.route("/logout/", methods=["POST"])
+def logout():
+    """
+    Endpoint for logging out a user
+    """
+    success, response = extract_token(request)
+    if not success:
+        return response
+    session_token = response
+    practitioner = users_dao.get_practitioner_by_session_token(session_token)
+    if not practitioner or not practitioner.verify_session_token(session_token):
+        return failure_response("Invalid session token")
+    practitioner.session_expiration = datetime.datetime.now()
+    sql_db.session.commit()
+    return success_response({"success": "You have been logged out"})
 
 
 @app.route("/emails/prewritten/create/", methods = ["POST"])
@@ -275,20 +364,24 @@ def create_practitioner():
     body = json.loads(request.data)
     name = body.get("name")
     email_address = body.get("email_address")
+    password = body.get("password")
 
     if assert_none([name, email_address]):
         return failure_response("Insufficient inputs", 400)
     
-    created, practitioner = crud.create_practitioner(name, email_address)
+    created, practitioner = users_dao.create_practitioner(name, email_address, password)
 
     if not created:
-        return failure_response("Failed to create email", 400)
-    sql_db.session.add(practitioner)
+        return failure_response("Failed to create practitioner", 400)
     
-    if session_commited(sql_db): 
-        return success_response(practitioner.serialize(), 201) 
-    else: 
-        return failure_response("Cannot commit session")
+    return success_response(practitioner.simple_serialize(), 201)
+    # sql_db.session.add(practitioner)
+    
+    # if session_commited(sql_db): 
+    #     return success_response(practitioner.serialize(), 201) 
+    # else: 
+    #     return failure_response("Cannot commit session")
+    
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
 @cross_origin(supports_credentials=True)
