@@ -346,6 +346,9 @@ def add_paymentmethods(id):
 
 @app.route("/practitioners/<int:id>/genders/add/", methods = ["POST"])
 def add_genders(id):
+    """
+    TODO: add documentations
+    """
     body = json.loads(request.data)
     genders = body.get("genders")
     exists, practitioner = crud.get_practitioner_by_id(id)
@@ -465,7 +468,6 @@ def get_practitioners():
 
 
 def strict_filter(**kwargs):
-    #TODO: need to look at the logic
     filtered_practitioners = set()
     languages = kwargs.get("languages", [])
     specializations = kwargs.get("specializations", [])
@@ -669,14 +671,14 @@ def check_hard_pass(locations, paymentmethods, practitioner):
         if location in set(locations):
             location_matches.append(location)
     if len(location_matches) == 0:
-        return False, "No location matches"
+        return False, "sorry you did not match with the therapist because of the location . Here are a list of resources you can use"
     
     practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
     for paymentmethod in practitioner_paymentmethods:
         if paymentmethod in set(paymentmethods):
             paymentmethod_matches.append(paymentmethod)
     if len(paymentmethod_matches) == 0:
-        return False, "paymentmethod method not a match"
+        return False, "sorry you did not match with the therapist because of the payment method . Here are a list of resources you can use. "
         
     return True, practitioner
 
@@ -697,9 +699,10 @@ def match_practitioners(practitioner_id):
     
     
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
+    # TODO: reason hard pass failed
     
     if not success:
-        return failure_response({"matched": 0})
+        return failure_response({"matched": False, "message" : practitioner})
                 
     # if not success :
     #     matched_practitioners = []
@@ -716,10 +719,10 @@ def match_practitioners(practitioner_id):
     soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
     
     if soft_pass_success:
-        return success_response({"matched": 1})
+        return success_response({"matched": True, "message" : "Everything matches"})
     
     if not soft_pass_success:
-        return success_response({"matched": 2})
+        return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
 
 
