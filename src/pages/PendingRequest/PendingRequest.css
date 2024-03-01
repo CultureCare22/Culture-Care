@@ -300,15 +300,21 @@ p {
     margin-bottom: 5px;
 }
 
+.update-status-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-right: 1em;
+    margin-left: auto;
+}
 .accept {
-    position: absolute;
-    margin-left: 20%;
+    margin-right: 2em;
 
 }
 
 .decline {
-    position: absolute;
-    margin-left: 28%;
+    /* position: absolute; */
+    margin-left: 2em;
     background: #EB3D25;
     background: #FFFFFF;
 }
