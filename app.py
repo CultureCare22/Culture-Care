@@ -644,7 +644,7 @@ def get_filtered_practitioners():
     specializations = body.get("specializations", [])
     genders = body.get("genders", [])
     locations = body.get("locations", [])
-    
+
     return strict_filter(languages=languages, specializations=specializations, genders=genders, locations=locations)
 
 
@@ -684,7 +684,6 @@ def check_hard_pass(locations, paymentmethods, practitioner):
 
 @app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
 def match_practitioners(practitioner_id):
-    #TODO: need to look at the logic
     """
     Endpoint for matching practitioners
     """
@@ -699,22 +698,9 @@ def match_practitioners(practitioner_id):
     
     
     success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-    # TODO: reason hard pass failed
     
     if not success:
         return failure_response({"matched": False, "message" : practitioner})
-                
-    # if not success :
-    #     matched_practitioners = []
-    #     practitioners = Practitioner.query.filter().all()
-        
-    #     for practitioner in practitioners:
-    #         success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-    #         if success:
-    #             matched_practitioners.append(practitioner)
-    #     if len(matched_practitioners) != 0:
-    #         return success_response([[{"message":"Practitioner not found. Here are other options"}],[practitioner.serialize() for practitioner in matched_practitioners]])
-    #     return failure_response("Practitioner not a match")
     
     soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
     
