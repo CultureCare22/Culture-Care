@@ -9,37 +9,38 @@ function Login() {
         <div className='sign-in-window'>
             <h1>Test</h1>
             <body> 
-                 <section>
+                <section>
                      <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
-                 <div class="signin"> 
-                 <div class="content"> 
-                 <h2>Sign In</h2> 
-
-                 <div class="form"> 
+                <div class="signin"> 
+                <div class="content"> 
+                <h2>Sign In</h2> 
+                <p>Please sign in to continue</p>
+                <div class="form"> 
 
                     <div class="inputBox"> 
-                    <label>Username</label>
-                    <input type="text" required/>
+                    <label for='username'>Username/Email</label>
+                    <input type="text" id='username' name='username' required/>
 
-                     </div> 
+                    </div> 
 
-                     <div class="inputBox"> 
-                    <label>Password</label>
-                    <input type="password" required/>
+                    <div class="inputBox"> 
+                    <label for='password'>Password</label>
+                    <input type="password" id='username' name='username' required/>
 
-                     </div> 
+                    </div> 
 
-                     <div class="links"> 
-                     <a href="#">Forgot Password</a> 
-                     <a href="#">Signup</a> 
-                     </div> 
-                     <div class="inputBox"> 
-                         <input type="submit" value="Login"/>
-                     </div> 
-                 </div> 
-                 </div> 
-                 </div> 
-                 </section>
+                    <div class="links"> 
+                    <a href="#">Forgot Password</a> 
+                    
+                    </div> 
+                    <div class="inputBox"> 
+                        <input type="submit" value="Sign In"/>
+                    </div> 
+                    <p>New to Culture Care? <a href="#">Signup</a></p>
+                </div> 
+                </div> 
+                </div> 
+                </section>
          </body>
         </div>
         
