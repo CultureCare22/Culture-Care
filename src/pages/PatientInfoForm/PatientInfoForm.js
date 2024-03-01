@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Popup from 'reactjs-popup';
+// import Popup from 'reactjs-popup';
 import './PatientInfoForm.css';
 import { useParams } from 'react-router-dom';
 
