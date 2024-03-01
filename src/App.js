@@ -9,8 +9,8 @@ import Tapia from './pages/Tapia/Tapia';
 import Silva from './pages/Silva/Silva';
 import ApprovedApt from './pages/ApprovedApt/ApprovedApt';
 import DeclinedApt from './pages/DeclinedApt/DeclinedApt';
-
 import PatientInfo from './pages/PatientInfoForm/PatientInfoForm';
+import Login from './pages/Login/Login';
 // import PersonalInfo from './pages/PersonalInfo/PersonalInfo';
 // import Sidebar from './pages/Sidebar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -34,7 +34,7 @@ function App() {
           <Route path="/confirmation-page" element={<Confirmation />} />
           <Route path="/appt-declined" element={<DeclinedApt />} />
           <Route path="/appt-approved" element={<ApprovedApt />} />
-
+          <Route path="/login" element={<Login/>} />
           <Route path="/patient-info/:pId" element={<PatientInfo/>}/>
 
         </Routes>
