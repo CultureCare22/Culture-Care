@@ -67,9 +67,6 @@ function Form() {
                     alert("Soft pass")
                     window.location.href = "/clinician-j-ramirez"
                 }
-                // alert("PASS")
-                // window.location.href = "/clinician-j-ramirez"
-                // console.log("okay response")
             }
             else {
                 console.log("Failed the Hard Pass")
