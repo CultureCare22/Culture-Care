@@ -386,7 +386,7 @@ def create_practitioner():
     sql_db.session.commit()
     
     return success_response(practitioner.serialize(), 201)
-    
+
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
 @cross_origin(supports_credentials=True)
