@@ -1,0 +1,360 @@
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+  margin-bottom: 3em;
+  /* margin-bottom: 3em; */
+}
+
+.therapist-portal-page h1 {
+  margin-top: 1.5em;
+}
+.cover-box1 {
+  flex: 1;
+  background-color: #f8f8f8;
+  /* box-shadow: 0 4px 6px -6px #222, 0 4px 6px -6px #222; */
+  box-shadow: 2px 2px 2px lightgrey;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 5px;
+}
+
+.cover-box1 h2 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+.cover-box2 {
+  margin-left: 2em;
+  flex: 5;
+  background-color: #E5F5FD;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.cover-box2 h2{
+  margin-left: 2em;
+  flex: 5;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.requests {
+  display: flex;
+  flex-direction: row;
+  margin-right: 2em;
+  margin-left: 2em;
+}
+
+.request-1 {
+  /* width: 12em; */
+  flex: 0.3;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 3em;
+  padding-bottom: 1em;
+  background-color: white;
+  border-top: solid 3px #63BC9B;
+  margin-bottom: 2em;
+  box-shadow: 2px 2px 2px lightgrey;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5pt;
+  position: relative;
+}
+
+.request-1 img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tile-head img {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.request-1 a {
+  background-color: #2563EB;
+  color: white;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin-bottom: auto; */
+  /* margin-top: 2em; */
+  justify-content: flex-end;
+}
+
+h1 {
+  font-weight: normal;
+  font-size: 24pt;
+  margin-top: 0.25em;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+}
+
+.search-container {
+  /* align-items: right; */
+  margin-right: auto;
+  margin-left: 1.5em;
+  margin-top: 0.25em;
+  /* background-color: #f8f8f8; */
+}
+
+.search-container input {
+  border: none;
+  background-color: #f8f8f8;
+  padding: 1em;
+  padding-left: 2em;
+  padding-right: 20em;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.search-container button {
+  border: none;
+  background-color: #f8f8f8;
+  border-right: 2px solid white;
+  padding: 1em;
+  padding-left: 2em;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 2px 2px 2px lightgrey;
+
+}
+
+.request-1 h3,h4 {
+  font-weight: normal;
+}
+.request-1 h3 {
+  font-size: 20pt;
+  margin-top: 0.5em;
+}
+
+.request-1 h4 {
+  font-size: 14pt;
+}
+
+.clin-info {
+  color: #717171;
+}
+
+.consultation {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1em;
+}
+
+.clinician_1 {
+  margin-top:0.5em;
+  margin-bottom: 0.5em;
+  font-size: 14pt;
+}
+
+.consultation_details {
+  background-color: #efefef;
+  margin: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 25pt;
+  text-align: center;
+  box-shadow: 1px 1px 1px lightgrey;
+}
+
+.filter-menu h4 {
+  font-size: 14pt;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+
+.filter-menu {
+  display: flex;
+  flex-direction: row;
+  text-align: start;
+}
+
+.radio-button input {
+  margin-top: 0.5em;
+  margin-left: 3em;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.25em;
+  margin-bottom: 2em;
+}
+
+.checkbox-item {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+.checkmark-box {
+  margin-left: 0.5em;
+}
+
+.view_consultation {
+  position: absolute;
+  margin-top: 1em;
+  bottom: 0;
+  margin-bottom: 1em;
+}
+
+.consultation {
+  margin-bottom: 2em;
+  justify-content: center;
+}
+
+.clin-info {
+  margin-bottom: 1em;
+}
+
+.check-all span{
+  margin-left: 0.5em;
+}
+
+.check-all {
+  justify-content: flex-end;
+  margin-top: 1em;
+}
+
+.summary-box {
+  background-color: white;
+  box-shadow: 2px 2px 2px lightgrey;
+  margin-left: 3em;
+  margin-right: 3em;
+  margin-bottom: 1em;
+  border-radius: 5pt;
+  padding: 1em;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.flex-boxes {
+  display: flex;
+  flex-direction: row;
+}
+
+.box_1 {
+  background-color: #F8FAFC;
+  box-shadow: 2px 2px 2px lightgrey;
+  padding: 1em;
+  padding-right: 5em;
+  
+}
+
+.tile-head {
+  display: flex;
+  flex-direction: row;
+}
+
+.p-consultation {
+  margin-left: 1em;
+  font-size: 16pt;
+  margin-bottom: 0.25em;
+}
+
+.flex-datesRate {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+  justify-content: flex-end;
+  /* position: relative; */
+}
+
+.p-22 {
+  font-size: 36pt;
+}
+
+.flex-datesRate span {
+  color: #0A9D4C;
+  padding-right: 0.25em;
+}
+
+.boxes {
+  display: flex;
+  flex-direction: row;
+  margin-left: 3em;
+  justify-content: space-between;
+}
+
+.box_2 {
+  background-color:#2563EB;
+  color: white;
+  text-align: center;
+  width: 9em;
+  /* margin-left: auto; */
+  margin-right: 2em;
+  padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.box_3 {
+  background-color:#38BDF8;
+  color: white;
+  text-align: center;
+  width: 9em;
+  /* margin-left: auto; */
+  margin-right: 2em;
+  padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.box_4 {
+  background-color:#717171;
+  color: white;
+  text-align: center;
+  width: 9em;
+  /* margin-left: auto; */
+  margin-right: 2em;
+  padding: 1em;
+  border-radius: 5pt;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.fact-check {
+  width: 5em;
+  height: 100%
+}
+.box_2 p {
+  margin-left: 0px;
+}
+.box_3 p {
+  margin-left: 0px;
+}
+.box_4 p {
+  margin-left: 0px;
+}
+
+.circle-text_1 {
+  font-size: 24pt;
+  margin: 0px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+/* .stat-detail {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+} */
