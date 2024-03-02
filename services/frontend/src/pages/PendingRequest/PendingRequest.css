@@ -1,0 +1,317 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+body {
+    /* position: fixed; */
+    position:relative;
+    width: 100%;
+
+    overflow: scroll;
+}
+
+.scrollable-div {
+    height: 1000px;
+}
+
+
+.flex-container-outer {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    height: 850px;
+}
+
+h3 {
+    margin: 15px;
+    font-size: 15px;
+    /* margin-left: 30px; */
+}
+
+.titlePR {
+    /* margin-top: 10px; */
+    font-size: 18px;
+    font-weight: 100;
+    margin-left: 20px;
+}
+
+h5 {
+    font-size: 11px;
+    font-weight: 100;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.patient-details {
+    border: 2px;
+    box-shadow: 0.5px 0.5px 0.5px transparent;
+    height: 70%;
+    width: 30%;
+    padding: 10px;
+    margin-left: 40px;
+    margin-top: 0px;
+    background-color: #efefef;
+}
+
+.patient-box {
+    border: 2px inset;
+    background-color: white;
+    /* margin-top: 20px; */
+    /* height: 370px; */
+    padding: 10px;
+    margin: 20px;
+    margin-left: 5px;
+}
+
+.patient_identity {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-position: below;
+}
+
+.check {
+    margin-top: 20px;
+    border-radius: 50%;
+    border-color: white;
+    background-color: rgb(25, 119, 241);
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-top: 25px;
+    align-items: flex-start;
+}
+
+p {
+    margin-left: 45px;
+    color: #8c8989;
+    font-size: 13px;
+}
+
+.tick {
+    color: rgb(46, 194, 46);
+    margin-left: 20px;
+    font-size: 25px;
+    margin-top: 0px;
+    /* align-items: center; */
+}
+
+.p-textSpecialization1 {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+.p-textSpecialization2 {
+    margin-left: 20px;
+    /* margin-top: 10px; */
+    font-size: 13px;
+}
+
+.p-textItalic {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.textInfo {
+    border: 0px;
+    border-style: inset;
+    border-radius: 15px;
+    background: #d3d3d3;
+    color: #696767;
+    font-weight: 300;
+    padding: 2px;
+    /* margin-left: 20px; */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.comfirmation_box {
+    align-content: center;
+    border: 5px;
+    border-style: groove;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0px;
+    background: rgb(222, 246, 255);
+    width: 65%;
+    height: 70%;
+    margin-bottom: 20%;
+}
+
+.comfimation_twoBox {
+    border: 2px inset;
+    background-color: white;
+    width: 40%;
+    height: fit-content;
+    /* margin-top: 20px; */
+    padding: 10px;
+    /* margin: 20px; */
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.taskBox1 {
+    border: 2px inset;
+    border-radius: 7px;
+    background-color: #60a96e;
+    max-height: 40px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.taskBox1 p {
+    color: white;
+    margin-left: 5px;
+    margin-top: 0px;
+    padding: 5px;
+    font-size: 13px;
+}
+
+.taskBox2 {
+    border: 2px inset;
+    border-radius: 7px;
+    background-color: rgb(25, 119, 241);
+    max-height: 70px;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.taskBox2 p {
+    color: white;
+    margin-left: 5px;
+    margin-top: 1px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.taskBox3 {
+    border: 2px inset;
+    border-radius: 7px;
+    background-color: rgb(24, 168, 245);
+    max-height: 70px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.taskBox3 p {
+    color: white;
+    margin-left: 5px;
+    margin-top: 1px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.negative {
+    font-size: 20px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-top: 6px;
+    margin-right: 30px;
+
+}
+
+.taskBox4,
+.taskBox5 {
+    border: 2px inset;
+    border-radius: 7px;
+    background-color: #d3d3d3;
+    max-height: 90px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.taskBox4 p,
+.taskBox5 p,
+.taskBox6 p {
+    color: rgb(138, 133, 133);
+    margin-left: 5px;
+    margin-top: 3px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.positive {
+    font-size: 20px;
+    font-weight: bolder;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-top: 6px;
+    margin-right: 30px;
+}
+
+.taskBox6 {
+    border: 2px inset;
+    border-radius: 50px;
+    background-color: #d3d3d3;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.drop-down {
+    font-size: 40px;
+    font-weight: bolder;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-top: 6px;
+    margin-right: 30px;
+}
+
+.updateStatus {
+    border: 2px inset;
+    background-color: white;
+    width: 84%;
+    margin-top: 10px;
+    padding: 10px;
+    margin: 20px;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.updateStatus h4 {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.accept {
+    position: absolute;
+    margin-left: 20%;
+
+}
+
+.decline {
+    position: absolute;
+    margin-left: 28%;
+    background: #EB3D25;
+    background: #FFFFFF;
+}
+
+.flex-container p {
+    font-size:13px;
+}
+
+
+.flex-container-pr {
+    display: flex;
+    flex-direction: row;
+}

@@ -1,0 +1,19 @@
+.env
+node_modules
+*.json
+*__pycache__
+*cache
+*tokens
+*token files
+*instance
+*conf.json
+*/*.env
+*/*.sqlite3
+*/__pycache__
+*copy_and_paste.txt
+myenv
+
+node_modules/.cache
+.python-version
+.devcontainer/*
+editing
