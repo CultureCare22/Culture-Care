@@ -163,6 +163,9 @@ class Practitioner(sql_db.Model):
         """
         Verifies the password of a polling agent
         """
+        password_digest_bytes = self.password_digest
+        if isinstance(password_digest_bytes, str):
+            password_digest_bytes = password_digest_bytes.encode('utf-8')
         return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
     
     def renew_session(self):
