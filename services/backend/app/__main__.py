@@ -1,6 +1,7 @@
 """
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
+import argparse
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
 import verification
@@ -19,10 +20,14 @@ from flask_cors import CORS, cross_origin
 from pprint import pprint
 load_dotenv(find_dotenv())
 
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config["SQLALCHEMY_ECHO"] = True
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-
 
 CORS(app, support_credentials=True)
 
