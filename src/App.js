@@ -25,7 +25,8 @@ function App() {
         <Navigation />
         <div className="no-nav">
         <Routes>
-          <Route path="/" exact element={<SelectClinician />} />
+          <Route path="/" exact element={<Login/>} />
+          <Route path="/select-clinician" element={<SelectClinician />} />
           <Route path="/pending-request" element={<TherapistPortal />} />
           <Route path="/pending-request-details" element={<PendingRequest />} />
           <Route path="/clinician-j-ramirez" element={<Ramirez />} />
@@ -34,7 +35,6 @@ function App() {
           <Route path="/confirmation-page" element={<Confirmation />} />
           <Route path="/appt-declined" element={<DeclinedApt />} />
           <Route path="/appt-approved" element={<ApprovedApt />} />
-          <Route path="/login" element={<Login/>} />
           <Route path="/patient-info/:pId" element={<PatientInfo/>}/>
 
         </Routes>

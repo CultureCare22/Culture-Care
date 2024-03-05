@@ -34,7 +34,9 @@ function Login() {
                     
                     </div> 
                     <div class="inputBox"> 
+                        <a href="/select-clinician">
                         <input type="submit" value="Sign In"/>
+                        </a>
                     </div> 
                     <p>New to Culture Care? <a href="#">Signup</a></p>
                 </div> 
