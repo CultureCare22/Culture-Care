@@ -236,7 +236,7 @@ p {
 .taskBox5 {
     box-shadow: 2px 2px 2px lightgrey;
     border-radius: 7px;
-    background-color: #d3d3d3;
+    background-color: #efefef;
     max-height: 90px;
     margin-top: 10px;
     margin-bottom: 1px;
@@ -266,7 +266,7 @@ p {
 .taskBox6 {
     box-shadow: 2px 2px 2px lightgrey;
     border-radius: 50px;
-    background-color: #d3d3d3;
+    background-color: #efefef;
     margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
