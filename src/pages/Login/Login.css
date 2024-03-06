@@ -6,13 +6,17 @@
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
 }
+/* .no-nav {
+  margin-left:0;
+  margin-right:0;
+} */
 .sign-in-window body 
 {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #000;
+  background: #b6d4cc;
 }
 .sign-in-window section 
 {
@@ -29,11 +33,11 @@
 .sign-in-window section::before 
 {
   content: '';
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   height: 100%;
-  background: linear-gradient(#000,#0f0,#000);
-  animation: animate 5s linear infinite;
+  /* background: linear-gradient(#000,#0f0,#000);
+  animation: animate 5s linear infinite; */
 }
 @keyframes animate 
 {
@@ -61,19 +65,22 @@
   background: #0f0;
   transition: 0s;
 }
+.sign-in-window p {
+  margin-left: 0;
+}
 
 .sign-in-window section .signin
 {
   position: absolute;
   width: 400px;
-  background: #222;  
+  background: #ffffff;  
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
   border-radius: 4px;
-  box-shadow: 0 15px 35px rgba(0,0,0,9);
+  box-shadow: 2px 2px 2px lightgray;
 }
 .sign-in-window section .signin .content 
 {
@@ -88,7 +95,7 @@
 .sign-in-window section .signin .content h2 
 {
   font-size: 2em;
-  color: #0f0;
+  color: rgb(0, 0, 0);
   text-transform: uppercase;
 }
 .sign-in-window section .signin .content .form 
@@ -97,6 +104,15 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+.sign-in-window .form p {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.sign-in-window .forgot-pass a {
+  margin-right: 0;
+  margin-left: auto;
 }
 .sign-in-window section .signin .content .form .inputBox
 {
@@ -107,14 +123,17 @@
 {
   position: relative;
   width: 100%;
-  background: #333;
+  background: #ececec;
   border: none;
   outline: none;
-  padding: 25px 10px 7.5px;
+  padding: 10px 10px 7.5px;
   border-radius: 4px;
   color: #fff;
   font-weight: 500;
   font-size: 1em;
+  color: #bcbcbc;
+  font-size: 10pt;
+  margin-top: 3px;
 }
 .sign-in-window section .signin .content .form .inputBox i 
 {
@@ -142,8 +161,11 @@
 }
 .sign-in-window .signin .content .form .links a 
 {
-  color: #fff;
-  text-decoration: none;
+  color: #000000;
+  text-decoration:underline;
+  margin-right: 0;
+  margin-left: auto;
+  font-size: 10pt;
 }
 .sign-in-window .signin .content .form .links a:nth-child(2)
 {
@@ -153,9 +175,9 @@
 .sign-in-window .signin .content .form .inputBox input[type="submit"]
 {
   padding: 10px;
-  background: #0f0;
-  color: #000;
-  font-weight: 600;
+  background: #2563EB;
+  color: #ffffff;
+  font-weight: normal;
   font-size: 1.35em;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -179,4 +201,8 @@
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);
   }
+}
+
+.form a {
+  text-decoration: underline;
 }
