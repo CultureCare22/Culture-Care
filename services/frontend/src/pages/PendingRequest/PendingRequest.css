@@ -14,7 +14,7 @@ body {
 }
 
 .scrollable-div {
-    height: 1000px;
+    /* height: 1000px; */
 }
 
 
@@ -46,26 +46,33 @@ h5 {
 }
 
 .patient-details {
-    border: 2px;
-    box-shadow: 0.5px 0.5px 0.5px transparent;
-    height: 70%;
-    width: 30%;
+    /* border: 2px; */
+    box-shadow: 2px 2px 2px lightgrey;
+    /* height: 70%;
+    width: 30%; */
+    border-radius: 5px;
     padding: 10px;
-    margin-left: 40px;
+    padding-left: 1em;
+    margin-left: 0px;
     margin-top: 0px;
     background-color: #efefef;
 }
 
 .patient-box {
-    border: 2px inset;
+    /* border: 2px inset; */
     background-color: white;
+    box-shadow: 2px 2px 2px lightgrey;
     /* margin-top: 20px; */
     /* height: 370px; */
     padding: 10px;
     margin: 20px;
-    margin-left: 5px;
+    margin-left: 0px;
 }
 
+.PCI {
+    margin-left: 15px;
+    font-size: 18px;
+}
 .patient_identity {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -119,7 +126,7 @@ p {
 
 .textInfo {
     border: 0px;
-    border-style: inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 15px;
     background: #d3d3d3;
     color: #696767;
@@ -135,8 +142,8 @@ p {
 
 .comfirmation_box {
     align-content: center;
-    border: 5px;
-    border-style: groove;
+    box-shadow: 2px 2px 2px lightgrey;
+    border-radius: 5px;
     padding: 10px;
     margin-left: 20px;
     margin-right: 20px;
@@ -148,7 +155,7 @@ p {
 }
 
 .comfimation_twoBox {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     background-color: white;
     width: 40%;
     height: fit-content;
@@ -160,7 +167,7 @@ p {
 }
 
 .taskBox1 {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 7px;
     background-color: #60a96e;
     max-height: 40px;
@@ -179,7 +186,7 @@ p {
 }
 
 .taskBox2 {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 7px;
     background-color: rgb(25, 119, 241);
     max-height: 70px;
@@ -198,7 +205,7 @@ p {
 }
 
 .taskBox3 {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 7px;
     background-color: rgb(24, 168, 245);
     max-height: 70px;
@@ -227,9 +234,9 @@ p {
 
 .taskBox4,
 .taskBox5 {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 7px;
-    background-color: #d3d3d3;
+    background-color: #efefef;
     max-height: 90px;
     margin-top: 10px;
     margin-bottom: 1px;
@@ -257,9 +264,9 @@ p {
 }
 
 .taskBox6 {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     border-radius: 50px;
-    background-color: #d3d3d3;
+    background-color: #efefef;
     margin-top: 10px;
     margin-bottom: 1px;
     margin-left: 20px;
@@ -276,7 +283,7 @@ p {
 }
 
 .updateStatus {
-    border: 2px inset;
+    box-shadow: 2px 2px 2px lightgrey;
     background-color: white;
     width: 84%;
     margin-top: 10px;
@@ -293,15 +300,21 @@ p {
     margin-bottom: 5px;
 }
 
+.update-status-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-right: 1em;
+    margin-left: auto;
+}
 .accept {
-    position: absolute;
-    margin-left: 20%;
+    margin-right: 2em;
 
 }
 
 .decline {
-    position: absolute;
-    margin-left: 28%;
+    /* position: absolute; */
+    margin-left: 2em;
     background: #EB3D25;
     background: #FFFFFF;
 }
