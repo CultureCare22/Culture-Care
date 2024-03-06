@@ -129,6 +129,12 @@ class Practitioner(sql_db.Model):
 
     name = sql_db.Column(sql_db.String, nullable = False)
     email_address = sql_db.Column(sql_db.String, nullable = False, unique = True)
+    description = sql_db.Column(sql_db.String, nullable = False)
+    # description = sql_db.Column(sql_db.String, nullable = False) Licences: relation
+    # availability
+
+
+
 
     genders = sql_db.relationship("Gender", secondary = practitioner_gender_table, back_populates = "practitioners")  
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
@@ -136,6 +142,7 @@ class Practitioner(sql_db.Model):
     specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")
     paymentmethods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
     emailcontents = sql_db.relationship("EmailContent")  
+    
 
     password_digest = sql_db.Column(sql_db.String, nullable= False, unique = True)
 
