@@ -1,7 +1,8 @@
 """
 The database of culture care api
 """
-
+#description 
+#licenses
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 

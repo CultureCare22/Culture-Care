@@ -711,11 +711,7 @@ def match_practitioners(practitioner_id):
         return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
 
-
-#TODO: 
-    # 1. We have: verify_password, verify_session_token, verify_update_token, renew_session
-    # 2. To write: get session token and update token from the (Authorization header)
-    # 3. Endpoints: Endpoint to renew_token , endpoint login, endpoint logout, add pass to create_practitioner endpoint
-
+#TODO:get all locations
+#TODO: flexible filter for specializations
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
