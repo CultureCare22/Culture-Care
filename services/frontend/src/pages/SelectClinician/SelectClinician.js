@@ -203,8 +203,10 @@ function Category() {
             console.log(checked)
             console.log(filtered)
 
-            fetch("https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/filter/", {
-                "method": "POST",
+            // fetch("https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/filter/", {
+            fetch("appculturecarehub.com/practitioners/get/filter/", {
+
+            "method": "POST",
                 "body": JSON.stringify(filtered)
             })
                 .then(response => response.json())

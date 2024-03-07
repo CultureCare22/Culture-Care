@@ -36,8 +36,10 @@ function Form() {
 
         try {
             console.log(pId)
-            const response = await fetch(`https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/${pId}/match/`, {
-                method: "POST",
+            // const response = await fetch(`https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/${pId}/match/`, {
+            const response = await fetch(`appculturecarehub.com/practitioners/get/${pId}/match/`, {
+
+            method: "POST",
                 body: JSON.stringify({
                     // firstName: firstName,
                     // lastName: lastName,
