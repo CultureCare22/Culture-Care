@@ -13,16 +13,17 @@
     justify-content: flex-end;
     margin-left: auto;
     margin-right: 35px;
-    margin-top: 3em;
+    /* margin-top: 3em; */
     
 }
 
 .next-button a {
     font-size: 20px;
     /* color: white; */
-    color: darkgray;
-    border-left: 2px solid lightgray;
+    color: blue;
+    border: 2px solid blue;
     padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .details p {
@@ -71,6 +72,11 @@ h4{
 }
 
 .form-end {
+    display: flex;
+    flex-direction: row;
+}
+
+.sub-header-form {
     display: flex;
     flex-direction: row;
 }
