@@ -1,0 +1,3 @@
+Current google calendar page:
+- Remove the calendar, replace it with the personal information page
+- Link the personal information page with Backend (info --> database)
