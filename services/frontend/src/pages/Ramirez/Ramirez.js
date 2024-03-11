@@ -16,6 +16,7 @@ function Ramirez() {
                         <a href='/confirmation-page'>Next &#8594;</a>
                 </div>
             </div>
+            <p>IMPORTANT: By scheduling this appointment request, you are consenting to having your personal information collected.</p>
             <div className='google-cal-sched'>
             {/* <!-- Google Calendar Appointment Scheduling begin --> */}
             <iframe src="https://calendar.google.com/calendar/appointments/AcZssZ1jP93EITFDcNk1ocCJirwavPPwi6Ijby8dgEA=?gv=true" style={{border: 0}} width="100%" height="600" frameborder="0"></iframe>
