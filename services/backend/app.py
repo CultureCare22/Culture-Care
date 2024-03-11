@@ -18,16 +18,12 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from flask_cors import CORS, cross_origin
 from pprint import pprint
+load_dotenv(find_dotenv())
 
-env_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-
-# Load environment variables from the specified .env file
-load_dotenv(dotenv_path=env_path)
-
-DB_PASSWORD = os.getenv('PASSWORD')
-DB_USER = os.getenv('USER')
-DB_IP = os.getenv('IP')
-DB_NAME = os.getenv('DATABASE')
+DB_PASSWORD = os.environ.get('PASSWORD')
+DB_USER = os.environ.get('USER')
+DB_IP = os.environ.get('IP')
+DB_NAME = os.environ.get('DATABASE')
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
