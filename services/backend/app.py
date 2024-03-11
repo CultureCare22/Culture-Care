@@ -18,7 +18,11 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from flask_cors import CORS, cross_origin
 from pprint import pprint
-load_dotenv(find_dotenv())
+
+env_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+
+# Load environment variables from the specified .env file
+load_dotenv(dotenv_path=env_path)
 
 DB_PASSWORD = os.getenv('PASSWORD')
 DB_USER = os.getenv('USER')
