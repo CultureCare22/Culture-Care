@@ -28,7 +28,7 @@ DB_NAME = os.environ.get('DATABASE')
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-
+# true
 CORS(app, support_credentials=True)
 
 
