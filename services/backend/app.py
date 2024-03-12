@@ -25,6 +25,11 @@ DB_USER = os.environ.get('USER')
 DB_IP = os.environ.get('IP')
 DB_NAME = os.environ.get('DATABASE')
 
+# DB_PASSWORD = os.getenv('PASSWORD')
+# DB_USER = os.getenv('USER')
+# DB_IP = os.getenv('IP')
+# DB_NAME = os.getenv('DATABASE')
+
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
@@ -394,6 +399,14 @@ def create_practitioner():
     sql_db.session.commit()
     
     return success_response(practitioner.serialize(), 201)
+
+
+@app.route("/practitioners/delete/all/", methods = ["GET"])
+@cross_origin(supports_credentials=True)
+def get_practitioners():
+    crud.delete_all_practitioners()
+
+    return success_response({"successfully deleted all practitioners"})
 
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
