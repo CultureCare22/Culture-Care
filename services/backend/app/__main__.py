@@ -1,6 +1,18 @@
 """
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
+import sys
+import os
+
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
+
+sys.path.append(os.environ.get("APP_PATH"))
+
+import crud
+
 import argparse
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
@@ -13,23 +25,17 @@ from email_media import create_pdf, split_string
 import json
 db_filename = "culturecaresql.db"
 app = Flask(__name__)
-import crud
-import os
-from dotenv import load_dotenv, find_dotenv
-from flask_cors import CORS, cross_origin
 from pprint import pprint
-load_dotenv(find_dotenv())
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ECHO"] = True
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
 # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # app.config["SQLALCHEMY_ECHO"] = True
 
-CORS(app, support_credentials=True)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ECHO"] = True
+
 
 
 sql_db.init_app(app)
@@ -397,7 +403,6 @@ def create_practitioner():
 
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
     return success_response(practitioner.serialize(), 201)
@@ -465,7 +470,6 @@ def create_intake_form():
     return success_response({"form_id" : form_id}, 201)
 
 @app.route("/practitioners/get/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioners():
     practitioners = crud.get_practitioners()
 
