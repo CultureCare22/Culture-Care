@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './ClinicianProfile.css';
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineArrowOutward } from "react-icons/md";
@@ -6,6 +7,77 @@ import { AiFillSlackCircle } from "react-icons/ai";
 import { FaUserCheck } from "react-icons/fa6";
 
 function ClinicianProfile() {
+    const { pId } = useParams();
+    console.log({pId});
+
+    const [practitioners, setPractitioners] = useState([])
+    const [specializations, setSpecializations] = useState([])
+    const [genders, setGenders] = useState([])
+    const [locations, setLocations] = useState([])
+    const [languages, setLanguages] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = "https://culture-care.onrender.com/practitioners/get/";
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    setPractitioners(data.practitioners);
+                    if (data.practitioners) {
+                        let temp_specializations = [];
+                        let temp_languages = [];
+                        let temp_locations = [];
+                        let temp_genders = [];
+
+                        for (let practitioner of data.practitioners) {
+
+                            practitioner.specializations.forEach(specialization => {
+                                if (!temp_specializations.includes(specialization.name)) {
+                                    temp_specializations.push(specialization.name);
+                                }
+                            });
+
+                            practitioner.languages.forEach(language => {
+                                if (!temp_languages.includes(language.name)) {
+                                    temp_languages.push(language.name);
+                                }
+                            });
+
+                            practitioner.locations.forEach(location => {
+                                if (!temp_locations.includes(location.name)) {
+                                    temp_locations.push(location.name);
+                                }
+                            });
+
+                            practitioner.genders.forEach(gender => {
+                                if (!temp_genders.includes(gender.name)) {
+                                    temp_genders.push(gender.name);
+                                }
+                            });
+                        }
+                        console.log(data)
+                        console.log(data.practitioners)
+                        setSpecializations(temp_specializations);
+                        setLanguages(temp_languages);
+                        setLocations(temp_locations);
+                        setGenders(temp_genders);
+                        
+                    }
+
+
+
+                } else {
+                    console.log("Error fetching data: ", response.statusText);
+                }
+            } catch (error) {
+                console.log("Fetching Practitioners failed: ", error);
+            }
+        }
+        fetchData();
+
+    }, [])
+
     return (
         <div>
             <h1>Clinician Profile</h1>

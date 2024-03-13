@@ -37,7 +37,7 @@ function App() {
           <Route path="/appt-declined" element={<DeclinedApt />} />
           <Route path="/appt-approved" element={<ApprovedApt />} />
           <Route path="/patient-info/:pId" element={<PatientInfo/>}/>
-          <Route path="/clinician-profile" element={<ClinicianProfile/>}/>
+          <Route path="/clinician-profile/:pId" element={<ClinicianProfile/>}/>
 
         </Routes>
         </div>

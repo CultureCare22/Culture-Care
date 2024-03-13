@@ -206,7 +206,11 @@ function Category() {
     const Practitioner = ({ id, image, name, description, specializations, availibility, licenses, locations }) => {
         return (
             <div className='request-2'>
-                <img src={image} />
+                <div className='img-link'>
+                    <a href={`/clinician-profile/${id}`}>
+                    <img src={image} />
+                    </a>
+                </div>
                 <h3>{name}</h3>
                 <div className='clin-info'>
                     <h4>{licenses.join(", ")} | {locations.map(location => location.name).join(", ")}</h4>

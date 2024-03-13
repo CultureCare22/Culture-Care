@@ -105,7 +105,12 @@ h1 {
   margin-top: 0.25em;
   /* background-color: #f8f8f8; */
 }
-
+a img {
+  background-color: white;
+}
+.img-link a {
+  background-color: white;
+}
 .search-container input {
   border: none;
   background-color: #f8f8f8;
