@@ -56,23 +56,22 @@ function Form() {
                     specializations: details
                 })
             })
-            console.log(response.status)
+            console.log(response.json().matched)
             if (response.ok) {
                 const res = await response.json()
                 const matched = res.matched
-                console.log(matched)
                 if (matched) {
-                    console.log("1")
+                    // console.log("1")
                     window.location.href = "/clinician-j-ramirez"
                 }
                 else {
                     alert("Soft pass")
-                    console.log("2")
+                    // console.log("2")
                     window.location.href = "/clinician-j-ramirez"
                 }
             }
             else {
-                console.log("Failed the Hard Pass")
+                // console.log("Failed the Hard Pass")
                 alert("Sorry you are not a match! \nWe are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \nHere are four websites where you can find qualified therapists in your area: \n    Zocdoc.com \n    PsychologyToday.com \n    LatinxTherapy.com \n    TherapyForBlackGirls.com")
             }
         }
