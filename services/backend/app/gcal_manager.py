@@ -44,7 +44,7 @@ def get_events():
       # event["start"]
       # meeting_id
       # accept or decline endpoint
-      res.append(event["description"])
+      res.append({"start" : event["start"], "id" :  event["id"], "description" : event["description"], "status" : event["status"]})
     return res
   except HttpError as error:
     print(f"An error occurred: {error}")
@@ -52,28 +52,34 @@ def get_events():
 
 def appts():
   x = get_events()
-
-  x_prime_prime = []
-  for i in x:
-    x_prime_prime.append(i.split("\n"))
-  x_prime = []
-  to_remove = ["<br>", "<b>", "</br>", "</b>"]
-  for j in x_prime_prime:
+  appts = {}
+  for appt in x:
+    descr = appt["description"]
+    descr = descr.split("\n")
+    to_remove = ["<br>", "<b>", "</br>", "</b>"]
     p = re.compile('|'.join(map(re.escape, to_remove))) 
-    x_prime.append([p.sub('', i) for i in j])
-  appts = []
-  for appt in x_prime:
+    descr = [p.sub('', i) for i in descr]
     temp = {}
-    for i, j in enumerate(appt):
+    clinician = None
+    for i, j in enumerate(descr):
       if i == 1:
         temp["patient name"] = j
       if i == 7:
-        temp["clinician name"] = j
+        clinician = j
       if i == 9:
         temp["paymentmethod"] = j
+    if clinician is not None:
+      appt["description"] = temp
+      if clinician not in appts:
+        appts[clinician] = [appt]
+      else:
+        appts[clinician].append(appt)
+
       
-    appts.append(temp)
   return appts
+
+print(appts())
     
+
 
 
