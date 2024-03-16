@@ -1,0 +1,262 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+body {
+    /* position: fixed; */
+    position: relative;
+    width: 100%;
+
+    overflow: scroll;
+}
+
+.scrollable-div {
+    /* height: 1000px; */
+}
+
+
+.flex-container-outer {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    height: 75vh;
+}
+
+h3 {
+    margin: 10px;
+    font-size: 15px;
+    /* margin-left: 30px; */
+}
+
+.titlePR {
+    /* margin-top: 10px; */
+    font-size: 18px;
+    font-weight: 100;
+    padding-top: 0.5em;
+}
+
+h5 {
+    font-size: 11px;
+    font-weight: 100;
+    padding: 1em;
+    padding-bottom: 0.5em;
+}
+
+.patient-details {
+    /* border: 2px; */
+    box-shadow: 2px 2px 2px lightgrey;
+    /* height: 70%;
+    width: 30%; */
+    border-radius: 5px;
+    padding: 1em 2em;
+    margin-left: 0px;
+    margin-top: 0px;
+    width: 70%;
+    background-color: #efefef;
+}
+
+.patient-details p {
+    padding-left: 45px;
+}
+
+.patient-box {
+    box-shadow: 2px 2px 2px lightgrey;
+    background-color: white;
+    padding: 20px;
+    margin: 0 0.5em;
+    overflow: scroll;
+    flex-grow: 1;
+}
+
+.PCI {
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.patient_identity {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-position: below;
+}
+
+.check {
+    margin-top: 20px;
+    border-radius: 50%;
+    border-color: white;
+    background-color: rgb(25, 119, 241);
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-top: 25px;
+    align-items: flex-start;
+}
+
+p {
+    font-size: 13px;
+    margin-bottom: -10px;
+}
+
+.tick {
+    color: rgb(46, 194, 46);
+    margin-left: 20px;
+    font-size: 25px;
+    margin-top: 0px;
+    /* align-items: center; */
+}
+
+.p-textSpecialization1 {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.p-textSpecialization2 {
+    margin-left: 20px;
+    /* margin-top: 10px; */
+    font-size: 13px;
+}
+
+.p-textItalic {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.textInfo {
+    border: 0px;
+    box-shadow: 2px 2px 2px lightgrey;
+    border-radius: 15px;
+    background: #d3d3d3;
+    color: #696767;
+    font-weight: 300;
+    padding: 2px;
+    /* margin-left: 20px; */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 120px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.comfirmation_box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 2px 2px 2px lightgrey;
+    border-radius: 5px;
+    padding: 1em 1.5em;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0px;
+    background: rgb(222, 246, 255);
+    width: 30%;
+    height: 100%;
+
+}
+
+.comfimation_twoBox {
+    box-shadow: 2px 2px 2px lightgrey;
+    background-color: white;
+    padding: 20px;
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+.taskBox {
+    box-shadow: 2px 2px 2px lightgrey;
+    border-radius: 7px;
+    background-color: #efefef;
+    padding: .5em 1em;
+    color: #B3B3B3;
+    margin: 0.2em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+div.taskBox:nth-child(2) {
+    background-color: #63BC9B;
+    color: #FFFFFF;
+}
+
+div.taskBox:nth-child(3) {
+    background-color: #2563EB;
+    color: #FFFFFF;
+}
+
+div.taskBox:nth-child(4) {
+    background-color: #38BDF8;
+    color: #FFFFFF;
+}
+
+div.taskBox:nth-child(8) {
+    border-radius: 2em;
+}
+
+
+.negative {
+    font-size: 20px;
+    border-radius: 50%;
+
+}
+
+
+.taskBox span {
+    font-size: 13px;
+    padding: .2em;
+}
+
+.positive {
+    font-size: 20px;
+    font-weight: bolder;
+    border-radius: 50%;
+}
+
+.drop-down {
+    font-size: 15px;
+    font-weight: bolder;
+    border-radius: 50%;
+    margin-left: auto;
+}
+
+.updateStatus {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: last baseline;
+    flex-grow: 1;
+}
+
+.updateStatus button {
+    border-radius: 2em;
+    border: none;
+    padding: 0.5em 2em;
+}
+
+.accept {
+    background-color: #2563EB;
+    color: white;
+}
+
+.flex-container p {
+    font-size: 13px;
+}
+
+
+.flex-container-pr {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.patient-details p {
+    color: #8c8989;
+}

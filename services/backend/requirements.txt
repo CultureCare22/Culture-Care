@@ -38,3 +38,4 @@ bcrypt==4.1.2
 psycopg2-binary
 argparse
 python-dotenv
+argparse
