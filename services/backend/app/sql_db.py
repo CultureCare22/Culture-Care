@@ -201,7 +201,7 @@ class Practitioner(sql_db.Model):
         Serializes a practitioner
         """
         temp = appts()
-
+        print(temp)
         return {
             "id" : self.id,
             "name" : self.name,

@@ -3,13 +3,13 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 import sys
 import os
-
+sys.path.append(os.environ.get("APP_PATH"))
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 
-sys.path.append(os.environ.get("APP_PATH"))
+from gcal_manager import update_event_status
 
 import crud
 
@@ -658,7 +658,6 @@ def get_filtered_practitioners():
 
 
 def check_soft_pass(specializations, practitioner):
-    #TODO: need to look at the logic
     specialization_matches = []
     if specializations: 
         practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
@@ -671,7 +670,6 @@ def check_soft_pass(specializations, practitioner):
 
 
 def check_hard_pass(locations, paymentmethods, practitioner):
-    #TODO: need to look at the logic
     location_matches = []
     paymentmethod_matches = []
 
@@ -719,12 +717,16 @@ def match_practitioners(practitioner_id):
     if not soft_pass_success:
         return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
+@app.route('/appointments/update/', methods=['POST'])             
+def update_appt():
+    body = json.loads(request.data)
+    id = body.get("id")
+    status = body.get("status")
 
+    if id is None or status is None: return failure_response("Invalid inputs")
+    
+    return success_response({"id" : id, "message" : update_event_status(id, status)})
 
-#TODO: 
-    # 1. We have: verify_password, verify_session_token, verify_update_token, renew_session
-    # 2. To write: get session token and update token from the (Authorization header)
-    # 3. Endpoints: Endpoint to renew_token , endpoint login, endpoint logout, add pass to create_practitioner endpoint
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
