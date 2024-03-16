@@ -3,7 +3,6 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 import sys
 import os
-sys.path.append(os.environ.get("APP_PATH"))
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
