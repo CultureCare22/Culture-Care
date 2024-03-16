@@ -26,10 +26,18 @@ db_filename = "culturecaresql.db"
 app = Flask(__name__)
 from pprint import pprint
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
+DB_PASSWORD = os.getenv('PASSWORD')
+DB_USER = os.getenv('USER')
+DB_IP = os.getenv('IP')
+DB_NAME = os.getenv('DATABASE')
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config["SQLALCHEMY_ECHO"] = True
 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
