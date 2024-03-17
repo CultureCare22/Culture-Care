@@ -26,8 +26,8 @@ function App() {
         <Navigation />
         <div className="no-nav">
         <Routes>
-          <Route path="/" exact element={<Login/>} />
-          <Route path="/select-clinician" element={<SelectClinician />} />
+          <Route path="/login" exact element={<Login/>} />
+          <Route path="/" element={<SelectClinician />} />
           <Route path="/pending-request" element={<TherapistPortal />} />
           <Route path="/pending-request-details/:id" element={<PendingRequest />} />
           <Route path="/clinician-j-ramirez" element={<Ramirez />} />
