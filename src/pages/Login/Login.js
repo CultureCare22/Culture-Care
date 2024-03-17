@@ -26,6 +26,7 @@ function Login() {
                         const email = practitioner["email_address"]
 
                         setPractitionersEmails((prevEmail) => [...prevEmail, email]);
+                        setPractitionerEmailsFetched(true);
                     }
 
                 } else {
@@ -46,7 +47,7 @@ function Login() {
         console.log(googleEmail)
         if (googleEmail === "error") {
             console.log("Error signing in");
-            window.location.href = "/select-clinician"
+            window.location.href = "/"
         }
         else if (practitionerEmails.includes(googleEmail)) {
             console.log("Practitioner signed in");
@@ -55,7 +56,7 @@ function Login() {
         }
         else if (practitionerEmails.length !== 0 && !practitionerEmails.includes(googleEmail)) {
             alert("You are unauthorized to access this page")
-            window.location.href = "/select-clinician";
+            window.location.href = "/";
         }
     }
 
