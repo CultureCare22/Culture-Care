@@ -29,7 +29,7 @@ function App() {
           <Route path="/" exact element={<Login/>} />
           <Route path="/select-clinician" element={<SelectClinician />} />
           <Route path="/pending-request" element={<TherapistPortal />} />
-          <Route path="/pending-request-details" element={<PendingRequest />} />
+          <Route path="/pending-request-details/:id" element={<PendingRequest />} />
           <Route path="/clinician-j-ramirez" element={<Ramirez />} />
           <Route path="/clinician-l-tapia" element={<Tapia />} />
           <Route path="/clinician-s-silva" element={<Silva />} />

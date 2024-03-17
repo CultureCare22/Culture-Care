@@ -1,97 +1,51 @@
-.flex-container {
+.row-flex {
   display: flex;
   flex-direction: row;
   margin-top: 2em;
-  margin-bottom: 3em;
-  /* margin-bottom: 3em; */
+  margin-bottom: 2em;
 }
 
 .therapist-portal-page h1 {
   margin-top: 1.5em;
 }
-.cover-box1 {
-  flex: 1;
-  background-color: #f8f8f8;
-  /* box-shadow: 0 4px 6px -6px #222, 0 4px 6px -6px #222; */
-  box-shadow: 2px 2px 2px lightgrey;
-  padding-left: 1em;
-  padding-right: 1em;
-  border-radius: 5px;
-}
 
+
+.allrequests h2 {
+  font-size: 20pt;
+  font-weight: normal;
+}
 .cover-box1 h2 {
   margin-top: 1em;
   margin-bottom: 1em;
   margin-left: 1em;
 }
 
-.cover-box2 {
+.data-stats{
   margin-left: 2em;
-  flex: 5;
+  flex: 1;
   background-color: #E5F5FD;
   border-radius: 5px;
   box-shadow: 2px 2px 2px lightgrey;
 }
 
-.cover-box2 h2{
-  margin-left: 2em;
-  flex: 5;
+.data-stats h2{
+  font-size: 20pt;
+  font-weight: normal;
+  margin-left: 1em;
   margin-top: 1em;
   margin-bottom: 1em;
 }
 
-.requests {
-  display: flex;
-  flex-direction: row;
-  margin-right: 2em;
-  margin-left: 2em;
-}
-
-.request-1 {
-  /* width: 12em; */
-  flex: 0.3;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 3em;
-  padding-bottom: 1em;
-  background-color: white;
-  border-top: solid 3px #63BC9B;
-  margin-bottom: 2em;
-  box-shadow: 2px 2px 2px lightgrey;
-  text-align: center;
+.allrequests {
   display: flex;
   flex-direction: column;
-  border-radius: 5pt;
-  position: relative;
+  flex: 6;
 }
 
-.request-1 img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .tile-head img {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-}
-
-.request-1 a {
-  background-color: #2563EB;
-  color: white;
-  padding-left: 3em;
-  padding-right: 3em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  /* margin-bottom: auto; */
-  /* margin-top: 2em; */
-  justify-content: flex-end;
 }
 
 h1 {
@@ -239,26 +193,26 @@ h1 {
 .summary-box {
   background-color: white;
   box-shadow: 2px 2px 2px lightgrey;
-  margin-left: 3em;
-  margin-right: 3em;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: 1em;
   border-radius: 5pt;
   padding: 1em;
   padding-left: 2em;
   padding-right: 2em;
-}
-
-.flex-boxes {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.box_1 {
-  background-color: #F8FAFC;
+
+.cr_box {
+  background-color: white;
   box-shadow: 2px 2px 2px lightgrey;
   padding: 1em;
-  padding-right: 5em;
-  
+  padding-right: 0;
+  width: 26em;
+  margin-left: 2em;
+  margin-right: 2em;
 }
 
 .tile-head {
@@ -276,8 +230,6 @@ h1 {
   display: flex;
   flex-direction: row;
   margin-top: 2em;
-  justify-content: flex-end;
-  /* position: relative; */
 }
 
 .p-22 {
@@ -292,7 +244,10 @@ h1 {
 .boxes {
   display: flex;
   flex-direction: row;
-  margin-left: 3em;
+  margin-left: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  margin-right: 1em;
   justify-content: space-between;
 }
 
@@ -300,9 +255,9 @@ h1 {
   background-color:#2563EB;
   color: white;
   text-align: center;
-  width: 9em;
+  width: 8em;
   /* margin-left: auto; */
-  margin-right: 2em;
+  margin-right: 1em;
   padding: 1em;
   border-radius: 5pt;
   box-shadow: 2px 2px 2px lightgrey;
@@ -312,9 +267,9 @@ h1 {
   background-color:#38BDF8;
   color: white;
   text-align: center;
-  width: 9em;
+  width: 8em;
   /* margin-left: auto; */
-  margin-right: 2em;
+  margin-right: 1em;
   padding: 1em;
   border-radius: 5pt;
   box-shadow: 2px 2px 2px lightgrey;
@@ -324,9 +279,9 @@ h1 {
   background-color:#717171;
   color: white;
   text-align: center;
-  width: 9em;
+  width: 8em;
   /* margin-left: auto; */
-  margin-right: 2em;
+  margin-right: 1em;
   padding: 1em;
   border-radius: 5pt;
   box-shadow: 2px 2px 2px lightgrey;
@@ -352,9 +307,47 @@ h1 {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
-/* .stat-detail {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  bottom: 0;
-} */
+
+.request-table {
+  box-shadow: 2px 2px 2px lightgrey;
+  border-radius: 5pt;
+  border: solid #F8F8F8;
+  margin-top: 1em;
+  border-collapse: collapse;
+}
+.request-table thead {
+  background-color: #F8F8F8;
+  border-radius: 5pt;
+}
+
+.request-table thead th{
+  font-weight: normal;
+  color: #717171;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  padding-right: 1em;
+  padding-left: 1em;
+  text-align: left;
+}
+
+.request-table tbody th, td {
+  font-weight: normal;
+  padding-left: 1em;
+  text-align: left;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.request-table tbody tr {
+  border-bottom: solid 1px #f8f8f8;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.request-table a {
+  color: white;
+  background-color:#2563EB;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import './TherapistPortal.css';
 // import PendingRequest from './pages/PendingRequest/PendingRequest';
 import { SlCalender } from "react-icons/sl";
@@ -7,345 +7,186 @@ import { AiFillSlackCircle } from "react-icons/ai";
 import { FaUserCheck } from "react-icons/fa6";
 
 function Category() {
+    const [practitioners, setPractitioners] = useState([]);
+    const [name, setName] = useState('')
+    const [specializations, setSpecializations] = useState([])
+    const [genders, setGenders] = useState([])
+    const [locations, setLocations] = useState([])
+    const [languages, setLanguages] = useState([])
+    const [description, setDescription] = useState([])
+    const [email, setEmail] = useState([])
+    const [appointments, setAppointments] = useState([])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = `https://culture-care.onrender.com/practitioners/get/2`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    setPractitioners(data);
+                    // console.log(practitioners);
+                    setSpecializations(practitioners.specializations);
+                    setGenders(practitioners.genders)
+                    setLocations(practitioners.locations)
+                    setLanguages(practitioners.languages)
+                    setName(practitioners.name)
+                    setDescription(practitioners.description)
+                    setEmail(practitioners.email_address)
+                    setAppointments(practitioners.appointments);
+                } else {
+                    console.log("Error fetching data: ", response.statusText);
+                }
+            } catch (error) {
+                console.log("Fetching Practitioners failed: ", error);
+            }
+        }
+        fetchData();
+
+    }, [])
+
+    const Appt = ({ time, id, patient_name, payment_method, status, requested_clinician }) => {
+        return (
+            <>
+                <tr>
+                    <th scope='row'>{patient_name}</th>
+                    <td>{time}</td>
+                    <td>{requested_clinician}</td>
+                    <td>{payment_method}</td>
+                    <td>{status}</td>
+                    <td><a href={`/pending-request-details/${id}`}>Details</a></td>
+                </tr>
+            </>
+        )
+    }
+
+    const ApptRequests = () => {
+        for (let appointment in appointments) {
+            return (
+                <Appt
+                    time = {appointment['start']['dateTime']}
+                    id = {appointment['start']['id']}
+                    patient_name = {appointment['description']['patient name']}
+                    payment_method = {appointment['description']['paymentmethod']}
+                    status = {appointment['status']}
+                    requested_clinician = {appointment['clinician']}
+                />
+            )
+        }  
+    }
     return (
-        <>
-            <div className='therapist-portal-page'>
-                <h1>Therapist Portal</h1>
-
-
-                <div class="flex-container">
-                    <div className='cover-box1'>
-                        <h2>Filter by:</h2>
-                        {/* Radio Buttons Section */}
-                        <div className='filter-container'>
-                            <div className='filter-menu'>
-                                <h4><u>Overview</u></h4>
-
-                                <div class="radio-button">
-                                    <label className='check-all'>
-                                        <input type='radio' name='radio' />
-                                        <span className='radiomark'>All</span>
-                                    </label>
+        <div className='therapist-portal-page'>
+            <h1>Therapist Portal</h1>
+            <div className='row-flex'>
+                <div class="allrequests">
+                    <h2>Appointment Requests</h2>
+                    
+                    <table class='request-table'>
+                        <thead>
+                            <tr>
+                                <th scope='col'>Name</th>
+                                <th scope='col'>Time</th>
+                                <th scope='col'>Requested Clinician</th>
+                                <th scope='col'>Payment</th>
+                                <th scope='col'>Appointment Status</th>
+                                <th scope='col'>View/Update</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {/* <ApptRequests /> */}
+                            <tr>
+                                <th scope='row'>Fatima Perez</th>
+                                <td>3/11 @ 10:00am</td>
+                                <td>Jasmine Ramirez</td>
+                                <td>Self-Pay</td>
+                                <td>Awaiting Approval</td>
+                                <td><a href='/pending-request-details'>Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Aracella Davis</th>
+                                <td>3/15 @ 8:00am</td>
+                                <td>Lilliana Tapia</td>
+                                <td>OON</td>
+                                <td>Awaiting Approval</td>
+                                <td><a href='/pending-request-details'>Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Isa Montes</th>
+                                <td>3/18 @ 9:30am</td>
+                                <td>Sierra Silva</td>
+                                <td>OON</td>
+                                <td>Awaiting Approval</td>
+                                <td><a href='/pending-request-details'>Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Isa Montes</th>
+                                <td>3/18 @ 9:30am</td>
+                                <td>Sierra Silva</td>
+                                <td>OON</td>
+                                <td>Awaiting Approval</td>
+                                <td><a href='/pending-request-details'>Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope='row'>Isa Montes</th>
+                                <td>3/18 @ 9:30am</td>
+                                <td>Sierra Silva</td>
+                                <td>OON</td>
+                                <td>Awaiting Approval</td>
+                                <td><a href='/pending-request-details'>Details</a></td>
+                            </tr>
+                        </tbody>
+                    </table>      
+                </div>
+                <div className='data-stats'>
+                    <div class="box1">
+                        <h2>Summary</h2>
+                        <div class="cr_box">
+                            <div class="tile-head">
+                                <img src={'/calendar-logo.png'} />
+                                <div class="flex-calender">
+                                    <p><SlCalender style={{ color: 'white' }} className='calender' /></p>
+                                    <div class="p-consultation">Consultation</div>
+                                    <div class="p-consultation">Requests</div>
                                 </div>
+                            </div>
+
+                            <div class="flex-datesRate">
+                                <div class="p-22">22</div>
+                                <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
+                                <span className='text'>9.5%</span>
+                                <div class="p-lastline">from last week</div>
                             </div>
                         </div>
 
-                        {/* Checkboxes Section */}
-                        <div className='checkbox-container'>
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Consultation Summary</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Appointments</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Observations</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Referrals</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Administrative items</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Send Tasks</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Pending Appointments</span>
-                            </label>
-                        </div>
-
-                        {/* Radio Buttons Section */}
-                        <div className='filter-container'>
-                            <div className='filter-menu'>
-                                <h4><u>Gender</u></h4>
-
-                                <div class="radio-button">
-                                    <label className='check-all'>
-                                        <input type='radio' name='radio' />
-                                        <span className='radiomark'>All</span>
-                                    </label>
-                                </div>
+                        <div class="boxes">
+                            <div class="box_2">
+                                <p><AiFillSlackCircle style={{ color: 'white' }} className='fact-check' /></p>
+                                <div class="circle-text_1">4.5</div>
+                                <div class="circle-text_2">Average Request Per Clinician</div>
                             </div>
-                        </div>
 
-                        {/* Checkboxes Section */}
-                        <div className='checkbox-container'>
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Male</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Female</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Non-binary</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Other</span>
-                            </label>
-                        </div>
-
-                        {/* Radio Buttons Section */}
-                        <div className='filter-container'>
-                            <div className='filter-menu'>
-                                <h4><u>Language</u></h4>
-
-                                <div class="radio-button">
-                                    <label className='check-all'>
-                                        <input type='radio' name='radio' />
-                                        <span className='radiomark'>All</span>
-                                    </label>
-                                </div>
+                            <div class="box_3">
+                                <p><FaUserCheck style={{ color: 'white' }} className='fact-check' /></p>
+                                <div class="circle-text_1">90%</div>
+                                <div class="circle-text_2">Verified Out-Of-Network Benefits</div>
                             </div>
-                        </div>
 
-                        <div className='checkbox-container'>
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>English</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Spanish</span>
-                            </label>
-                        </div>
-
-                        {/* Radio Buttons Section */}
-                        <div className='filter-container'>
-                            <div className='filter-menu'>
-                                <h4><u>Clinician</u></h4>
-
-                                <div class="radio-button">
-                                    <label className='radio-container'>
-                                        <input type='radio' name='radio' />
-                                        <span className='radiomark'>All</span>
-                                    </label>
-                                </div>
+                            <div class="box_4">
+                                <p><FaUserCheck style={{ color: 'white' }} className='fact-check' /></p>
+                                <div class="circle-text_1">83%</div>
+                                <div class="circle-text_2">Conversion Rate</div>
                             </div>
-                        </div>
-
-                        {/* Checkboxes Section */}
-                        <div className='checkbox-container'>
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Jasmine Ramirez (You)</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Lilliana Tapia</span>
-                            </label>
-
-                            <label className='checkbox-item'>
-                                <input type='checkbox' />
-                                <span className='checkmark-box'>Sierra Silva</span>
-                            </label>
                         </div>
                     </div>
-
-
-                    <div className='cover-box2'>
-                        <div class="box1">
-                            <h2>Patient Consultation Requests</h2>
-                            <div class="summary-box">
-                                <h4>Summary</h4>
-
-                                <div class="flex-boxes">
-                                    <div class="box_1">
-                                        <div class="tile-head">
-                                            <img src={'/calendar-logo.png'} />
-                                            <div class="flex-calender">
-                                                <p><SlCalender style={{ color: 'white' }} className='calender' /></p>
-                                                <div class="p-consultation">Consultation</div>
-                                                <div class="p-consultation">Requests</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-datesRate">
-                                            <div class="p-22">22</div>
-                                            {/* <div class='stat-detail'> */}
-                                            <p><MdOutlineArrowOutward style={{ color: 'green' }} className='arrow' /></p>
-                                            <span className='text'>9.5%</span>
-                                            <div class="p-lastline">from last week</div>
-                                            {/* </div> */}
-
-                                        </div>
-                                    </div>
-
-                                    <div class="boxes">
-                                        <div class="box_2">
-                                            <p><AiFillSlackCircle style={{ color: 'white' }} className='fact-check' /></p>
-                                            <div class="circle-text_1">4.5</div>
-                                            <div class="circle-text_2">Average Request Per Clinician</div>
-                                        </div>
-
-                                        <div class="box_3">
-                                            <p><FaUserCheck style={{ color: 'white' }} className='fact-check' /></p>
-                                            <div class="circle-text_1">90%</div>
-                                            <div class="circle-text_2">Verified Out-Of-Network Benefits</div>
-                                        </div>
-
-                                        <div class="box_4">
-                                            <p><FaUserCheck style={{ color: 'white' }} className='fact-check' /></p>
-                                            <div class="circle-text_1">83%</div>
-                                            <div class="circle-text_2">Conversion Rate</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <h2>Confirm Requests</h2>
-                            <div class="requests">
-                                <div className='request-1'>
-                                    <h3>Fatima Perez (NY)</h3>
-                                    <div class="clinician_1">Requested Clinician</div>
-                                    <div class="clinician_name1">Jasmine Ramirez</div>
-
-                                    <div class="clinician_1">Consultation Type</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Life Transition</div>
-                                        <div class="consultation_details">Financial Anxiety</div>
-                                    </div>
-
-                                    <div class="clinician_1">Consultation Request</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">November 13</div>
-                                        <div class="consultation_details">10:00am</div>
-                                    </div>
-
-                                    <div class="clinician_1">Payment Status</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Self-Pay</div>
-                                        <div class="consultation_details">Confirmed</div>
-                                    </div>
-
-                                    <div class="clinician_1">Directory Source</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Zocdoc</div>
-                                    </div>
-
-                                    <div class="view_consultation">
-                                        <form method="get" action="/pending-request-details">
-                                            <input type="hidden" name="request" value="consultation" />
-                                            <a href='/pending-request-details'>View Consultation Request
-                                                {/* <button>View Consultation Request</button> */}
-                                            </a>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div className='request-1'>
-                                    <h3>Aracelis Davis (NY)</h3>
-                                    <div class="clinician_2">Requested Clinician</div>
-                                    <div class="clinician_name2">Lilliana Tapia</div>
-
-                                    <div class="clinician_1">Consultation Type</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Depression</div>
-                                        <div class="consultation_details">LGBTQ+</div>
-                                    </div>
-
-
-                                    <div class="clinician_1">Consultation Request</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">December 5</div>
-                                        <div class="consultation_details">2:30pm</div>
-                                    </div>
-
-                                    <div class="clinician_1">Payment Status</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">O-O-N</div>
-                                        <div class="consultation_details">Confirmed</div>
-                                    </div>
-
-                                    <div class="clinician_1">Directory Source</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Zocdoc</div>
-                                    </div>
-
-                                    <div class="view_consultation">
-                                        <form method="get" action="/pending-request-details">
-                                            <input type="hidden" name="request" value="consultation" />
-                                            <a href='/pending-request-details'>View Consultation Request
-                                                {/* <button>View Consultation Request</button> */}
-                                            </a>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div className='request-1'>
-                                    <h3>Isa Montes (MD)</h3>
-                                    <div class="clinician_3">Requested Clinician</div>
-                                    <div class="clinician_name3">Sierra Silva</div>
-
-                                    <div class="clinician_1">Consultation Type</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Grief</div>
-                                        <div class="consultation_details">Anxiety</div>
-                                    </div>
-
-                                    <div class="clinician_1">Consultation Request</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">December 18</div>
-                                        <div class="consultation_details">3:15pm</div>
-                                    </div>
-
-                                    <div class="clinician_1">Payment Status</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">O-O-N</div>
-                                        <div class="consultation_details">In Progress</div>
-                                    </div>
-
-                                    <div class="clinician_1">Directory Source</div>
-                                    <div class="consultation">
-                                        <div class="consultation_details">Zocdoc</div>
-                                    </div>
-
-
-                                    <div class="view_consultation">
-
-                                        <form method="get" action="/pending-request-details">
-                                            <input type="hidden" name="request" value="consultation" />
-                                            <a href='/pending-request-details'>View Consultation Request
-                                                {/* <button>View Consultation Request</button> */}
-                                            </a>
-                                        </form>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                </div >
+                </div>
             </div >
-        </>
+        </div>
     );
 }
 

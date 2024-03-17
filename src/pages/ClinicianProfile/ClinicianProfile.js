@@ -147,7 +147,7 @@ function ClinicianProfile() {
                         </div>
                         <div className="view_consultation">
                             {/* FIX LATER ADD ID */}
-                            <a href={'/patient-info/1'}>Book an appointment</a>
+                            <a href={`/patient-info/${pId}`}>Book an appointment</a>
                         </div>
                     </div>
                 </div>
