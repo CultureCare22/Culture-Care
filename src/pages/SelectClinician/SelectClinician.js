@@ -214,7 +214,7 @@ function Category() {
                 <h3>{name}</h3>
                 <div className='clin-info'>
                     <h4>{licenses.join(", ")} | {locations.map(location => location.name).join(", ")}</h4>
-                    <div className='description'>{description}</div>
+                    {/* <div className='description'>{description}</div> */}
 
                     <div className="clinician_2">Specializes in:</div>
                     <div className="consultation">

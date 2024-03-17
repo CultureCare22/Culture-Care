@@ -110,32 +110,7 @@ function ClinicianProfile() {
                     </div>
                     <div className='clinician-summary'>
                         <h2>About</h2>
-                        <p>Jasmine is the founder of Honest Hour—a culturally-sensitive practice dedicated to empowering 
-                            individuals and fostering honesty and empowerment in their life stories. Jasmine's mission is 
-                            to help her clients lead fulfilling lives, regardless of their past or present circumstances.
-                        </p>
-                        <p>As a New York native and Latina, Jasmine brings a unique perspective to her practice, combining 
-                            her personal experiences with her academic achievements. She holds a Master's degree from New 
-                            York University and a Bachelor's degree from Rutgers University.
-                        </p>
-                        <p>
-                        Jasmine firmly believes that life presents its challenges, and achieving balance in one's career, 
-                        relationships, finances, and health is crucial for overall well-being. Her expertise lies in empowering 
-                        individuals, particularly in the BIPOC community, to make informed decisions, alleviating anxieties, 
-                        and assisting them in celebrating their accomplishments without succumbing to guilt or imposter syndrome.
-                        </p>
-                        <p>
-                        Notably, Jasmine is a Certified Financial Social Worker (CFSW) and one of the pioneering entrepreneurs in 
-                        her family. She understands firsthand the exhilarating yet challenging nature of achieving financial 
-                        success, which often comes with unique responsibilities and pressures.
-                        </p>
-                        <p>
-                        With a personalized and collaborative approach, Jasmine cultivates a safe and supportive environment 
-                        for her clients to embark on their healing journey, guiding them towards a confident and promising 
-                        future. Whether it's embracing one's personal growth or navigating the complexities of financial 
-                        prosperity, Jasmine is committed to helping her clients navigate life's obstacles and reach their 
-                        full potential.
-                        </p>
+                        <p>{practitioners.description}</p>
 
                         <h2>Specialization</h2>
                         <div className='specializations'>
