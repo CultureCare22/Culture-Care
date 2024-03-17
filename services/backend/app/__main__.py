@@ -29,6 +29,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
+from flask_cors import CORS, cross_origin
 CORS(app, support_credentials=True)
 
 
