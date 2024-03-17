@@ -22,6 +22,7 @@ from flask import Flask, request
 from sql_db import sql_db
 import email_automater
 from email_media import create_pdf, split_string
+from flask_cors import CORS
 import json
 db_filename = "culturecaresql.db"
 app = Flask(__name__)
@@ -32,14 +33,12 @@ DB_USER = os.getenv('USER')
 DB_IP = os.getenv('IP')
 DB_NAME = os.getenv('DATABASE')
 
+
+CORS(app, support_credentials=True)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
 
 
 
