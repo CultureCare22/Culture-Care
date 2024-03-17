@@ -9,6 +9,8 @@ import os.path
 from googleapiclient.errors import HttpError
 
 GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_FILE")
+
+print("here" , GOOGLE_CLIENT_SECRET_FILE)
 GCAL_SCOPES = ["https://www.googleapis.com/auth/calendar"]
 # If modifying these scopes, delete the file token.json.
 
