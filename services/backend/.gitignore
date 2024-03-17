@@ -17,3 +17,4 @@ node_modules/.cache
 .python-version
 editing
 ./app/instance
+*pickle
