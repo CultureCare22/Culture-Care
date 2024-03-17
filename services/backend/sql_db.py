@@ -129,6 +129,9 @@ class Practitioner(sql_db.Model):
 
     name = sql_db.Column(sql_db.String, nullable = False)
     email_address = sql_db.Column(sql_db.String, nullable = False, unique = True)
+    is_active = sql_db.Column(sql_db.Boolean, default = True, nullable = False)
+
+    description = sql_db.Column(sql_db.String, nullable = True)
 
     genders = sql_db.relationship("Gender", secondary = practitioner_gender_table, back_populates = "practitioners")  
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
@@ -151,6 +154,7 @@ class Practitioner(sql_db.Model):
         self.name = kwargs.get("name")
         self.email_address = kwargs.get("email_address")
         self.password_digest = bcrypt.hashpw(kwargs.get("password").encode("utf8"), bcrypt.gensalt(rounds=13))
+        self.description = kwargs.get("description")
         self.renew_session()
 
 
@@ -206,6 +210,7 @@ class Practitioner(sql_db.Model):
             "id" : self.id,
             "name" : self.name,
             "email_address" : self.email_address, 
+            "description" : self.description,
             "genders" : [gender.simple_serialize() for gender in self.genders],
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],

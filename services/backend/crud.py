@@ -51,15 +51,25 @@ def get_practitioner_by_id(practitioner_id):
     """
     Returns practitioner with practitioner_id
     """
-    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id, Practitioner.is_active == True).first()
 
     if not practitioner:
         return False, None
     
     return True, practitioner
 
+def delete_practioner_by_id(id):
+    """
+    Sets is_active of practioner of this id to False and returns the practitioner
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == id).first()
+    if not practitioner: return False, None
+    practitioner.is_active = False
+    practitioner.email_address = ""
+    return True, practitioner
+
 def get_practitioners():
-    pracitioners = Practitioner.query.filter().all()
+    pracitioners = Practitioner.query.filter(Practitioner.is_active == True).all()
     pracitioners_json = []
     for practitioner in pracitioners:
         pracitioners_json.append(practitioner.serialize())
@@ -90,7 +100,7 @@ def create_email_content(subject, message, practitioner_id):
     return True, email_content
 
 
-def create_practitioner(name, email_address, password):
+def create_practitioner(name, email_address, password, description):
     """
     Creates a practitioner object in the database
 
@@ -99,7 +109,7 @@ def create_practitioner(name, email_address, password):
     practitioner = get_practitioner_by_email(email_address)
     if practitioner is not None:
         return False, practitioner
-    practitioner = Practitioner(name=name, email_address=email_address, password=password)
+    practitioner = Practitioner(name=name, email_address=email_address, password=password, description = description)
     return True, practitioner
 
 

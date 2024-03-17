@@ -44,9 +44,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 sql_db.init_app(app)
 with app.app_context():
-    # sql_db.drop_all()
+    sql_db.drop_all()
     sql_db.create_all()
-
 
 def session_commited(db):
     try:
@@ -278,6 +277,19 @@ def create_patient():
     
     return success_response(patient.serialize(), 201)
 
+
+@app.route("/practitioners/<int:id>/description/add/", methods = ["POST"])
+def add_description(id):
+    body = json.loads(request.data)
+    descr = body.get("description")
+    if not descr: return failure_response("Invalid input")
+    success, practitioner = crud.get_practitioner_by_id(id)
+    if not success: return failure_response("Practitioner does not exists")
+    practitioner.description = descr
+    sql_db.session.commit()
+    return success_response(practitioner.serialize())
+
+
 @app.route("/practitioners/<int:id>/specializations/add/", methods = ["POST"])
 def add_specializations(id):
     body = json.loads(request.data)
@@ -391,11 +403,12 @@ def create_practitioner():
     name = body.get("name")
     email_address = body.get("email_address")
     password = body.get("password")
+    descr = body.get("description")
 
-    if assert_none([name, email_address, password]):
+    if assert_none([name, email_address, password, descr]):
         return failure_response("Insufficient inputs", 400)
     
-    created, practitioner = crud.create_practitioner(name, email_address, password)
+    created, practitioner = crud.create_practitioner(name, email_address, password, descr)
 
     if not created:
         return failure_response("Failed to create practitioner", 400)
@@ -478,6 +491,17 @@ def get_practitioners():
     practitioners = crud.get_practitioners()
 
     return success_response({"practitioners": practitioners})
+
+
+@app.route("/practitioners/delete/<int:id>/", methods = ["POST"])
+def delete_practitioner(id):
+    deleted, practitioner = crud.delete_practioner_by_id(id)
+
+    if not deleted: return failure_response("Practitioner does not exist")
+
+    sql_db.session.commit()
+
+    return success_response(practitioner.serialize())
 
 
 def strict_filter(**kwargs):
@@ -733,4 +757,4 @@ def match_practitioners(practitioner_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port="8000")
+    app.run(debug=True, port="8000")
