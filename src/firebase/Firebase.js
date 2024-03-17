@@ -24,23 +24,18 @@ export const auth = getAuth(app)
 // gmail authentication
 const provider = new GoogleAuthProvider()
 // sign in google function
-export const signInWithGoogle = () => {
+export const signInWithGoogle = async () => {
+    console.log("signing in again ....")
     // triggers the pop up, then pass in the result
-    signInWithPopup(auth, provider).then((result) => {
-
-        // console.log(result);
-        const name = result.user.name
-        
-        const email = result.user.email
-        console.log(email)
-
-        // storing name and email
-        localStorage.setItem("name", name)
-        localStorage.setItem("email", email)
-
-
-    }).catch((error) => {
-        console.log(error);
-    })
+    const result = await signInWithPopup(auth, provider)
+    try {
+        const email = result.user.email;
+        const name = result.user.email;
+        return email;
+    }
+    catch (err){
+        console.log(err);
+        return "error"
+    }
 
 }
