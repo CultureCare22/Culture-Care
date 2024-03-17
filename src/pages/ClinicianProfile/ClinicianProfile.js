@@ -69,7 +69,8 @@ function ClinicianProfile() {
                 <div className='clin-prof'>
                     <div className='clinician-qfacts'>
                         <div className='clinician-pic'>
-                            <img src={'/Ramirezpfp.png'} />
+                            {/* <img src={`/${pId}.png/`} /> */}
+                            <img src={practitioners['image']} />
                             <div className='name-and-spec'>
                                 <h2>{practitioners.name}</h2>
                                 <h3>LCSW, CFSW</h3>
