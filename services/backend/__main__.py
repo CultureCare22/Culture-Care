@@ -733,5 +733,5 @@ def match_practitioners(practitioner_id):
 #     return success_response({"id" : id, "message" : update_event_status(id, status)})
 
 
-# if __name__ == "__main__":
-app.run(debug=False, port="8000")
+if __name__ == "__main__":
+    app.run(debug=False, port="8000")
