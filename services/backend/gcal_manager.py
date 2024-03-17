@@ -8,10 +8,7 @@ import datetime
 import os.path
 from googleapiclient.errors import HttpError
 
-GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_FILE")
 
-print("here" , GOOGLE_CLIENT_SECRET_FILE)
-GCAL_SCOPES = ["https://www.googleapis.com/auth/calendar"]
 # If modifying these scopes, delete the file token.json.
 
 def get_events():
@@ -19,6 +16,10 @@ def get_events():
   Returns all events
   """
   try:
+    GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_FILE")
+
+    print("here" , GOOGLE_CLIENT_SECRET_FILE)
+    GCAL_SCOPES = ["https://www.googleapis.com/auth/calendar"]
     service = Create_Service(GOOGLE_CLIENT_SECRET_FILE, 'calendar', 'v3', GCAL_SCOPES)
     now = datetime.datetime.now()
 
@@ -52,6 +53,10 @@ def get_events():
 def update_event_status(id, status):
   # First retrieve the event from the API.
   try:
+    GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_FILE")
+
+    print("here" , GOOGLE_CLIENT_SECRET_FILE)
+    GCAL_SCOPES = ["https://www.googleapis.com/auth/calendar"]
     service = Create_Service(GOOGLE_CLIENT_SECRET_FILE, 'calendar', 'v3', GCAL_SCOPES)
     if status == "cancelled" : 
       service.events().delete(calendarId='primary', eventId= id).execute()
