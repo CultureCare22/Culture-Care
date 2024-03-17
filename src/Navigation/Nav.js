@@ -1,13 +1,56 @@
 import "./Nav.css"
-
-
+import { React, useState, useEffect } from 'react';
+import { getAuth, signOut } from "firebase/auth";
 
 function Nav() {
+    const auth = getAuth();
+
+    const [practitionerEmails, setPractitionersEmails] = useState([]) 
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = "https://culture-care.onrender.com/practitioners/get/";
+            try {
+                const response = await fetch(url, {mode: "no-cors"});
+                if (response.ok) {
+                    const data = await response.json();
+                    const practitioners = data.practitioners
+
+                    for (const practitioner of practitioners){
+
+                        const email = practitioner["email_address"]
+         
+                        setPractitionersEmails((prevEmail) => [...prevEmail, email]);
+                    }
+                  
+                } else {
+                    console.log("Error fetching data: ", response.statusText);
+                }
+            } catch (error) {
+                console.log("Fetching Practitioners failed: ", error);
+            }
+        }
+        fetchData();
+
+    }, [])
+
+    console.log(practitionerEmails)
 
     const checkAuth = () => {
-        
-    }
 
+        const email = localStorage.getItem("email")
+        if (!practitionerEmails.includes(email)){
+            signOut(auth).then(() => {
+                localStorage.removeItem("email")
+              }).catch((error) => {
+                // An error happened.
+              });
+            window.location.href = "/login";
+        }
+        else {
+            window.location.href = "/pending-request"
+        }
+    }
 
 
     return <nav>
@@ -17,7 +60,7 @@ function Nav() {
 
         <div className='navbar_menu'>
             <a href="/">Home</a>
-            <a href="/pending-request">Therapist Dashboard</a>
+            <button onClick={checkAuth}>Therapist Dashboard</button>
         </div>
     </nav>
 
