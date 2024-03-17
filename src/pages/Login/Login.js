@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 // import Popup from 'reactjs-popup';
 import './Login.css';
 import { useParams } from 'react-router-dom';
+import { signInWithGoogle } from '../../firebase/Firebase';
+
 
 function Login() {
     const params = useParams()
@@ -33,11 +35,15 @@ function Login() {
                     <a href="#">Forgot Password</a> 
                     </div> 
                     <div class="inputBox"> 
-                        <a href="/select-clinician">
-                        <input type="submit" value="Sign In"/>
-                        </a>
+                        {/* <a href="/select-clinician"> */}
+                        <input type="submit" onClick={signInWithGoogle} value="Sign In"/>
+                        {/* </a> */}
                     </div> 
-                    <p>New to Culture Care? <a href="#">Signup</a></p>
+                    <p>
+                        New to Culture Care? 
+                        {/* <a href="#">Signup</a> */}
+                        {/* <button onClick={signInWithGoogle}>Sign in with Google</button> */}
+                    </p>
                 </div> 
                 </div> 
                 </div> 
