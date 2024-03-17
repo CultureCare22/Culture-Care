@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 function Form() {
     const { pId } = useParams();
-    console.log({pId})
+    console.log({ pId })
     // I am not sure if these will come in handy, but I will leave them here to save the possible work 
     // const [firstName, setFirstName] = useState("");
     // const [lastName, setLastName] = useState("");
@@ -24,11 +24,10 @@ function Form() {
     const [details, setDetails] = useState([]);
 
 
-    const handleSubmit = async () => {
-        // if (this.refs.required.reportValidity()) {
-        //     e.preventDefault();
-        //     // do something here
-        //   }
+    const handleSubmit = async (e) => {
+        
+        e.preventDefault();
+
         console.log("initiating submit")
         console.log("state", state)
         console.log("payment", payment)
@@ -56,7 +55,7 @@ function Form() {
                     specializations: details
                 })
             })
-            console.log(response.json().matched)
+
             if (response.ok) {
                 const res = await response.json()
                 const matched = res.matched
@@ -72,11 +71,13 @@ function Form() {
             }
             else {
                 // console.log("Failed the Hard Pass")
+                const res = await response.json()
+                console.log(res)
                 alert("Sorry you are not a match! \nWe are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \nHere are four websites where you can find qualified therapists in your area: \n    Zocdoc.com \n    PsychologyToday.com \n    LatinxTherapy.com \n    TherapyForBlackGirls.com")
             }
         }
         catch (error) {
-            console.log("Failed the Hard Pass")
+            console.log(error)
             alert("Sorry you are not a match! \n We are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \n Here are four websites where you can find qualified therapists in your area:")
         }
     }
@@ -265,7 +266,7 @@ function Form() {
                                 ]);
                             }} >
                                 <h3>Form of Payment</h3>
-                                <input type='radio' id='self-pay' name='payment-form' value='Self Pay'></input>
+                                <input type='radio' id='self-pay' name='payment-form' value='Self pay'></input>
                                 <label for='self-pay'>Self Pay</label><br></br>
                                 <input type='radio' id='oon' name='payment-form' value='OON'></input>
                                 <label for='oon'>I would like more information about OON payment</label>

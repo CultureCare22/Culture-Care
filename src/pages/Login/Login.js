@@ -9,7 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 function Login() {
     const params = useParams()
 
-    const [practitionerEmails, setPractitionersEmails] = useState([])
+    const [practitionerEmails, setPractitionersEmails] = useState(["ambrose2002blay@gmail.com"])
     const [practitionerEmailsFetched, setPractitionerEmailsFetched] = useState(false);
 
     useEffect(() => {

@@ -79,7 +79,7 @@ function Category() {
         "Specializations": [
             "Relationship Issues",
             "Depression",
-            "Life Transitions",
+            "Life Transition",
             "Financial Anxiety",
             "Grief",
             "General"
