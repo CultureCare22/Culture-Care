@@ -211,7 +211,8 @@ class Practitioner(sql_db.Model):
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
-            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods]
+            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods],
+            "appointments" : []
         }
 
 

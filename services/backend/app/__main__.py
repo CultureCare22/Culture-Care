@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
+import urllib.parse
 
 # from gcal_manager import update_event_status
 
@@ -26,7 +27,7 @@ db_filename = "culturecaresql.db"
 app = Flask(__name__)
 from pprint import pprint
 
-DB_PASSWORD = os.getenv('PASSWORD')
+DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
 DB_USER = os.getenv('USER')
 DB_IP = os.getenv('IP')
 DB_NAME = os.getenv('DATABASE')
@@ -35,9 +36,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -736,4 +734,4 @@ def match_practitioners(practitioner_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port="8000")
+    app.run(debug=True, port="8000")
