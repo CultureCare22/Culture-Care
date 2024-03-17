@@ -27,7 +27,7 @@ def get_events():
         service.events()
         .list(
             calendarId="primary",
-            timeMin=datetime.datetime.utcnow().isoformat() + "Z",
+            timeMin=datetime.datetime.now().isoformat() + "Z",
             singleEvents=True,
             orderBy="startTime",
             timeMax = iso_datetime

@@ -8,7 +8,7 @@ import bcrypt
 import datetime
 import hashlib
 import os
-from gcal_manager import appts
+# from gcal_manager import appts
 
 sql_db = SQLAlchemy()
 
@@ -200,6 +200,9 @@ class Practitioner(sql_db.Model):
         """
         Serializes a practitioner
         """
+        # temp = appts()
+        # "appointments" : temp[self.name] if self.name in temp else []
+
         return {
             "id" : self.id,
             "name" : self.name,
@@ -208,8 +211,8 @@ class Practitioner(sql_db.Model):
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
-            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods], 
-            "appointments" : appts()
+            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods],
+            "appointments" : []
         }
 
 

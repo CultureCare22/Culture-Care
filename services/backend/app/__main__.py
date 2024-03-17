@@ -3,13 +3,13 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 import sys
 import os
-sys.path.append(os.environ.get("APP_PATH"))
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
+import urllib.parse
 
-from gcal_manager import update_event_status
+# from gcal_manager import update_event_status
 
 import crud
 
@@ -27,14 +27,19 @@ db_filename = "culturecaresql.db"
 app = Flask(__name__)
 from pprint import pprint
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
+DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
+DB_USER = os.getenv('USER')
+DB_IP = os.getenv('IP')
+DB_NAME = os.getenv('DATABASE')
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config["SQLALCHEMY_ECHO"] = True
 
 
 
@@ -717,15 +722,15 @@ def match_practitioners(practitioner_id):
     if not soft_pass_success:
         return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
-@app.route('/appointments/update/', methods=['POST'])             
-def update_appt():
-    body = json.loads(request.data)
-    id = body.get("id")
-    status = body.get("status")
+# @app.route('/appointments/update/', methods=['POST'])             
+# def update_appt():
+#     body = json.loads(request.data)
+#     id = body.get("id")
+#     status = body.get("status")
 
-    if id is None or status is None: return failure_response("Invalid inputs")
+#     if id is None or status is None: return failure_response("Invalid inputs")
     
-    return success_response({"id" : id, "message" : update_event_status(id, status)})
+#     return success_response({"id" : id, "message" : update_event_status(id, status)})
 
 
 if __name__ == "__main__":
