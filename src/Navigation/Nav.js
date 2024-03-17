@@ -11,7 +11,7 @@ function Nav() {
         const fetchData = async () => {
             const url = "https://culture-care.onrender.com/practitioners/get/";
             try {
-                const response = await fetch(url, {mode: "no-cors"});
+                const response = await fetch(url);
                 if (response.ok) {
                     const data = await response.json();
                     const practitioners = data.practitioners
