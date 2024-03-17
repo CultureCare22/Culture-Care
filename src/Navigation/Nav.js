@@ -1,6 +1,15 @@
 import "./Nav.css"
 
+
+
 function Nav() {
+
+    const checkAuth = () => {
+        
+    }
+
+
+
     return <nav>
         <div className="navbar_container">
             <a href="/">Culture Care</a>
