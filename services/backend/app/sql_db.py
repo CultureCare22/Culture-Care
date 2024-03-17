@@ -200,8 +200,6 @@ class Practitioner(sql_db.Model):
         """
         Serializes a practitioner
         """
-        temp = appts()
-        print(temp)
         return {
             "id" : self.id,
             "name" : self.name,
@@ -211,7 +209,7 @@ class Practitioner(sql_db.Model):
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
             "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods], 
-            "appointments" : temp[self.name] if self.name in temp else []
+            "appointments" : appts()
         }
 
 

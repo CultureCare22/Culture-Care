@@ -66,7 +66,7 @@ def update_event_status(id, status):
 
 def appts():
   x = get_events()
-  appts = {}
+  appts = []
   for appt in x:
     descr = appt["description"]
     descr = descr.split("\n")
@@ -80,14 +80,12 @@ def appts():
         temp["patient name"] = j.strip().rstrip()
       if i == 7:
         clinician = j.strip().rstrip()
+        appt["clinician"] = clinician
       if i == 9:
         temp["paymentmethod"] = j.strip().rstrip()
     if clinician is not None:
       appt["description"] = temp
-      if clinician not in appts:
-        appts[clinician] = [appt]
-      else:
-        appts[clinician].append(appt)
+      appts.append(appt)
 
       
   return appts
