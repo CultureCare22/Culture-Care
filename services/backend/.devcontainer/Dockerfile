@@ -9,9 +9,7 @@ RUN apt update && \
     service postgresql start && \
     su - postgres sh -c "psql -U postgres -d postgres -c \"ALTER USER postgres WITH PASSWORD 'postgres'\""
 
-RUN apt-get update && apt-get install -y python3 python3-pip
-
-RUN apt install git
+RUN apt-get update && apt-get install -y python3 python3-pip && apt-get install gunicorn
 
 COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt

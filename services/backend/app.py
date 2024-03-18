@@ -807,6 +807,15 @@ def update_consultation_status(request_id):
     Incomplete. Need to see how consultations will be fulfilled to get a better 
         data model. Last worked on 18 March 24
     """
+    logging.warning("WIP endpoint '/consultation_request/<int:request_id>/update_status/' was accessed. ")
+
+    response = {
+        "error": "wip_endpoint",
+        "message": "This endpoint is WIP and should not be used"
+    }
+    return jsonify(response), 410 
+
+    
     body = json.loads(request.data)
     new_status = body.get("status")
 
