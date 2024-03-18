@@ -11,6 +11,8 @@ RUN apt update && \
 
 RUN apt-get update && apt-get install -y python3 python3-pip
 
+RUN apt install git
+
 COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
 

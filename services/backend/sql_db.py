@@ -3,6 +3,7 @@ The database of culture care api
 """
 
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timezone
 import bcrypt
 
 import datetime
@@ -163,6 +164,7 @@ class Practitioner(sql_db.Model):
         Verifies the session token of a user
         """
         return token == input_token and datetime.datetime.now() < token_expiration
+        #TODO: change to UTC
 
     def verify_password(self, password):
         """
@@ -224,6 +226,7 @@ class Gender(sql_db.Model):
     """
     Gender Model
     """
+    # TODO: just store this as a list as part of practiioner
     __tablename__ = "genders"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
@@ -244,6 +247,7 @@ class Language(sql_db.Model):
     """
     Language Model
     """
+    # TODO: just store this as a list as part of practiioner
     __tablename__ = "languages"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
@@ -272,6 +276,7 @@ class Location(sql_db.Model):
     """
     Location Model
     """
+    # TODO: just store this as a list as part of practiioner
     __tablename__ = "locations"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
@@ -294,6 +299,7 @@ class Specialization(sql_db.Model):
     """
     Specialization Model
     """
+    # TODO: just store this as a list as part of practiioner
     __tablename__ = "specializations"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
@@ -333,4 +339,50 @@ class PaymentMethod(sql_db.Model):
         """
         return {"id" : self.id, "name" : self.name}
 
+class ConsultationRequest(sql_db.Model):
+    """
+    consultation requests
+    """
+    __tablename__ = "consultation_requests"
+    id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
+    patient_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('patients.id'), nullable=False)
+    practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), nullable=False)
+    created_at = sql_db.Column(sql_db.DateTime, nullable=False) 
+    current_status = sql_db.Column(sql_db.String, nullable=False, default='pending')
+    referral_source = sql_db.Column(sql_db.String, nullable=False) 
+        # e.g., 'latinxtherapy', 'therapy4blackgirls'    
 
+# ---------------------------------------------------------------------------------
+#  Requests per practitioner 
+    # count the number of consultations per clinician within a specific 
+    # timeframe, (group_by practitioner_id//using the backref)
+
+            # Time Saved metric
+        # filter consultations w/ "rejected" status, multiply count by 15 (minutes)
+# ---------------------------------------------------------------------------------
+
+    # Relationships
+    patient = sql_db.relationship("Patient", back_populates="consultation_requests")
+    practitioner = sql_db.relationship("Practitioner", back_populates="consultation_requests")
+
+
+    def __init__(self, patient_id, practitioner_id, created_at, referral_source):
+        self.patient_id = patient_id
+        self.practitioner_id = practitioner_id
+        self.created_at = created_at
+        self.referral_source = referral_source
+
+class ConsultationChange(sql_db.Model):
+    __tablename__ = "consultation_changes"
+    id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
+    consultation_request_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('consultation_requests.id'), nullable=False)
+    status = sql_db.Column(sql_db.String, nullable=False)  # e.g., 'accepted', 'rejected', pending
+    updated_at = sql_db.Column(sql_db.DateTime, nullable=False)
+
+    # Relationship
+    consultation_request = sql_db.relationship("ConsultationRequest", backref="changes")
+
+    def __init__(self, consultation_request_id, status, updated_at):
+        self.consultation_request_id = consultation_request_id
+        self.status = status
+        self.updated_at = updated_at

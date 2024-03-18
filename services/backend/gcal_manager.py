@@ -18,7 +18,7 @@ def get_events():
   try:
     GOOGLE_CLIENT_SECRET_FILE = os.getenv("GOOGLE_CLIENT_SECRET_FILE")
 
-    print("here" , GOOGLE_CLIENT_SECRET_FILE)
+    # print("here" , GOOGLE_CLIENT_SECRET_FILE)
     GCAL_SCOPES = ["https://www.googleapis.com/auth/calendar"]
     service = Create_Service(GOOGLE_CLIENT_SECRET_FILE, 'calendar', 'v3', GCAL_SCOPES)
     now = datetime.datetime.now()

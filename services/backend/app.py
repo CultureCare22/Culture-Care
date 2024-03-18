@@ -3,6 +3,7 @@ Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 import sys
 import os
+import logging
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -15,30 +16,41 @@ import crud
 
 import argparse
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
-import verification
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location, ConsultationChange, ConsultationRequest
+# import verification
 import datetime
 from flask import Flask, request
 from sql_db import sql_db
 import email_automater
-from email_media import create_pdf, split_string
+# from email_media import create_pdf, split_string
 from flask_cors import CORS
 import json
 db_filename = "culturecaresql.db"
 app = Flask(__name__)
 from pprint import pprint
 
-DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
-DB_USER = os.getenv('USER')
-DB_IP = os.getenv('IP')
-DB_NAME = os.getenv('DATABASE')
+def str_to_bool(s):
+    return s.lower() in ['true', '1', 't', 'y', 'yes']
 
 
-CORS(app, support_credentials=True)
+if str_to_bool(os.getenv('PRODUCTION')):
+    DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
+    DB_USER = os.getenv('USER')
+    DB_IP = os.getenv('IP')
+    DB_NAME = os.getenv('DATABASE')
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ECHO"] = True
+    CORS(app, support_credentials=True)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ECHO"] = True
+else:
+    CORS(app, support_credentials=True)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/postgres"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ECHO"] = True
+
 
 
 
@@ -53,6 +65,7 @@ def session_commited(db):
     except:
         return False
     return True
+
 
 def assert_none(data):
     """
@@ -99,8 +112,17 @@ def extract_token(request):
 @app.route("/login/", methods=["POST"])
 def login():
     """
+    ::DEPRECIATED::
     Endpoint for logging in a user
     """
+    logging.warning("Deprecated endpoint '/login/' was accessed. Advise user to NOT use this method.")
+
+    response = {
+        "error": "deprecated_endpoint",
+        "message": "This endpoint is deprecated and will be removed in future versions."
+    }
+    return jsonify(response), 410 
+
     body = json.loads(request.data)
     email_address = body.get("email_address")
     password = body.get("password")
@@ -121,8 +143,16 @@ def login():
 @app.route("/session/", methods=["POST"])
 def update_session():
     """
+    ::DEPRECIATED::
     Endpoint for updating a user's session
     """
+    logging.warning("Deprecated endpoint '/session/' was accessed. Advise user to NOT use this method.")
+
+    response = {
+        "error": "deprecated_endpoint",
+        "message": "This endpoint is deprecated and will be removed in future versions."
+    }
+    return jsonify(response), 410 
     success, response = extract_token(request)
     if not success:
         return response
@@ -143,6 +173,20 @@ def update_session():
                        "update_token": practitioner.update_token
     })
 
+def add_consultation_change(consultation_request_id, new_status):
+    # Create a new ConsultationChange instance
+    new_change = ConsultationChange(consultation_request_id=consultation_request_id, status=new_status, updated_at=datetime.utcnow())
+    db.session.add(new_change)
+    
+    # Fetch the corresponding ConsultationRequest and update its current_status
+    consultation_request = ConsultationRequest.query.get(consultation_request_id)
+    if consultation_request:
+        consultation_request.current_status = new_status
+        db.session.commit()
+    else:
+        # Handle the case where the ConsultationRequest does not exist
+        db.session.rollback()
+        raise ValueError("ConsultationRequest does not exist.")
 
 @app.route("/secret/", methods=["GET"])
 def secret_message():
@@ -754,6 +798,43 @@ def match_practitioners(practitioner_id):
 #     if id is None or status is None: return failure_response("Invalid inputs")
     
 #     return success_response({"id" : id, "message" : update_event_status(id, status)})
+
+@app.route("/consultation_request/<int:request_id>/update_status/", methods=["POST"])
+def update_consultation_status(request_id):
+    """
+    Updates the status of a specific consultation request by creating a ConsultationChange record.
+
+    Incomplete. Need to see how consultations will be fulfilled to get a better 
+        data model. Last worked on 18 March 24
+    """
+    body = json.loads(request.data)
+    new_status = body.get("status")
+
+    if not new_status:
+        return failure_response("Missing new status.", 400)
+
+    # fetching ConsultationRequest by id
+    consultation_request = ConsultationRequest.query.get(request_id)
+    if consultation_request is None:
+        return failure_response("ConsultationRequest not found.", 404)
+
+    # create new ConsultationChange record
+    consultation_change = ConsultationChange(
+        consultation_request_id=request_id,
+        status=new_status,
+        updated_at=datetime.datetime.now(datetime.UTC)  # ensure utc 
+    )
+    sql_db.session.add(consultation_change)
+
+    # update current status of the ConsultationRequest
+    consultation_request.current_status = new_status
+
+    try:
+        sql_db.session.commit()
+        return success_response({"message": "Consultation status updated successfully."}, 200)
+    except Exception as e:
+        sql_db.session.rollback()
+        return failure_response(f"Failed to update consultation status: {str(e)}", 500)
 
 
 if __name__ == "__main__":

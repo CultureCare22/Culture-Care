@@ -18,3 +18,4 @@ node_modules/.cache
 editing
 ./app/instance
 *pickle
+clientsecret.json
