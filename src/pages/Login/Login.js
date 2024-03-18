@@ -5,10 +5,13 @@ import { useParams } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase/Firebase';
 import { GoogleLogin } from '@react-oauth/google';
 import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
     const params = useParams()
+    const navigate = useNavigate();
+    const emails = JSON.parse(localStorage.getItem('practitionerEmails'));
 
     const [practitionerEmails, setPractitionersEmails] = useState([])
     const [practitionerEmailsFetched, setPractitionerEmailsFetched] = useState(false);
@@ -46,18 +49,20 @@ function Login() {
         const googleEmail = await signInWithGoogle();
         console.log(practitionerEmails)
         console.log(googleEmail)
+        console.log(emails)
         if (googleEmail === "error") {
-            console.log("Error signing in");
-            window.location.href = "/"
+            alert("There was an error signing in")
+                .then(() => navigate("/"));
         }
-        else if (practitionerEmails.includes(googleEmail)) {
+        else if (emails.includes(googleEmail)) {
             console.log("Practitioner signed in");
             localStorage.setItem("email", googleEmail);
-            window.location.href = "/pending-request";
+            navigate("/pending-request");
         }
-        else if (practitionerEmails.length !== 0 && !practitionerEmails.includes(googleEmail)) {
-            alert("You are unauthorized to access this page")
-            window.location.href = "/";
+        else if (!emails.includes(googleEmail)) {
+            console.log("Unauthorized attempt")
+            alert("You are unauthorized to access this page");
+            navigate("/");
         }
     }
 

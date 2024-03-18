@@ -25,6 +25,8 @@ export const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
 // sign in google function
 export const signInWithGoogle = async () => {
+    const emails = JSON.parse(localStorage.getItem('practitionerEmails'));
+
     console.log("signing in again ....")
     // triggers the pop up, then pass in the result
     const result = await signInWithPopup(auth, provider)

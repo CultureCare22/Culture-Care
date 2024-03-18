@@ -21,6 +21,7 @@ function Nav() {
                         const email = practitioner["email_address"]
 
                         setPractitionersEmails((prevEmail) => [...prevEmail, email]);
+
                     }
 
                 } else {
@@ -35,6 +36,7 @@ function Nav() {
     }, [])
 
     console.log(practitionerEmails)
+    localStorage.setItem('practitionerEmails', JSON.stringify(practitionerEmails));
 
     const checkAuth = () => {
 
