@@ -52,6 +52,7 @@ function ClinicianProfile() {
                     } else if ({pId} == 3){
                         setImage('/Silvapfp.png')
                     }
+                    console.log(practitioners.specializations[0]['name'])
                 } else {
                     console.log("Error fetching data: ", response.statusText);
                 }
@@ -92,7 +93,7 @@ function ClinicianProfile() {
                                 <dd>Phone</dd>
                                 <dt>+1-123-456-7890</dt>
                                 <dd>Licensed In: </dd>
-                                <dt>NY, NJ</dt>
+                                <dt>{practitioners.locations[0]['name']}</dt>
                                 <dd>Address</dd>
                                 <dt>123 Street, NY</dt>
                                 <dd>Currently Accepting Clients: </dd>
@@ -123,13 +124,14 @@ function ClinicianProfile() {
                         {specializations.slice(0, 2).map(specialization => (<div className="consultation_details">{specialization.name}</div>))}
                         </div> */}
                         <div className='specializations'>
-                            <div className='specs'>Life Transition</div>
-                            <div className='specs'>Financial Anxiety</div>
-                            <div className='specs'>Group Practice</div>
-                            <div className='specs'>Family</div>
-                            <div className='specs'>General</div>
-                            <div className='specs'>Something Else</div>
+                            <div className='specs'>{practitioners.specializations[0]['name']}</div>
+                            <div className='specs'>{practitioners.specializations[1]['name']}</div>
+                            {/* <div className='specs'>Group Practice</div> */}
+                            {/* <div className='specs'>Family</div> */}
+                            {/* <div className='specs'>General</div> */}
+                            {/* <div className='specs'>Something Else</div> */}
                         </div>
+                        
                         <div className="view_consultation">
                             {/* FIX LATER ADD ID */}
                             <a href={`/patient-info/${pId}`}>Book an appointment</a>

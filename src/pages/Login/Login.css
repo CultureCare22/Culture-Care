@@ -136,6 +136,10 @@
   margin-top: 3px;
 }
 
+.inputBox button {
+  margin-top: 1em;
+  text-align: center;
+}
 .sign-in-window section .signin .content .form .inputBox i {
   position: absolute;
   left: 0;
@@ -250,6 +254,6 @@
 
 
 body {
-  text-align: center;
+  /* text-align: center; */
   padding-top: 2rem;
 }

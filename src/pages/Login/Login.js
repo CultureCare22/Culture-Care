@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './Login.css';
 import { useParams } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase/Firebase';
-import { GoogleLogin } from '@react-oauth/google';
+// import { GoogleLogin } from '@react-oauth/google';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
