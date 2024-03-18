@@ -13,39 +13,9 @@ function Login() {
     const navigate = useNavigate();
     const emails = JSON.parse(localStorage.getItem('practitionerEmails'));
 
-    const [practitionerEmails, setPractitionersEmails] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const url = "https://culture-care.onrender.com/practitioners/get/";
-            try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    const data = await response.json();
-                    const practitioners = data.practitioners
-
-                    for (const practitioner of practitioners) {
-
-                        const email = practitioner["email_address"]
-
-                        setPractitionersEmails((prevEmail) => [...prevEmail, email]);
-                    }
-
-                } else {
-                    console.log("Error fetching data: ", response.statusText);
-                }
-            } catch (error) {
-                console.log("Fetching Practitioners failed: ", error);
-            }
-        }
-        fetchData();
-
-    }, [])
-
     const signIn = async () => {
 
         const googleEmail = await signInWithGoogle();
-        console.log(practitionerEmails)
         console.log(googleEmail)
         console.log(emails)
         if (googleEmail === "error") {
