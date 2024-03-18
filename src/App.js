@@ -25,21 +25,21 @@ function App() {
         {/* <Sidebar /> */}
         <Navigation />
         <div className="no-nav">
-        <Routes>
-          <Route path="/login" exact element={<Login/>} />
-          <Route path="/" element={<SelectClinician />} />
-          <Route path="/pending-request" element={<TherapistPortal />} />
-          <Route path="/pending-request-details/:id" element={<PendingRequest />} />
-          <Route path="/clinician-j-ramirez" element={<Ramirez />} />
-          <Route path="/clinician-l-tapia" element={<Tapia />} />
-          <Route path="/clinician-s-silva" element={<Silva />} />
-          <Route path="/confirmation-page" element={<Confirmation />} />
-          <Route path="/appt-declined" element={<DeclinedApt />} />
-          <Route path="/appt-approved" element={<ApprovedApt />} />
-          <Route path="/patient-info/:pId" element={<PatientInfo/>}/>
-          <Route path="/clinician-profile/:pId" element={<ClinicianProfile/>}/>
+          <Routes>
+            <Route path="/login" exact element={<Login />} />
+            <Route path="/" element={<SelectClinician />} />
+            <Route path="/pending-request" element={<TherapistPortal />} />
+            <Route path="/pending-request-details/:id" element={<PendingRequest />} />
+            <Route path="/clinician-j-ramirez" element={<Ramirez />} />
+            <Route path="/clinician-l-tapia" element={<Tapia />} />
+            <Route path="/clinician-s-silva" element={<Silva />} />
+            <Route path="/confirmation-page" element={<Confirmation />} />
+            <Route path="/appt-declined" element={<DeclinedApt />} />
+            <Route path="/appt-approved" element={<ApprovedApt />} />
+            <Route path="/patient-info/:pId" element={<PatientInfo />} />
+            <Route path="/clinician-profile/:pId" element={<ClinicianProfile />} />
 
-        </Routes>
+          </Routes>
         </div>
 
       </Router >

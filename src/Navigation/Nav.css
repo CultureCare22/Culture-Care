@@ -20,6 +20,7 @@ nav {
 
 a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .navbar_container {
@@ -28,7 +29,7 @@ a {
 }
 
 .navbar_container a {
-    color: rgb(92, 208, 223);  
+    color: rgb(92, 208, 223);
 }
 
 .navbar_menu {

@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-*
-.sign-in-window{
+
+* .sign-in-window {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
 }
+
 /* .no-nav {
   margin-left:0;
   margin-right:0;
 } */
-.sign-in-window body 
-{
+.sign-in-window body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   background: #b6d4cc;
 }
-.sign-in-window section 
-{
+
+.sign-in-window section {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -30,8 +30,8 @@
   flex-wrap: wrap;
   overflow: hidden;
 }
-.sign-in-window section::before 
-{
+
+.sign-in-window section::before {
   content: '';
   /* position: absolute; */
   width: 100%;
@@ -39,19 +39,18 @@
   /* background: linear-gradient(#000,#0f0,#000);
   animation: animate 5s linear infinite; */
 }
-@keyframes animate 
-{
-  0%
-  {
+
+@keyframes animate {
+  0% {
     transform: translateY(-100%);
   }
-  100%
-  {
+
+  100% {
     transform: translateY(100%);
   }
 }
-.sign-in-window section span 
-{
+
+.sign-in-window section span {
   position: relative;
   display: block;
   width: calc(6.25vw - 2px);
@@ -60,20 +59,20 @@
   z-index: 2;
   transition: 1.5s;
 }
-.sign-in-window section span:hover 
-{
+
+.sign-in-window section span:hover {
   background: #0f0;
   transition: 0s;
 }
+
 .sign-in-window p {
   margin-left: 0;
 }
 
-.sign-in-window section .signin
-{
+.sign-in-window section .signin {
   position: absolute;
   width: 400px;
-  background: #ffffff;  
+  background: #ffffff;
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -82,8 +81,8 @@
   border-radius: 4px;
   box-shadow: 2px 2px 2px lightgray;
 }
-.sign-in-window section .signin .content 
-{
+
+.sign-in-window section .signin .content {
   position: relative;
   width: 100%;
   display: flex;
@@ -92,19 +91,20 @@
   flex-direction: column;
   gap: 40px;
 }
-.sign-in-window section .signin .content h2 
-{
+
+.sign-in-window section .signin .content h2 {
   font-size: 2em;
   color: rgb(0, 0, 0);
   text-transform: uppercase;
 }
-.sign-in-window section .signin .content .form 
-{
+
+.sign-in-window section .signin .content .form {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
+
 .sign-in-window .form p {
   margin-right: 0;
   margin-left: auto;
@@ -114,13 +114,13 @@
   margin-right: 0;
   margin-left: auto;
 }
-.sign-in-window section .signin .content .form .inputBox
-{
+
+.sign-in-window section .signin .content .form .inputBox {
   position: relative;
   width: 100%;
 }
-.sign-in-window section .signin .content .form .inputBox input 
-{
+
+.sign-in-window section .signin .content .form .inputBox input {
   position: relative;
   width: 100%;
   background: #ececec;
@@ -135,8 +135,8 @@
   font-size: 10pt;
   margin-top: 3px;
 }
-.sign-in-window section .signin .content .form .inputBox i 
-{
+
+.sign-in-window section .signin .content .form .inputBox i {
   position: absolute;
   left: 0;
   padding: 15px 10px;
@@ -145,35 +145,35 @@
   transition: 0.5s;
   pointer-events: none;
 }
-.sign-in-window .signin .content .form .inputBox input:focus ~ i,
-.sign-in-window .signin .content .form .inputBox input:valid ~ i
-{
+
+.sign-in-window .signin .content .form .inputBox input:focus~i,
+.sign-in-window .signin .content .form .inputBox input:valid~i {
   transform: translateY(-7.5px);
   font-size: 0.8em;
   color: #fff;
 }
-.sign-in-window .signin .content .form .links 
-{
+
+.sign-in-window .signin .content .form .links {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.sign-in-window .signin .content .form .links a 
-{
+
+.sign-in-window .signin .content .form .links a {
   color: #000000;
-  text-decoration:underline;
+  text-decoration: underline;
   margin-right: 0;
   margin-left: auto;
   font-size: 10pt;
 }
-.sign-in-window .signin .content .form .links a:nth-child(2)
-{
+
+.sign-in-window .signin .content .form .links a:nth-child(2) {
   color: #0f0;
   font-weight: 600;
 }
-.sign-in-window .signin .content .form .inputBox input[type="submit"]
-{
+
+.sign-in-window .signin .content .form .inputBox input[type="submit"] {
   padding: 10px;
   background: #2563EB;
   color: #ffffff;
@@ -182,22 +182,20 @@
   letter-spacing: 0.05em;
   cursor: pointer;
 }
-.sign-in-window input[type="submit"]:active
-{
+
+.sign-in-window input[type="submit"]:active {
   opacity: 0.6;
 }
-@media (max-width: 900px)
-{
-    .sign-in-window section span 
-  {
+
+@media (max-width: 900px) {
+  .sign-in-window section span {
     width: calc(10vw - 2px);
     height: calc(10vw - 2px);
   }
 }
-@media (max-width: 600px)
-{
-    .sign-in-window section span 
-  {
+
+@media (max-width: 600px) {
+  .sign-in-window section span {
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);
   }
@@ -205,4 +203,53 @@
 
 .form a {
   text-decoration: underline;
+}
+
+.login-with-google-btn {
+  cursor: pointer;
+  transition: background-color .3s, box-shadow .3s;
+
+  padding: 12px 16px 12px 42px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+
+  color: #757575;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 12px 11px;
+
+  &:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+  }
+
+  &:active {
+    background-color: #eeeeee;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow:
+      0 -1px 0 rgba(0, 0, 0, .04),
+      0 2px 4px rgba(0, 0, 0, .25),
+      0 0 0 3px #c8dafc;
+  }
+
+  &:disabled {
+    filter: grayscale(100%);
+    background-color: #ebebeb;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+    cursor: not-allowed;
+  }
+}
+
+
+body {
+  text-align: center;
+  padding-top: 2rem;
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './Login.css';
 import { useParams } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase/Firebase';
+import { GoogleLogin } from '@react-oauth/google';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -104,7 +105,8 @@ function Login() {
                                 </div>
                                 <div class="inputBox">
                                     {/* <a href="/select-clinician"> */}
-                                    <input type="submit" onClick={signIn} value="Sign In" />
+                                    <input type="submit" value="Sign In" />
+                                    <button type="button" class="login-with-google-btn" onClick={handleSignInClick}>Sign in with Google</button>
                                     {/* </a> */}
                                 </div>
                                 <p>
