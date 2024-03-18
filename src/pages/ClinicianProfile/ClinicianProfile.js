@@ -19,6 +19,7 @@ function ClinicianProfile() {
     const [languages, setLanguages] = useState([])
     const [description, setDescription] = useState([])
     const [email, setEmail] = useState([])
+    const [image, setImage] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +45,13 @@ function ClinicianProfile() {
                     setName(practitioners.name)
                     setDescription(practitioners.description)
                     setEmail(practitioners.email_address)
+                    if ({pId} == 1) {
+                        setImage('/Ramirezpfp.png')
+                    } else if ({pId} == 2) {
+                        setImage('/Tapuapfp.png')
+                    } else if ({pId} == 3){
+                        setImage('/Silvapfp.png')
+                    }
                 } else {
                     console.log("Error fetching data: ", response.statusText);
                 }
@@ -70,7 +78,7 @@ function ClinicianProfile() {
                     <div className='clinician-qfacts'>
                         <div className='clinician-pic'>
                             {/* <img src={`/${pId}.png/`} /> */}
-                            <img src={practitioners['image']} />
+                            <img src={image} />
                             <div className='name-and-spec'>
                                 <h2>{practitioners.name}</h2>
                                 <h3>LCSW, CFSW</h3>
@@ -89,8 +97,6 @@ function ClinicianProfile() {
                                 <dt>123 Street, NY</dt>
                                 <dd>Currently Accepting Clients: </dd>
                                 <dt>Yes</dt>
-                                <dd>Education: </dd>
-                                <dt>A school</dt>
                             </dl>
 
                             <h2>Typical Availability</h2>
@@ -113,6 +119,9 @@ function ClinicianProfile() {
                         <p>{practitioners.description}</p>
 
                         <h2>Specialization</h2>
+                        {/* <div className="consultation">
+                        {specializations.slice(0, 2).map(specialization => (<div className="consultation_details">{specialization.name}</div>))}
+                        </div> */}
                         <div className='specializations'>
                             <div className='specs'>Life Transition</div>
                             <div className='specs'>Financial Anxiety</div>
@@ -132,7 +141,7 @@ function ClinicianProfile() {
     }
 
     return (
-        <Practitioner name={name} description = {description} specializations={specializations} locations={locations} email={email}/>
+        <Practitioner name={name} image={image} description = {description} specializations={specializations} locations={locations} email={email}/>
     );
 
 }
