@@ -297,23 +297,23 @@ function Form() {
                                     <label for='grief'>Grief</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='life-tran' name='discuss-details' value='life-tran'></input>
+                                    <input type='checkbox' id='life-tran' name='discuss-details' value='Life Transition'></input>
                                     <label for='life-tran'>Life Transition</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='imposter' name='discuss-details' value='imposter'></input>
+                                    <input type='checkbox' id='imposter' name='discuss-details' value='Imposter'></input>
                                     <label for='imposter'>Imposter Syndrome</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='depression' name='discuss-details' value='depression'></input>
+                                    <input type='checkbox' id='depression' name='discuss-details' value='Depression'></input>
                                     <label for='depression'>Depression</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='trauma' name='discuss-details' value='trauma'></input>
+                                    <input type='checkbox' id='trauma' name='discuss-details' value='Trauma'></input>
                                     <label for='trauma'>Trauma</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='family' name='discuss-details' value='family'></input>
+                                    <input type='checkbox' id='family' name='discuss-details' value='Family'></input>
                                     <label for='family'>Family</label>
                                 </div>
                                 <div className='dis-check'>
@@ -321,7 +321,7 @@ function Form() {
                                     <label for='inter-rela'>Interracial Relationships</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='lgbtqia' name='discuss-details' value='lgbtqia'></input>
+                                    <input type='checkbox' id='lgbtqia' name='discuss-details' value='LGBTQ+'></input>
                                     <label for='lgbtqia'>LGBTQIA+</label>
                                 </div>
                             </div>

@@ -13,41 +13,9 @@ function Login() {
     const navigate = useNavigate();
     const emails = JSON.parse(localStorage.getItem('practitionerEmails'));
 
-    const [practitionerEmails, setPractitionersEmails] = useState([])
-    const [practitionerEmailsFetched, setPractitionerEmailsFetched] = useState(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const url = "https://culture-care.onrender.com/practitioners/get/";
-            try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    const data = await response.json();
-                    const practitioners = data.practitioners
-
-                    for (const practitioner of practitioners) {
-
-                        const email = practitioner["email_address"]
-
-                        setPractitionersEmails((prevEmail) => [...prevEmail, email]);
-                        setPractitionerEmailsFetched(true);
-                    }
-
-                } else {
-                    console.log("Error fetching data: ", response.statusText);
-                }
-            } catch (error) {
-                console.log("Fetching Practitioners failed: ", error);
-            }
-        }
-        fetchData();
-
-    }, [])
-
     const signIn = async () => {
 
         const googleEmail = await signInWithGoogle();
-        console.log(practitionerEmails)
         console.log(googleEmail)
         console.log(emails)
         if (googleEmail === "error") {
@@ -61,19 +29,13 @@ function Login() {
         }
         else if (!emails.includes(googleEmail)) {
             console.log("Unauthorized attempt")
-            alert("You are unauthorized to access this page");
-            navigate("/");
+            alert("You are not authorized to view the therapist dashboard")
+            setTimeout(function () {
+                // Do something after 3 seconds
+                navigate("/")
+            }, 3000);
         }
     }
-
-    const handleSignInClick = () => {
-        if (practitionerEmailsFetched) {
-            signIn();
-        } else {
-            // Practitioner emails are not fetched yet, you can handle this scenario accordingly
-            console.log("Practitioner emails are still being fetched...");
-        }
-    };
 
 
     return (
@@ -106,7 +68,7 @@ function Login() {
                                 <div class="inputBox">
                                     {/* <a href="/select-clinician"> */}
                                     <input type="submit" value="Sign In" />
-                                    <button type="button" class="login-with-google-btn" onClick={handleSignInClick}>Sign in with Google</button>
+                                    <button type="button" class="login-with-google-btn" onClick={signIn}>Sign in with Google</button>
                                     {/* </a> */}
                                 </div>
                                 <p>
