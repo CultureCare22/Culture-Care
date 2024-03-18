@@ -5,6 +5,7 @@ import { SlCalender } from "react-icons/sl";
 import { MdOutlineArrowOutward } from "react-icons/md";
 import { AiFillSlackCircle } from "react-icons/ai";
 import { FaUserCheck } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 function Category() {
     const [practitioners, setPractitioners] = useState([]);
@@ -17,13 +18,28 @@ function Category() {
     const [email, setEmail] = useState([])
     const [appointments, setAppointments] = useState([])
 
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const emails = localStorage.getItem("practitionerEmails");
+
+            const userEmail = localStorage.getItem("email");
+
+            if (!userEmail || !emails.includes(userEmail)) {
+                console.log("unauthenticated user")
+                navigate(-1);
+            }
+        }
+        checkAuth();
+    })
+
     useEffect(() => {
         const fetchData = async () => {
             const url = `https://culture-care.onrender.com/practitioners/get/2`;
 
             const response = await fetch(url);
             const data = await response.json();
-            
+
             try {
                 const response = await fetch(url);
                 if (response.ok) {
@@ -69,15 +85,15 @@ function Category() {
         for (let appointment in appointments) {
             return (
                 <Appt
-                    time = {appointment['start']['dateTime']}
-                    id = {appointment['start']['id']}
-                    patient_name = {appointment['description']['patient name']}
-                    payment_method = {appointment['description']['paymentmethod']}
-                    status = {appointment['status']}
-                    requested_clinician = {appointment['clinician']}
+                    time={appointment['start']['dateTime']}
+                    id={appointment['start']['id']}
+                    patient_name={appointment['description']['patient name']}
+                    payment_method={appointment['description']['paymentmethod']}
+                    status={appointment['status']}
+                    requested_clinician={appointment['clinician']}
                 />
             )
-        }  
+        }
     }
     return (
         <div className='therapist-portal-page'>
@@ -85,7 +101,7 @@ function Category() {
             <div className='row-flex'>
                 <div class="allrequests">
                     <h2>Appointment Requests</h2>
-                    
+
                     <table class='request-table'>
                         <thead>
                             <tr>
@@ -97,7 +113,7 @@ function Category() {
                                 <th scope='col'>View/Update</th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             {/* <ApptRequests /> */}
                             <tr>
@@ -141,7 +157,7 @@ function Category() {
                                 <td><a href='/pending-request-details'>Details</a></td>
                             </tr>
                         </tbody>
-                    </table>      
+                    </table>
                 </div>
                 <div className='data-stats'>
                     <div class="box1">

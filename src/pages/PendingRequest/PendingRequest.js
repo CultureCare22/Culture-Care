@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './PendingRequest.css';
 import { MdCheck } from "react-icons/md";
 import { MdCheckCircle } from "react-icons/md";
@@ -9,6 +9,7 @@ import { FaRegCheckCircle } from "react-icons/fa";
 
 function Confirmation() {
     // const params = useParams()
+    
     return (
         <>
             {/* <div className="scrollable-div" style={{ overflow: "scroll" }}> */}
