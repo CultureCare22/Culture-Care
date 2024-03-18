@@ -59,7 +59,7 @@ function Category() {
                     <td>{requested_clinician}</td>
                     <td>{payment_method}</td>
                     <td>{status}</td>
-                    <td><a href={`/pending-request-details/${id}`}>Details</a></td>
+                    {/* <td><a href={`/pending-request-details/${id}`}>Details</a></td> */}
                 </tr>
             </>
         )
@@ -94,7 +94,7 @@ function Category() {
                                 <th scope='col'>Requested Clinician</th>
                                 <th scope='col'>Payment</th>
                                 <th scope='col'>Appointment Status</th>
-                                <th scope='col'>View/Update</th>
+                                {/* <th scope='col'>View/Update</th> */}
                             </tr>
                         </thead>
                         
@@ -106,7 +106,7 @@ function Category() {
                                 <td>Jasmine Ramirez</td>
                                 <td>Self-Pay</td>
                                 <td>Awaiting Approval</td>
-                                <td><a href='/pending-request-details'>Details</a></td>
+                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                             <tr>
                                 <th scope='row'>Aracella Davis</th>
@@ -114,7 +114,7 @@ function Category() {
                                 <td>Lilliana Tapia</td>
                                 <td>OON</td>
                                 <td>Awaiting Approval</td>
-                                <td><a href='/pending-request-details'>Details</a></td>
+                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                             <tr>
                                 <th scope='row'>Isa Montes</th>
@@ -122,7 +122,7 @@ function Category() {
                                 <td>Sierra Silva</td>
                                 <td>OON</td>
                                 <td>Awaiting Approval</td>
-                                <td><a href='/pending-request-details'>Details</a></td>
+                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                             <tr>
                                 <th scope='row'>Isa Montes</th>
@@ -130,7 +130,7 @@ function Category() {
                                 <td>Sierra Silva</td>
                                 <td>OON</td>
                                 <td>Awaiting Approval</td>
-                                <td><a href='/pending-request-details'>Details</a></td>
+                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                             <tr>
                                 <th scope='row'>Isa Montes</th>
@@ -138,7 +138,7 @@ function Category() {
                                 <td>Sierra Silva</td>
                                 <td>OON</td>
                                 <td>Awaiting Approval</td>
-                                <td><a href='/pending-request-details'>Details</a></td>
+                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                         </tbody>
                     </table>      
