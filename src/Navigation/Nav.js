@@ -5,7 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 function Nav() {
     const auth = getAuth();
 
-    const [practitionerEmails, setPractitionersEmails] = useState([]) 
+    const [practitionerEmails, setPractitionersEmails] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,13 +16,13 @@ function Nav() {
                     const data = await response.json();
                     const practitioners = data.practitioners
 
-                    for (const practitioner of practitioners){
+                    for (const practitioner of practitioners) {
 
                         const email = practitioner["email_address"]
-         
+
                         setPractitionersEmails((prevEmail) => [...prevEmail, email]);
                     }
-                  
+
                 } else {
                     console.log("Error fetching data: ", response.statusText);
                 }
@@ -39,12 +39,12 @@ function Nav() {
     const checkAuth = () => {
 
         const email = localStorage.getItem("email")
-        if (!practitionerEmails.includes(email)){
+        if (!practitionerEmails.includes(email)) {
             signOut(auth).then(() => {
                 localStorage.removeItem("email")
-              }).catch((error) => {
+            }).catch((error) => {
                 // An error happened.
-              });
+            });
             window.location.href = "/login";
         }
         else {
@@ -60,7 +60,7 @@ function Nav() {
 
         <div className='navbar_menu'>
             <a href="/">Home</a>
-            <button onClick={checkAuth}>Therapist Dashboard</button>
+            <a onClick={checkAuth}>Therapist Dashboard</a>
         </div>
     </nav>
 
