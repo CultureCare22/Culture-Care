@@ -90,6 +90,7 @@ function Form() {
             <div className='big-heading'>
                 <h1>Personal Information</h1>
             </div>
+            <p>IMPORTANT: By scheduling this appointment request, you are consenting to having your personal information collected.</p>
             <div className='forms'>
                 <div className='container-outer'>
                     <h2>Contact Information</h2>
