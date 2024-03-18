@@ -5,7 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 function Nav() {
     const auth = getAuth();
 
-    const [practitionerEmails, setPractitionersEmails] = useState(["ambrose2002blay@gmail.com"]) 
+    const [practitionerEmails, setPractitionersEmails] = useState([]) 
 
     useEffect(() => {
         const fetchData = async () => {
