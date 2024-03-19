@@ -6,6 +6,7 @@ import { MdOutlineArrowOutward } from "react-icons/md";
 import { AiFillSlackCircle } from "react-icons/ai";
 import { FaUserCheck } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import dummy_data from "../../dummy_clinician.json";
 
 function Category() {
     const [practitioners, setPractitioners] = useState([]);
@@ -32,6 +33,8 @@ function Category() {
         }
         checkAuth();
     })
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,14 +74,14 @@ function Category() {
             <>
                 <tr>
                     <th scope='row'>{patient_name}</th>
-                    <td>{time}</td>
+                    {/* <td>{time}</td> */}
                     <td>{requested_clinician}</td>
                     <td>{payment_method}</td>
                     <td>
                         <select name='update_status' id='update_status'>
-                            <option value='awaiting_approval'>Awaiting Approval</option>
-                            <option value='approved'>Approved</option>
-                            <option value='declined'>Declined</option>
+                            <option value='Awaiting Approval'>Awaiting Approval</option>
+                            <option value='Approved'>Approved</option>
+                            <option value='Declined'>Declined</option>
                         </select>
                     </td>
                     {/* <td><a href={`/pending-request-details/${id}`}>Details</a></td> */}
@@ -86,21 +89,65 @@ function Category() {
             </>
         )
     }
+    // useEffect(() => {
+    const ApptRequests = ({ appointments_test }) => {
 
-    const ApptRequests = () => {
-        for (let appointment in appointments) {
-            return (
-                <Appt
-                    time={appointment['start']['dateTime']}
-                    id={appointment['start']['id']}
-                    patient_name={appointment['description']['patient name']}
-                    payment_method={appointment['description']['paymentmethod']}
-                    status={appointment['status']}
-                    requested_clinician={appointment['clinician']}
-                />
-            )
-        }
+        const appointmentsByClinician = {};
+
+        appointments_test.practitioners.forEach(practitioner => {
+            const name = practitioner.name;
+            let appointments = practitioner.appointments;
+
+            if (typeof appointments === 'string') {
+                appointments = JSON.parse(appointments);
+            }
+
+            appointmentsByClinician[name] = appointments;
+        });
+
+        const practitioners = { appointmentsByClinician }
+
+        console.log("appointmentsByClinician", appointmentsByClinician)
+
+        return (
+            <div>
+                a
+                {/* {practitioners.map((practitioner) => (
+                    <Appt
+                        // time="See gCal Invite"
+                        id={practitioner.id}
+                        patient_name={practitioner.name}
+                        payment_method={practitioner.name}
+                        status={practitioner.name}
+                        requested_clinician={practitioner.name}
+                    />
+                ))} */}
+
+            </div>
+
+        )
     }
+
+
+
+    // for (let appointment in appointments_test) {
+    //     console.log("appointments_test", appointments_test)
+    //     console.log("appointment", appointment)
+    //     return (
+    //         <div></div>
+    // <Appt
+    //     time={appointment['start']['dateTime']}
+    //     id={appointment['start']['id']}
+    //     patient_name={appointment['description']['patient name']}
+    //     payment_method={appointment['description']['paymentmethod']}
+    //     status={appointment['status']}
+    //     requested_clinician={appointment['clinician']}
+    // />
+    //         )
+    //     }
+    // }
+    // // }, [])
+
     return (
         <div className='therapist-portal-page'>
             <h1>Therapist Portal</h1>
@@ -112,7 +159,7 @@ function Category() {
                         <thead>
                             <tr>
                                 <th scope='col'>Name</th>
-                                <th scope='col'>Time</th>
+                                {/* <th scope='col'>Time</th> */}
                                 <th scope='col'>Requested Clinician</th>
                                 <th scope='col'>Payment</th>
                                 <th scope='col'>Appointment Status</th>
@@ -121,53 +168,9 @@ function Category() {
                         </thead>
 
                         <tbody>
-                            {/* <ApptRequests /> */}
-                            <tr>
-                                <th scope='row'>Fatima Perez</th>
-                                <td>3/11 @ 10:00am</td>
-                                <td>Jasmine Ramirez</td>
-                                <td>Self-Pay</td>
-                                <td>
-                                <select name='update_status' id='update_status'>
-                                    <option value='awaiting_approval'>Awaiting Approval</option>
-                                    <option value='approved'>Approved</option>
-                                    <option value='declined'>Declined</option>
-                                </select>
-                                </td>
-                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
-                            </tr>
-                            <tr>
-                                <th scope='row'>Aracella Davis</th>
-                                <td>3/15 @ 8:00am</td>
-                                <td>Lilliana Tapia</td>
-                                <td>OON</td>
-                                <td>Awaiting Approval</td>
-                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
-                            </tr>
-                            <tr>
-                                <th scope='row'>Isa Montes</th>
-                                <td>3/18 @ 9:30am</td>
-                                <td>Sierra Silva</td>
-                                <td>OON</td>
-                                <td>Awaiting Approval</td>
-                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
-                            </tr>
-                            <tr>
-                                <th scope='row'>Isa Montes</th>
-                                <td>3/18 @ 9:30am</td>
-                                <td>Sierra Silva</td>
-                                <td>OON</td>
-                                <td>Awaiting Approval</td>
-                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
-                            </tr>
-                            <tr>
-                                <th scope='row'>Isa Montes</th>
-                                <td>3/18 @ 9:30am</td>
-                                <td>Sierra Silva</td>
-                                <td>OON</td>
-                                <td>Awaiting Approval</td>
-                                {/* <td><a href='/pending-request-details'>Details</a></td> */}
-                            </tr>
+                            <ApptRequests
+                                appointments_test={dummy_data}
+                            />
                         </tbody>
                     </table>
                 </div>

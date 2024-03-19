@@ -8,8 +8,8 @@ function Form() {
     const { pId } = useParams();
     console.log({ pId })
     // I am not sure if these will come in handy, but I will leave them here to save the possible work 
-    // const [firstName, setFirstName] = useState("");
-    // const [lastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     // const [preferredName, setPreferredName] = useState("");
     // const [address, setAddress] = useState("");
     // const [city, setCity] = useState("");
@@ -25,13 +25,37 @@ function Form() {
 
 
     const handleSubmit = async (e) => {
-        
+
         e.preventDefault();
 
-        console.log("initiating submit")
-        console.log("state", state)
-        console.log("payment", payment)
-        console.table("details", details)
+        // console.log("initiating submit")
+        // console.log("state", state)
+        // console.log("payment", payment)
+        // console.table("details", details)
+        // console.log("testing js string splicing", firstName, lastName, firstName + lastName)
+        // console.log("\nfirstName:", firstName)
+        // console.log("setPayment to:", payment)
+        // console.log("list access payment", payment[0])
+        // return
+        try {
+            console.log(pId)
+            console.log("testing js string splicing", firstName, lastName, firstName + lastName)
+
+            const response = await fetch(`https://culture-care.onrender.com/practitioners/${pId}/appointments/add/`, {
+                method: "POST",
+                body: JSON.stringify({
+                    patient_name: firstName + " " + lastName,
+                    paymentmethod: payment[0],
+                    status: "Awaiting Approval",
+                })
+            })
+            // TODO: This API set is us temporary and will be depreciated. We must ____only____
+            // write to the database if the patient is approved ie is passed -> to be added after the match api is called
+        }
+        catch (error) {
+            console.log(error)
+            alert("Sorry you are not a match! \n We are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \n Here are four websites where you can find qualified therapists in your area:")
+        }
 
         try {
             console.log(pId)
@@ -99,12 +123,17 @@ function Form() {
                             {/* Legal first name */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Legal First Name </div>
-                                <input type="text" placeholder="Enter legal first name" />
+                                <input type="text"
+                                    placeholder="Enter legal first name"
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
                             </div>
                             {/* Legal last name */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Legal Last Name </div>
-                                <input type="text" placeholder="Enter legal last name" />
+                                <input type="text" placeholder="Enter legal last name"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
                             </div>
                         </div>
 
