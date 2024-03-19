@@ -467,7 +467,7 @@ def add_appointments(id):
 
 
 @app.route("/practitioners/<int:id>/appointments/update/", methods = ["POST"])
-def add_appointments(id):
+def update_appointments(id):
     """
     TODO: add documentations
 
