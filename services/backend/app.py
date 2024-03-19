@@ -16,7 +16,7 @@ import crud
 
 import argparse
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location, ConsultationChange, ConsultationRequest
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
 # import verification
 import datetime
 from flask import Flask, request
@@ -25,23 +25,23 @@ import email_automater
 # from email_media import create_pdf, split_string
 from flask_cors import CORS
 import json
-db_filename = "culturecaresql.db"
 app = Flask(__name__)
 from pprint import pprint
 
 def str_to_bool(s):
-    return s.lower() in ['true', '1', 't', 'y', 'yes']
+    return s.lower() in ['true']
 
 
 if str_to_bool(os.getenv('PRODUCTION')):
-    DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
-    DB_USER = os.getenv('USER')
-    DB_IP = os.getenv('IP')
-    DB_NAME = os.getenv('DATABASE')
+    # DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
+    DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+    DB_USER = os.getenv('POSTGRES_USER')
+    DB_HOST = os.getenv('DB_HOST')
+    POSTGRES_DB = os.getenv('POSTGRES_DB')
 
     CORS(app, support_credentials=True)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{POSTGRES_DB}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = True
 else:
@@ -438,6 +438,78 @@ def add_genders(id):
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
+
+@app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
+def add_appointments(id):
+    """
+    TODO: add documentations
+
+    temporary endpoint. havent thoroughly tested and likely prone to bugs
+    """
+    body = json.loads(request.data)
+    patient_name = body.get("patient_name")
+    paymentmethod = body.get("paymentmethod")
+    status = body.get("status")
+    practitioner_id = body.get("practitioner_id")
+    exists, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    if not exists:
+        return jsonify({"error": "Practitioner does not exist"}), 404
+
+    appointment = {
+        "id": 6,
+        "patient_name": patient_name,
+        "paymentmethod": paymentmethod,
+        "status": status,
+        "clinician": clinician
+    }
+
+    crud.add_appointment_to_practitioner(sql_db, practitioner_id, appointment)
+
+
+@app.route("/practitioners/<int:id>/appointments/update/", methods = ["POST"])
+def add_appointments(id):
+    """
+    TODO: add documentations
+
+    temporary endpoint. havent thoroughly tested and likely prone to bugs
+    """
+    body = json.loads(request.data)
+    patient_name = body.get("patient_name")
+    new_status = body.get("status")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+    if not exists:
+        return jsonify({"error": "Practitioner does not exist"}), 404
+
+    crud.update_appointment_status(sql_db, practitioner_id, patient_name, new_status)
+
+# @app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
+# def add_appointments(id):
+#     """
+#     TODO: add documentations
+
+#     temporary endpoint
+#     body:
+
+#     """
+#     return
+#     body = json.loads(request.data)
+#     genders = body.get("genders")
+#     exists, practitioner = crud.get_practitioner_by_id(id)
+#     if not exists:
+#         return failure_response("Practitioner does not exists")
+#     for name in genders:
+#         exists, gender = crud.get_gender_by_name(name)
+#         created = False
+#         if not exists:
+#             created, gender = crud.create_gender(name)
+#             if created:
+#                 sql_db.session.add(gender)
+#                 practitioner.genders.append(gender)
+#         elif gender not in set(practitioner.genders):
+#             practitioner.genders.append(gender)
+#     sql_db.session.commit()
+#     return success_response({"practitioner" : practitioner.serialize()}, 201)
+
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -449,10 +521,17 @@ def create_practitioner():
     password = body.get("password")
     descr = body.get("description")
 
-    if assert_none([name, email_address, password, descr]):
+    # languages = body.get("languages")
+    # specializations = body.get("specializations")
+    # payments = body.get("payments")
+    # locations = body.get("locations")
+    # genders = body.get("genders")
+    appointments = body.get("appointments")
+
+    if assert_none([name, email_address, password, descr, appointments]):
         return failure_response("Insufficient inputs", 400)
     
-    created, practitioner = crud.create_practitioner(name, email_address, password, descr)
+    created, practitioner = crud.create_practitioner(name, email_address, password, descr, appointments)
 
     if not created:
         return failure_response("Failed to create practitioner", 400)
@@ -546,6 +625,35 @@ def delete_practitioner(id):
     sql_db.session.commit()
 
     return success_response(practitioner.serialize())
+
+@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
+def match_practitioners(practitioner_id):
+    """
+    Endpoint for matching practitioners
+    """
+    body = json.loads(request.data)
+    locations = body.get("locations")
+    paymentmethods = body.get("paymentmethods")
+    specializations = body.get("specializations")
+
+    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    if not success:
+        return failure_response("Practitioner does not exists")
+    
+    
+    success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
+    
+    if not success:
+        return failure_response({"matched": False, "message" : practitioner})
+    
+    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
+    
+    if soft_pass_success:
+        return success_response({"matched": True, "message" : "Everything matches"})
+    
+    if not soft_pass_success:
+        return success_response({"matched": False, 
+                                 "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
 
 def strict_filter(**kwargs):
@@ -787,7 +895,8 @@ def match_practitioners(practitioner_id):
         return success_response({"matched": True, "message" : "Everything matches"})
     
     if not soft_pass_success:
-        return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
+        return success_response({"matched": False, 
+                                 "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
 # @app.route('/appointments/update/', methods=['POST'])             
 # def update_appt():
@@ -846,5 +955,35 @@ def update_consultation_status(request_id):
         return failure_response(f"Failed to update consultation status: {str(e)}", 500)
 
 
+
+@app.route("/consultation_request/<int:practitioner_id>/update_status/", methods=["POST"])
+def consultation_form(request_id):
+    """
+    write first last, state, email, cliniian, payment method to db
+    endpoint - 6 fields, write into database
+
+    temp endpoint for wednesday call, to be updated
+    """
+
+    return
+
+
+# endpoint to call all appointsments by clinician - jasmine, 
+    # first last, clinician, payment method
+        # codes: “awaiting approval”, “declined”, “approved”
+
+# endpoint - changing appointment status
+    # clinician id, status
+
+# update, writing to form 
+
+# update, given appt id, get the field in the database, update the status
+# wrriting to form: 
+
+
+
 if __name__ == "__main__":
+
+
     app.run(debug=True, port="8000")
+# just use const url = "https://culture-care.onrender.com/practitioners/get/"; to get all and load all appts for therapist dashbaord

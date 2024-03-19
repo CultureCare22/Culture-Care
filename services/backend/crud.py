@@ -1,7 +1,7 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, PaymentMethod
+from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod
 
 # from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -100,7 +100,7 @@ def create_email_content(subject, message, practitioner_id):
     return True, email_content
 
 
-def create_practitioner(name, email_address, password, description):
+def create_practitioner(name, email_address, password, description, appointments):
     """
     Creates a practitioner object in the database
 
@@ -109,9 +109,68 @@ def create_practitioner(name, email_address, password, description):
     practitioner = get_practitioner_by_email(email_address)
     if practitioner is not None:
         return False, practitioner
-    practitioner = Practitioner(name=name, email_address=email_address, password=password, description = description)
+    practitioner = Practitioner(name=name, email_address=email_address, password=password, description = description, appointments = appointments)
     return True, practitioner
 
+from sqlalchemy.orm.attributes import flag_modified
+
+def update_appointment_status(sql_db, practitioner_id, patient_name, new_status):
+    """
+    Updates the status of a specific appointment for a practitioner.
+
+    :param email_address: Email address of the practitioner.
+    :param appointment_id: The ID of the appointment to update.
+    :param new_status: The new status to apply to the appointment.
+    :return: Boolean indicating if the update was successful.
+    """
+    practitioner = get_practitioner_by_id(practitioner_id)
+    if practitioner is None:
+        return False  
+    updated = False
+    for appointment in practitioner.appointments:
+        if appointment.get("patient_name") == patient_name:
+            appointment["status"] = new_status
+            updated = True
+            break  
+
+    if updated:
+        try:
+            # Mark the 'appointments' attribute as modified to ensure SQLAlchemy tracks the change
+            flag_modified(practitioner, "appointments")
+            
+            sql_db.session.commit()
+            return True
+        except Exception as e:
+            print(f"Error updating appointment status: {e}")
+            sql_db.session.rollback()
+            return False
+    else:
+        return False
+
+def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
+    """
+    Adds a new appointment to the appointments for a given practitioner.
+    
+    :param email_address: Email address of the practitioner to update.
+    :param new_appointment: New appointment to be added, expected to be a dict.
+    :return: Boolean indicating if the update was successful.
+    """
+    practitioner = get_practitioner_by_id(practitioner_id)
+    if practitioner is None:
+        return False  # Practitioner not found
+
+    if not practitioner.appointments:
+        practitioner.appointments = []
+
+    practitioner.appointments.append(new_appointment)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new appointment: {e}")
+        sql_db.session.rollback()
+        return False
 
 def get_practitioner_by_session_token(session_token):
     """

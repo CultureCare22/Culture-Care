@@ -13,9 +13,12 @@ node_modules
 *copy_and_paste.txt
 myenv
 
+.devcontainer/*
+
 node_modules/.cache
 .python-version
 editing
 ./app/instance
 *pickle
 clientsecret.json
+practitioner_dd.json
