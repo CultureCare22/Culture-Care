@@ -74,7 +74,13 @@ function Category() {
                     <td>{time}</td>
                     <td>{requested_clinician}</td>
                     <td>{payment_method}</td>
-                    <td>{status}</td>
+                    <td>
+                        <select name='update_status' id='update_status'>
+                            <option value='awaiting_approval'>Awaiting Approval</option>
+                            <option value='approved'>Approved</option>
+                            <option value='declined'>Declined</option>
+                        </select>
+                    </td>
                     {/* <td><a href={`/pending-request-details/${id}`}>Details</a></td> */}
                 </tr>
             </>
@@ -121,7 +127,13 @@ function Category() {
                                 <td>3/11 @ 10:00am</td>
                                 <td>Jasmine Ramirez</td>
                                 <td>Self-Pay</td>
-                                <td>Awaiting Approval</td>
+                                <td>
+                                <select name='update_status' id='update_status'>
+                                    <option value='awaiting_approval'>Awaiting Approval</option>
+                                    <option value='approved'>Approved</option>
+                                    <option value='declined'>Declined</option>
+                                </select>
+                                </td>
                                 {/* <td><a href='/pending-request-details'>Details</a></td> */}
                             </tr>
                             <tr>

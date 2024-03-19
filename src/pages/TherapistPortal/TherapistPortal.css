@@ -351,3 +351,11 @@ h1 {
   padding-left: 1em;
   padding-right: 1em;
 }
+
+.request-table td select {
+  border: none;
+  background-color: #efefef;
+  border-radius: 25px;
+  padding: 0.5em;
+  box-shadow: 2px 2px 2px lightgrey;
+}
