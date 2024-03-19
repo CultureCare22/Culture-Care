@@ -869,35 +869,6 @@ def check_hard_pass(locations, paymentmethods, practitioner):
         
     return True, practitioner
 
-@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
-def match_practitioners(practitioner_id):
-    """
-    Endpoint for matching practitioners
-    """
-    body = json.loads(request.data)
-    locations = body.get("locations")
-    paymentmethods = body.get("paymentmethods")
-    specializations = body.get("specializations")
-
-    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
-    if not success:
-        return failure_response("Practitioner does not exists")
-    
-    
-    success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-    
-    if not success:
-        return failure_response({"matched": False, "message" : practitioner})
-    
-    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
-    
-    if soft_pass_success:
-        return success_response({"matched": True, "message" : "Everything matches"})
-    
-    if not soft_pass_success:
-        return success_response({"matched": False, 
-                                 "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
-
 # @app.route('/appointments/update/', methods=['POST'])             
 # def update_appt():
 #     body = json.loads(request.data)
