@@ -46,7 +46,6 @@ function Category() {
                     const data = await response.json();
                     console.log(data);
                     setPractitioners(data);
-                    // console.log(practitioners);
                     setSpecializations(practitioners.specializations);
                     setGenders(practitioners.genders)
                     setLocations(practitioners.locations)
@@ -55,6 +54,7 @@ function Category() {
                     setDescription(practitioners.description)
                     setEmail(practitioners.email_address)
                     setAppointments(practitioners.appointments);
+                    // TO GET APPOINTMENTS USE STRINGIFY JSON
                 } else {
                     console.log("Error fetching data: ", response.statusText);
                 }
