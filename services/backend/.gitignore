@@ -13,6 +13,8 @@ node_modules
 *copy_and_paste.txt
 myenv
 
+DROP SCHEMA public CASCADE;.pgsql
+
 .devcontainer/*
 
 node_modules/.cache

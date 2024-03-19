@@ -122,29 +122,22 @@ def update_appointment_status(sql_db, practitioner_id, patient_name, new_status)
     :param appointment_id: The ID of the appointment to update.
     :param new_status: The new status to apply to the appointment.
     :return: Boolean indicating if the update was successful.
-    """
-    practitioner = get_practitioner_by_id(practitioner_id)
-    if practitioner is None:
-        return False  
-    updated = False
-    for appointment in practitioner.appointments:
-        if appointment.get("patient_name") == patient_name:
-            appointment["status"] = new_status
-            updated = True
-            break  
 
-    if updated:
-        try:
-            # Mark the 'appointments' attribute as modified to ensure SQLAlchemy tracks the change
-            flag_modified(practitioner, "appointments")
-            
-            sql_db.session.commit()
-            return True
-        except Exception as e:
-            print(f"Error updating appointment status: {e}")
-            sql_db.session.rollback()
-            return False
-    else:
+    ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    if practitioner is None:
+        return False
+
+
+    practitioner.update_appointment(patient_name, new_status)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new status: {e}")
+        sql_db.session.rollback()
         return False
 
 def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
@@ -155,14 +148,11 @@ def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
     :param new_appointment: New appointment to be added, expected to be a dict.
     :return: Boolean indicating if the update was successful.
     """
-    practitioner = get_practitioner_by_id(practitioner_id)
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
     if practitioner is None:
-        return False  # Practitioner not found
+        return False  
 
-    if not practitioner.appointments:
-        practitioner.appointments = []
-
-    practitioner.appointments.append(new_appointment)
+    practitioner.add_appointment(new_appointment)
 
     try:
         sql_db.session.commit()

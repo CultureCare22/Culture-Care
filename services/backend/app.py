@@ -438,6 +438,27 @@ def add_genders(id):
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
+def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
+    """
+    Adds a new appointment to the appointments for a given practitioner.
+    
+    :param email_address: Email address of the practitioner to update.
+    :param new_appointment: New appointment to be added, expected to be a dict.
+    :return: Boolean indicating if the update was successful.
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    if practitioner is None:
+        return False  
+
+    practitioner.add_appointment(new_appointment)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new appointment: {e}")
+        sql_db.session.rollback()
+        return False
 
 @app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
 def add_appointments(id):
@@ -450,20 +471,23 @@ def add_appointments(id):
     patient_name = body.get("patient_name")
     paymentmethod = body.get("paymentmethod")
     status = body.get("status")
-    practitioner_id = body.get("practitioner_id")
-    exists, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    exists, practitioner = crud.get_practitioner_by_id(id)
     if not exists:
         return jsonify({"error": "Practitioner does not exist"}), 404
 
     appointment = {
-        "id": 6,
         "patient_name": patient_name,
         "paymentmethod": paymentmethod,
         "status": status,
-        "clinician": clinician
+        "clinician": practitioner.name
     }
+    
 
-    crud.add_appointment_to_practitioner(sql_db, practitioner_id, appointment)
+    if crud.add_appointment_to_practitioner(sql_db, id, appointment):
+        return success_response({"practitioner" : practitioner.serialize()}, 201)
+    else:
+        return failure_response("adding practitioner failed")
+        
 
 
 @app.route("/practitioners/<int:id>/appointments/update/", methods = ["POST"])
@@ -480,7 +504,10 @@ def update_appointments(id):
     if not exists:
         return jsonify({"error": "Practitioner does not exist"}), 404
 
-    crud.update_appointment_status(sql_db, practitioner_id, patient_name, new_status)
+    if crud.update_appointment_status(sql_db, id, patient_name, new_status):
+        return success_response({"practitioner" : practitioner.serialize()}, 201)
+    else:
+        return failure_response("adding practitioner failed")
 
 # @app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
 # def add_appointments(id):
@@ -521,11 +548,11 @@ def create_practitioner():
     password = body.get("password")
     descr = body.get("description")
 
-    # languages = body.get("languages")
-    # specializations = body.get("specializations")
-    # payments = body.get("payments")
-    # locations = body.get("locations")
-    # genders = body.get("genders")
+    languages = body.get("languages")
+    specializations = body.get("specializations")
+    payments = body.get("payments")
+    locations = body.get("locations")
+    genders = body.get("genders")
     appointments = body.get("appointments")
 
     if assert_none([name, email_address, password, descr, appointments]):

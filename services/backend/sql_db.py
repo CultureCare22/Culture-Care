@@ -5,7 +5,8 @@ The database of culture care api
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 import bcrypt
-from sqlalchemy_json import mutable_json_type
+
+import json
 
 import datetime
 import hashlib
@@ -194,6 +195,48 @@ class Practitioner(sql_db.Model):
         Randomly generates hashed tokens (used for session/update tokens)
         """
         return hashlib.sha1(os.urandom(64)).hexdigest()
+
+    def add_appointment(self, new_appointment):
+        """
+        Adds a new appointment to the appointments list for the practitioner.
+        
+        
+        :param new_appointment: A dictionary representing the new appointment to add.
+
+        ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
+        """
+        if self.appointments is None:
+            self.appointments = []
+        
+        updated_appointments = self.appointments + [new_appointment]
+        self.appointments = updated_appointments
+
+
+    def update_appointment(self, patient_name, new_status):
+        """
+        Updates an appointment for a given patient name with new appointment details.
+
+        :param patient_name: The name of the patient whose appointment needs to be updated.
+        :param new_status: The new status for the appointment.
+
+        ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
+        """
+        if self.appointments is None:
+            return False
+
+        updated = False
+
+        for appointment in self.appointments:
+            if appointment.get("patient_name") == patient_name:
+                appointment["status"] = new_status
+                print(appointment["status"])
+                updated = True
+                break
+        if updated:
+            self.appointments = json.dumps(self.appointments[:])
+            return True
+
+        return False
 
 
     def simple_serialize(self):
