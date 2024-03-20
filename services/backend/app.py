@@ -1,8 +1,8 @@
 """
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
-import sys
 import os
+import sys
 import logging
 
 from dotenv import load_dotenv, find_dotenv
@@ -50,8 +50,6 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/postgres"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = True
-
-
 
 
 sql_db.init_app(app)
@@ -470,8 +468,11 @@ def add_appointments(id):
     body = json.loads(request.data)
     patient_name = body.get("patient_name")
     paymentmethod = body.get("paymentmethod")
+    referral = body.get("referral")
     status = body.get("status")
+    pass_status = body.get("pass_status")
     exists, practitioner = crud.get_practitioner_by_id(id)
+
     if not exists:
         return jsonify({"error": "Practitioner does not exist"}), 404
 
@@ -479,7 +480,9 @@ def add_appointments(id):
         "patient_name": patient_name,
         "paymentmethod": paymentmethod,
         "status": status,
-        "clinician": practitioner.name
+        "clinician": practitioner.name,
+        "referral": referral,
+        "pass_status": pass_status
     }
     
 
@@ -666,22 +669,13 @@ def match_practitioners(practitioner_id):
     success, practitioner = crud.get_practitioner_by_id(practitioner_id)
     if not success:
         return failure_response("Practitioner does not exists")
-    
-    
-    success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-    
-    if not success:
-        return failure_response({"matched": False, "message" : practitioner})
-    
-    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
-    
-    if soft_pass_success:
-        return success_response({"matched": True, "message" : "Everything matches"})
-    
-    if not soft_pass_success:
-        return success_response({"matched": False, 
-                                 "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
+    if check_auto_pass(locations, paymentmethods, specializations, practitioner):
+        return success_response({"matched": True, "message": "Automatic Pass"})    
+    elif check_soft_pass(locations, paymentmethods, practitioner):
+        return success_response({"matched": True, "message": "Soft Pass"})
+    else:
+        return failure_response({"matched": False, "message": "Rejection"})
 
 def strict_filter(**kwargs):
     filtered_practitioners = set()
@@ -864,37 +858,54 @@ def get_filtered_practitioners():
     return strict_filter(languages=languages, specializations=specializations, genders=genders, locations=locations)
 
 
-def check_soft_pass(specializations, practitioner):
-    specialization_matches = []
-    if specializations: 
-        practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
-        for specialization in practitioner_specializations:
-            if specialization in set(specializations):
-                specialization_matches.append(specialization)
-        if len(specialization_matches) == 0:
-            return False, practitioner
-    return True, practitioner
+def check_soft_pass(locations, paymentmethods, practitioner):
+
+    # paymentmethods as of 20 mar is all pass since all 3 are both
+    # practitioner_paymentmethods = []
+    # for num in practitioner.paymentmethods:
+    #     practitioner_paymentmethods.append(num.name)
+    # if paymentmethods not in practitioner_paymentmethods return False
+
+    practitioner_locations = []
+    for location in practitioner.locations:
+        practitioner_locations.append(location.name)
+    if locations not in practitioner_locations: return False
+
+    return True
 
 
-def check_hard_pass(locations, paymentmethods, practitioner):
-    location_matches = []
-    paymentmethod_matches = []
 
-    practitioner_locations = [location.name for location in practitioner.locations]
-    for location in practitioner_locations:
-        if location in set(locations):
-            location_matches.append(location)
-    if len(location_matches) == 0:
-        return False, "sorry you did not match with the therapist because of the location . Here are a list of resources you can use"
+def check_auto_pass(locations, paymentmethods, specialities, practitioner):
+
+    # paymentmethods as of 20 mar is all pass since all 3 are both
+    # practitioner_paymentmethods = []
+    # for num in practitioner.paymentmethods:
+    #     practitioner_paymentmethods.append(num.name)
+    # if paymentmethods not in practitioner_paymentmethods return False
+
     
-    practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
-    for paymentmethod in practitioner_paymentmethods:
-        if paymentmethod in set(paymentmethods):
-            paymentmethod_matches.append(paymentmethod)
-    if len(paymentmethod_matches) == 0:
-        return False, "sorry you did not match with the therapist because of the payment method . Here are a list of resources you can use. "
-        
-    return True, practitioner
+    practitioner_locations = []
+    for location in practitioner.locations:
+        practitioner_locations.append(location.name)
+    if locations not in practitioner_locations: return False
+
+    practitioner_specializations = []
+    for specialization in practitioner.specializations:
+        practitioner_specializations.append(specialization.name)
+
+    # print("practitioner_specializations:\n\n\n\n\n", practitioner_specializations)
+
+    any_speciality_found = False
+
+    for speciality in specialities:
+        if speciality in practitioner_specializations:
+            any_speciality_found = True
+            break  
+
+    if not any_speciality_found:
+        return False
+
+    return True
 
 # @app.route('/appointments/update/', methods=['POST'])             
 # def update_appt():
@@ -981,7 +992,5 @@ def consultation_form(request_id):
 
 
 if __name__ == "__main__":
-
-
     app.run(debug=True, port="8000")
 # just use const url = "https://culture-care.onrender.com/practitioners/get/"; to get all and load all appts for therapist dashbaord
