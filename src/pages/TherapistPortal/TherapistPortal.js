@@ -8,6 +8,8 @@ import { FaUserCheck } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import dummy_data from "../../dummy_clinician.json";
 
+
+const url = "https://culture-care.onrender.com"
 function Category() {
     const [practitioners, setPractitioners] = useState([]);
     const [name, setName] = useState('')
@@ -38,13 +40,14 @@ function Category() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = `https://culture-care.onrender.com/practitioners/get/2`;
-
-            const response = await fetch(url);
+            const endpoint = `/practitioners/get/2`;
+            // "http://127.0.0.1:8000"
+            console.log('asdifuhaoisdufhaoiudsfhioauhsfipuashdfoiausdhfiuash\n\n\\n\asfasdfasdf\n\n')
+            const response = await fetch(url + endpoint);
             const data = await response.json();
 
             try {
-                const response = await fetch(url);
+                const response = await fetch(url + endpoint);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);
@@ -70,83 +73,97 @@ function Category() {
     }, [])
 
     const Appt = ({ time, id, patient_name, payment_method, status, requested_clinician }) => {
+
+        const handleStatusChange = async (event) => {
+            const newStatus = event.target.value;
+    
+            const requestBody = {
+                patient_name: patient_name,
+                paymentmethod: payment_method,
+                status: newStatus,
+            };
+    
+            try {
+                const slugified = requested_clinician.toLowerCase().replace(/ /g, '-');
+                const response = await fetch(url + `/practitioners/${encodeURIComponent(requested_clinician)}/appointments/update/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                console.log('Success:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
         return (
-            <>
                 <tr>
                     <th scope='row'>{patient_name}</th>
-                    {/* <td>{time}</td> */}
                     <td>{requested_clinician}</td>
                     <td>{payment_method}</td>
                     <td>
-                        <select name='update_status' id='update_status'>
+                    <select
+                        name='update_status'
+                        id={`update_status_${patient_name}`} 
+                        value={status}
+                        onChange={handleStatusChange}
+                    >
                             <option value='Awaiting Approval'>Awaiting Approval</option>
                             <option value='Approved'>Approved</option>
                             <option value='Declined'>Declined</option>
                         </select>
                     </td>
-                    {/* <td><a href={`/pending-request-details/${id}`}>Details</a></td> */}
                 </tr>
+        )
+    }
+
+    const ApptRequests = ({ appointments_test }) => {
+        const { practitioners } = appointments_test;
+
+        const allAppointments = practitioners.flatMap(practitioner => {
+            let appointmentsArray;
+            if (Array.isArray(practitioner.appointments)) {
+                appointmentsArray = practitioner.appointments;
+            } else if (typeof practitioner.appointments === 'string' && practitioner.appointments.trim() !== '') {
+                try {
+                    appointmentsArray = JSON.parse(practitioner.appointments);
+                } catch (error) {
+                    console.error("Error parsing appointments JSON", error);
+                    appointmentsArray = []; 
+                }
+            } else {
+                appointmentsArray = [];
+            }
+            
+            return appointmentsArray.map(appointment => ({
+                ...appointment,
+                clinician: practitioner.name,
+            }));
+        });
+
+        return (
+            <>
+              {allAppointments.map((appointment, index) => (
+                <Appt
+                  key={index}
+                  id={appointment.id} 
+                  patient_name={appointment.patient_name}
+                  payment_method={appointment.paymentmethod} 
+                  status={appointment.status}
+                  requested_clinician={appointment.clinician}
+                />
+              ))}
             </>
         )
     }
-    // useEffect(() => {
-    const ApptRequests = ({ appointments_test }) => {
-
-        const appointmentsByClinician = {};
-
-        appointments_test.practitioners.forEach(practitioner => {
-            const name = practitioner.name;
-            let appointments = practitioner.appointments;
-
-            if (typeof appointments === 'string') {
-                appointments = JSON.parse(appointments);
-            }
-
-            appointmentsByClinician[name] = appointments;
-        });
-
-        const practitioners = { appointmentsByClinician }
-
-        console.log("appointmentsByClinician", appointmentsByClinician)
-
-        return (
-            <div>
-                a
-                {/* {practitioners.map((practitioner) => (
-                    <Appt
-                        // time="See gCal Invite"
-                        id={practitioner.id}
-                        patient_name={practitioner.name}
-                        payment_method={practitioner.name}
-                        status={practitioner.name}
-                        requested_clinician={practitioner.name}
-                    />
-                ))} */}
-
-            </div>
-
-        )
-    }
-
-
-
-    // for (let appointment in appointments_test) {
-    //     console.log("appointments_test", appointments_test)
-    //     console.log("appointment", appointment)
-    //     return (
-    //         <div></div>
-    // <Appt
-    //     time={appointment['start']['dateTime']}
-    //     id={appointment['start']['id']}
-    //     patient_name={appointment['description']['patient name']}
-    //     payment_method={appointment['description']['paymentmethod']}
-    //     status={appointment['status']}
-    //     requested_clinician={appointment['clinician']}
-    // />
-    //         )
-    //     }
-    // }
-    // // }, [])
 
     return (
         <div className='therapist-portal-page'>
@@ -156,22 +173,18 @@ function Category() {
                     <h2>Appointment Requests</h2>
 
                     <table class='request-table'>
-                        <thead>
+                    <thead>
                             <tr>
                                 <th scope='col'>Name</th>
-                                {/* <th scope='col'>Time</th> */}
                                 <th scope='col'>Requested Clinician</th>
                                 <th scope='col'>Payment</th>
                                 <th scope='col'>Appointment Status</th>
-                                {/* <th scope='col'>View/Update</th> */}
                             </tr>
                         </thead>
-
-                        <tbody>
-                            <ApptRequests
-                                appointments_test={dummy_data}
-                            />
-                        </tbody>
+                    <tbody>
+                        <ApptRequests appointments_test={dummy_data}/>
+                    </tbody>
+                            
                     </table>
                 </div>
                 <div className='data-stats'>
