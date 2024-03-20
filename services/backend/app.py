@@ -39,7 +39,7 @@ if str_to_bool(os.getenv('PRODUCTION')):
     DB_HOST = os.getenv('DB_HOST')
     POSTGRES_DB = os.getenv('POSTGRES_DB')
 
-    CORS(app, support_credentials=True)
+    CORS(app, support_credentials=True, resources={r"/api/*": {"origins": "*"}})
 
     app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{POSTGRES_DB}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -490,8 +490,8 @@ def add_appointments(id):
         
 
 
-@app.route("/practitioners/<int:id>/appointments/update/", methods = ["POST"])
-def update_appointments(id):
+@app.route("/practitioners/<string:practitioner_name>/appointments/update/", methods = ["POST"])
+def update_appointments(practitioner_name):
     """
     TODO: add documentations
 
@@ -500,11 +500,14 @@ def update_appointments(id):
     body = json.loads(request.data)
     patient_name = body.get("patient_name")
     new_status = body.get("status")
-    exists, practitioner = crud.get_practitioner_by_id(id)
+    new_practitioner_name = practitioner_name.replace('-', ' ')
+    print('\n\n\n' + new_practitioner_name + '\n\n\n')
+    print('\n\n\n' + str(type(new_practitioner_name)) + '\n\n\n')
+    exists, practitioner = crud.get_practitioner_by_name(new_practitioner_name)
     if not exists:
         return jsonify({"error": "Practitioner does not exist"}), 404
 
-    if crud.update_appointment_status(sql_db, id, patient_name, new_status):
+    if crud.update_appointment_status(sql_db, practitioner.id, patient_name, new_status):
         return success_response({"practitioner" : practitioner.serialize()}, 201)
     else:
         return failure_response("adding practitioner failed")

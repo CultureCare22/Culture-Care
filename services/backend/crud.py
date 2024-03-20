@@ -2,6 +2,7 @@
 A module to access data from database
 """
 from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod
+from sqlalchemy import func
 
 # from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -57,6 +58,20 @@ def get_practitioner_by_id(practitioner_id):
         return False, None
     
     return True, practitioner
+
+def get_practitioner_by_name(practitioner_name):
+    """
+    Returns an active practitioner with the given name.
+    """
+    practitioner = Practitioner.query.filter(
+        Practitioner.name == practitioner_name
+    ).first()
+
+    if not practitioner:
+        return False, None
+    
+    return True, practitioner
+
 
 def delete_practioner_by_id(id):
     """

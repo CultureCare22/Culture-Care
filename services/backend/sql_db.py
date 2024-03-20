@@ -226,7 +226,7 @@ class Practitioner(sql_db.Model):
 
         updated = False
 
-        for appointment in self.appointments:
+        for appointment in json.loads(self.appointments):
             if appointment.get("patient_name") == patient_name:
                 appointment["status"] = new_status
                 print(appointment["status"])
