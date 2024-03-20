@@ -186,15 +186,10 @@ function Confirmation() {
                                         </a>
                                     </svg>
                                 </div>
-
-
-
                             </div>
                         </div>
-
-
                     </div>
-                </div >
+                </div>
             </div>
         </>
 

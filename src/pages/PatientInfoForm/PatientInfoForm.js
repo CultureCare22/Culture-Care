@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import Popup from 'reactjs-popup';
 import './PatientInfoForm.css';
 import { useParams } from 'react-router-dom';
@@ -6,105 +6,95 @@ import { useParams } from 'react-router-dom';
 
 function Form() {
     const { pId } = useParams();
-    console.log({ pId })
-    // I am not sure if these will come in handy, but I will leave them here to save the possible work 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    // const [preferredName, setPreferredName] = useState("");
-    // const [address, setAddress] = useState("");
-    // const [city, setCity] = useState("");
-    const [state, setState] = useState([]);
-    // const [zipCode, setZipCode] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [DoB, setDoB] = useState("");
-    // const [language, setLanguage] = useState("");
-    // const [referral, setReferral] = useState("");
-    // const [communication, setCommunication] = useState("");
+    const [state, setState] = useState('');
     const [payment, setPayment] = useState([]);
     const [details, setDetails] = useState([]);
+    const [selectedTopics, setSelectedTopics] = useState([]);
+    const [referralSource, setReferralSource] = useState('');
+    const [passStatus, setPassStatus] = useState('');
+
+    useEffect(() => {
+        console.log('selectedTopics:', selectedTopics);
+      }, [selectedTopics]);
 
 
     const handleSubmit = async (e) => {
+        let localPassStatus = '';
 
         e.preventDefault();
 
-        // console.log("initiating submit")
-        // console.log("state", state)
-        // console.log("payment", payment)
-        // console.table("details", details)
-        // console.log("testing js string splicing", firstName, lastName, firstName + lastName)
-        // console.log("\nfirstName:", firstName)
-        // console.log("setPayment to:", payment)
-        // console.log("list access payment", payment[0])
-        // return
         try {
-            console.log(pId)
-            console.log("testing js string splicing", firstName, lastName, firstName + lastName)
+            console.log("selectedTopics", selectedTopics)
+            const response = await fetch(`https://culture-care.onrender.com/practitioners/get/${pId}/match/`, {
+                method: "POST",
+                body: JSON.stringify({
+                    locations: state[state.length - 1],
+                    paymentmethods: payment,
+                    specializations: selectedTopics
+                })
+            })
 
+            if (response.ok) {
+                const res = await response.json()
+                const message = res.message
+                localPassStatus = res.message;
+                console.log("message", message)
+                setPassStatus(message)
+                window.location.href = "/clinician-j-ramirez"
+            }
+            else {
+                const res = await response.json()
+                const message = res.error.message;
+                localPassStatus = res.error.message;
+                setPassStatus(message)
+                alert("Sorry you are not a match! \nWe are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \nHere are four websites where you can find qualified therapists in your area: \n    Zocdoc.com \n    PsychologyToday.com \n    LatinxTherapy.com \n    TherapyForBlackGirls.com")
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+        try {
+            if (passStatus.length == 0){
+                setTimeout(function(){
+                }, 20000);
+            }
+            
             const response = await fetch(`https://culture-care.onrender.com/practitioners/${pId}/appointments/add/`, {
                 method: "POST",
                 body: JSON.stringify({
                     patient_name: firstName + " " + lastName,
                     paymentmethod: payment[0],
                     status: "Awaiting Approval",
-                })
-            })
-            // TODO: This API set is us temporary and will be depreciated. We must ____only____
-            // write to the database if the patient is approved ie is passed -> to be added after the match api is called
-        }
-        catch (error) {
-            console.log(error)
-            alert("Sorry you are not a match! \n We are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \n Here are four websites where you can find qualified therapists in your area:")
-        }
-
-        try {
-            console.log(pId)
-            // const response = await fetch(`https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/${pId}/match/`, {
-            const response = await fetch(`https://culture-care.onrender.com/practitioners/get/${pId}/match/`, {
-                method: "POST",
-                body: JSON.stringify({
-                    // firstName: firstName,
-                    // lastName: lastName,
-                    // email: email,
-                    // preferredName: preferredName,
-                    // address: address,
-                    // city: city,
-                    locations: state,
-                    // zipCode: zipCode,
-                    // DateOfBirth: DoB,
-                    // languages: language,
-                    // referral: referral,
-                    // communication: communication,
-                    paymentmethods: payment,
-                    specializations: details
+                    referral: referralSource,
+                    pass_status: localPassStatus
                 })
             })
 
-            if (response.ok) {
-                const res = await response.json()
-                const matched = res.matched
-                if (matched) {
-                    // console.log("1")
-                    window.location.href = "/clinician-j-ramirez"
-                }
-                else {
-                    alert("Soft pass")
-                    // console.log("2")
-                    window.location.href = "/clinician-j-ramirez"
-                }
-            }
-            else {
-                // console.log("Failed the Hard Pass")
+            if (!response.ok) {
                 const res = await response.json()
                 console.log(res)
-                alert("Sorry you are not a match! \nWe are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \nHere are four websites where you can find qualified therapists in your area: \n    Zocdoc.com \n    PsychologyToday.com \n    LatinxTherapy.com \n    TherapyForBlackGirls.com")
             }
+
         }
         catch (error) {
             console.log(error)
-            alert("Sorry you are not a match! \n We are grateful for your interest in Honest Hour. It looks like our services might not be a match, but we think you could benefit from specialized support. \n Here are four websites where you can find qualified therapists in your area:")
         }
+            
     }
+
+    const handleCheckboxChange = (event) => {
+        const { value, checked } = event.target;
+        if (checked) {
+
+        setSelectedTopics(prev => [...prev, value]);
+        } else {
+    
+        setSelectedTopics(prev => prev.filter(topic => topic !== value));
+        }
+    };
 
 
 
@@ -254,10 +244,10 @@ function Form() {
                         <div className='flex-row'>
                             <div className='input-field'>
                                 <div className='sub-heading'> Referral Source</div>
-                                <select id='referral-source' name='referral-souce'>
+                                <select id='referral-source' name='referral-source' value={referralSource} onChange={(e) => setReferralSource(e.target.value)}>
                                     <option value=''> Please select a referral source</option>
                                     <option value='Directory-links'> Directory Links</option>
-                                    <option value='Latinx'> LatinxTherapy</option>
+                                    <option value='LatinxTherapy'> LatinxTherapy</option>
                                     <option value='Therapy-for-b'> Therapyforblackgirls</option>
                                     <option value='Zocdoc'> ZocDoc</option>
                                     <option value='Psychtoday'> Psychology Today</option>
@@ -266,6 +256,7 @@ function Form() {
                                     <option value='Referral-p'> Referral (Practitioner)</option>
                                     <option value='Other'> Other</option>
                                 </select>
+                            
                             </div>
                             <div className='input-field'>
                                 <div className='sub-heading'> Preferred Method of Communication</div>
@@ -296,7 +287,7 @@ function Form() {
                                 ]);
                             }} >
                                 <h3>Form of Payment</h3>
-                                <input type='radio' id='self-pay' name='payment-form' value='Self pay'></input>
+                                <input type='radio' id='self-pay' name='payment-form' value='Self-pay'></input>
                                 <label for='self-pay'>Self Pay</label><br></br>
                                 <input type='radio' id='oon' name='payment-form' value='OON'></input>
                                 <label for='oon'>I would like more information about OON payment</label>
@@ -315,43 +306,43 @@ function Form() {
                             <h3>What are you looking to discuss? Select all that apply.</h3>
                             <div className='dis-options'>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='anxiety' name='discuss-details' value='Financial Anxiety'></input>
+                                    <input type='checkbox' id='anxiety' name='discuss-details' value='Financial Anxiety' onChange={handleCheckboxChange}></input>
                                     <label for='anxiety'>Anxiety</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='finances' name='discuss-details' value='Finances'></input>
+                                    <input type='checkbox' id='finances' name='discuss-details' value='Finances' onChange={handleCheckboxChange}></input>
                                     <label for='finances'>Finances</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='grief' name='discuss-details' value='Grief'></input>
+                                    <input type='checkbox' id='grief' name='discuss-details' value='Grief' onChange={handleCheckboxChange}></input>
                                     <label for='grief'>Grief</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='life-tran' name='discuss-details' value='Life Transition'></input>
+                                    <input type='checkbox' id='life-tran' name='discuss-details' value='Life Transition' onChange={handleCheckboxChange}></input>
                                     <label for='life-tran'>Life Transition</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='imposter' name='discuss-details' value='Imposter'></input>
+                                    <input type='checkbox' id='imposter' name='discuss-details' value='Imposter Syndrome' onChange={handleCheckboxChange}></input>
                                     <label for='imposter'>Imposter Syndrome</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='depression' name='discuss-details' value='Depression'></input>
+                                    <input type='checkbox' id='depression' name='discuss-details' value='Depression' onChange={handleCheckboxChange}></input>
                                     <label for='depression'>Depression</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='trauma' name='discuss-details' value='Trauma'></input>
+                                    <input type='checkbox' id='trauma' name='discuss-details' value='Trauma' onChange={handleCheckboxChange}></input>
                                     <label for='trauma'>Trauma</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='family' name='discuss-details' value='Family'></input>
+                                    <input type='checkbox' id='family' name='discuss-details' value='Family' onChange={handleCheckboxChange}></input>
                                     <label for='family'>Family</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='inter-rela' name='discuss-details' value='inter-rela'></input>
+                                    <input type='checkbox' id='inter-rela' name='discuss-details' value='Interracial Relationships' onChange={handleCheckboxChange}></input>
                                     <label for='inter-rela'>Interracial Relationships</label>
                                 </div>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='lgbtqia' name='discuss-details' value='LGBTQ+'></input>
+                                    <input type='checkbox' id='lgbtqia' name='discuss-details' value='LGBTQ' onChange={handleCheckboxChange}></input>
                                     <label for='lgbtqia'>LGBTQIA+</label>
                                 </div>
                             </div>

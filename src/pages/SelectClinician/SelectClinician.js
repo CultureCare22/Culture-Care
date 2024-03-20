@@ -187,7 +187,7 @@ function Category() {
                 ["Sun", "8am-10am"]
             ],
             licenses: [
-                "LMSW"
+                "LCSW"
             ]
         },
         "Sierra Silva": {
