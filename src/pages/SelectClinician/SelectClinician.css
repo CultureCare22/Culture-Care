@@ -162,6 +162,7 @@ h4 {
 
 .consultation {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
 }
 
@@ -179,11 +180,11 @@ h4 {
 
 .consultation_details {
   background-color: #efefef;
-  margin: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  margin: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   border-radius: 25pt;
   text-align: center;
   box-shadow: 1px 1px 1px lightgrey;
