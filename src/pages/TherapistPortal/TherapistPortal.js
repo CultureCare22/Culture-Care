@@ -25,19 +25,19 @@ function Category() {
     const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
-    useEffect(() => {
-        const checkAuth = () => {
-            const emails = localStorage.getItem("practitionerEmails");
+    // useEffect(() => {
+    //     const checkAuth = () => {
+    //         const emails = localStorage.getItem("practitionerEmails");
 
-            const userEmail = localStorage.getItem("email");
+    //         const userEmail = localStorage.getItem("email");
 
-            if (!userEmail || !emails.includes(userEmail)) {
-                console.log("unauthenticated user")
-                navigate(-1);
-            }
-        }
-        checkAuth();
-    })
+    //         if (!userEmail || !emails.includes(userEmail)) {
+    //             console.log("unauthenticated user")
+    //             navigate(-1);
+    //         }
+    //     }
+    //     checkAuth();
+    // })
 
 
 
@@ -48,6 +48,7 @@ function Category() {
 
             const response = await fetch(url + endpoint);
             const data = await response.json();
+            console.log(data);
 
             try {
                 const response = await fetch(url + endpoint);
@@ -134,8 +135,11 @@ function Category() {
                     <th scope='row'>{patient_name}</th>
                     <td>{requested_clinician}</td>
                     <td>{payment_method}</td>
-                    <td>{referral}</td>
+                    {/* <td>{referral}</td> */}
+                    <td>Anxiety</td>
                     <td>{pass_status}</td>
+                    <td className='appt_status'><p>Awaiting Approval</p></td>
+                    <td className='link_details'><a href='/'>View</a></td>
 
                     {/* <td>
                     <select
@@ -267,8 +271,10 @@ function Category() {
                                 <th scope='col'>Name</th>
                                 <th scope='col'>Requested Clinician</th>
                                 <th scope='col'>Payment</th>
-                                <th scope='col'>Referral Source</th>
+                                <th scope='col'>Concerns</th>
                                 <th scope='col'>Pass Status</th>
+                                <th scope='col'>Appt Status</th>
+                                <th scope='col'>Details</th>
                             </tr>
                         </thead>
                     <tbody>

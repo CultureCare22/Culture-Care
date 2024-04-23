@@ -1,3 +1,6 @@
+body {
+  padding: 0pt;
+}
 .row-flex {
   display: flex;
   flex-direction: row;
@@ -358,4 +361,17 @@ h1 {
   border-radius: 25px;
   padding: 0.5em;
   box-shadow: 2px 2px 2px lightgrey;
+}
+
+.appt_status p {
+  border: solid 1pt;
+  border-radius: 25pt;
+  padding: 1em;
+  margin-left: 0pt;
+  color: black;
+  font-size: 12pt;
+}
+
+.link_details {
+  padding-right: 1em;
 }
