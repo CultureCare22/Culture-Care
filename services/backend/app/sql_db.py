@@ -8,6 +8,7 @@ import bcrypt
 import datetime
 import hashlib
 import os
+# from gcal_manager import appts
 
 sql_db = SQLAlchemy()
 
@@ -34,6 +35,11 @@ practitioner_language_table = sql_db.Table('practitioner_language',
 practitioner_network_table = sql_db.Table('practitioner_paymentmethod',
     sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
     sql_db.Column('paymentmethod_id', sql_db.Integer, sql_db.ForeignKey('paymentmethods.id'), primary_key=True)
+)
+
+practice_insurance_table = sql_db.Table('practice_insurance',
+    sql_db.Column('practice_id', sql_db.Integer, sql_db.ForeignKey('practice.id'), primary_key=True),
+    sql_db.Column('insurance_id', sql_db.Integer, sql_db.ForeignKey('insurance.id'), primary_key=True)
 )
 
 class EmailContent(sql_db.Model):
@@ -134,7 +140,8 @@ class Practitioner(sql_db.Model):
     locations = sql_db.relationship("Location", secondary = practitioner_location_table, back_populates = "practitioners")  
     specializations = sql_db.relationship("Specialization", secondary = practitioner_specialization_table, back_populates = "practitioners")
     paymentmethods = sql_db.relationship("PaymentMethod", secondary = practitioner_network_table, back_populates = "practitioners")  
-    emailcontents = sql_db.relationship("EmailContent")  
+    insurances = sql_db.relationship("Insurance", secondary = practitioner_insurance_table, back_populates = "practitioners")
+    emailcontents = sql_db.relationship("EmailContent")
 
     password_digest = sql_db.Column(sql_db.String, nullable= False, unique = True)
 
@@ -199,17 +206,19 @@ class Practitioner(sql_db.Model):
         """
         Serializes a practitioner
         """
+        # temp = appts()
+        # "appointments" : temp[self.name] if self.name in temp else []
+
         return {
             "id" : self.id,
             "name" : self.name,
             "email_address" : self.email_address, 
-            "session_token" : self.session_token,
-            "update_token" : self.update_token,
             "genders" : [gender.simple_serialize() for gender in self.genders],
             "languages" : [language.simple_serialize() for language in self.languages],
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
-            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods]
+            "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods],
+            "appointments" : []
         }
 
 
@@ -323,6 +332,28 @@ class PaymentMethod(sql_db.Model):
     def simple_serialize(self):
         """
         Simple serializes a payment_method object
+        """
+        return {"id" : self.id, "name" : self.name}
+    
+
+class Insurance(sql_db.Model):
+    """
+    Insurance Model
+    """
+    __tablename__ = "insurance"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    name = sql_db.Column(sql_db.String, nullable = False)
+    practice = sql_db.relationship("Practice", secondary = practice_insurance_table, back_populates = "insurance")  
+
+    def __init__(self, **kwargs):
+        """
+        Initializes a insurance object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a insurance object
         """
         return {"id" : self.id, "name" : self.name}
 

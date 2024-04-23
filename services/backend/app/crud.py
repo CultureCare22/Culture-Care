@@ -66,6 +66,15 @@ def get_practitioners():
 
     return pracitioners_json
 
+def delete_all_practitioners():
+    try:
+        # Assuming that the session is available through the Practitioner model's query attribute
+        num_deleted = Practitioner.query.delete()
+        return {"message": f"Successfully deleted {num_deleted} practitioners."}
+    except Exception:
+        return {"error": "Failed to delete practitioners."}
+
+
 def get_emailcontent_by_id(emailcontent_id):
     """
     Returns emailcontent with emailcontent_id

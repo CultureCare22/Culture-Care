@@ -26,3 +26,69 @@ Sandbox Refactored API.js End Result https://codesandbox.io/s/react-databa...
 Reddit: https://www.reddit.com/r/reactjs/comments/z2s0is/keeping_react_app_in_sync_with_backenddatabase/
 
 testing push
+
+# DATA BASE
+DUE FEB 13
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+LINK TO DATABASE PROTOTYPE: https://dbdiagram.io/d/Culture-Care-65c94778ac844320aee9449d
+
+Table practitioner {  #Jephthah
+  id integer [primary key]
+  name text
+  email_address text
+  specialization text
+  gender text
+  language text
+  location text
+
+}
+Table specialization { #Ambrose
+  id integer [primary key]
+  name text 
+}
+
+
+Table language { #Ambrose
+  id integer [primary key]
+  name text
+}
+
+Table location { #Jae
+  id integer [primary key]
+  name text
+}
+
+
+Ref: practitioner.id <> specialization.id // many-to-one
+Ref: practitioner.id <> language.id // many-to-one
+Ref: practitioner.id <> location.id // many-to-one
+
+
+
+#ENDPOINTS FOR PRACTITIONER
+
+- CRUD practitioner # Jephthah
+- CRUD for specialization, location, language # each person for their corresponding database tables
+- get_practitioners # Ambrosse Blay
+- get_all_practitioners #Jae
+
+
+#Working on soft passes and hard passes
+
+#soft passes location and specialization match. gender doesn't match
+- location
+- specialization
+- out of network
+- gender
+
+#hard passes
+- location doesn't match 
+- out of network doesn't match
+
+#create table for out of network
+#link to the practitioners table
+#create new end point for hard and soft passes /practitioner/get/match/
+
+
+

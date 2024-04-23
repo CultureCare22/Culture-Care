@@ -1,6 +1,18 @@
 """
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
+import sys
+import os
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
+import urllib.parse
+
+# from gcal_manager import update_event_status
+
+import crud
+
 import argparse
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
@@ -13,19 +25,14 @@ from email_media import create_pdf, split_string
 import json
 db_filename = "culturecaresql.db"
 app = Flask(__name__)
-import crud
-import os
-from dotenv import load_dotenv, find_dotenv
-from flask_cors import CORS, cross_origin
 from pprint import pprint
-load_dotenv(find_dotenv())
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
+DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
+DB_USER = os.getenv('USER')
+DB_IP = os.getenv('IP')
+DB_NAME = os.getenv('DATABASE')
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_IP}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
@@ -398,7 +405,6 @@ def create_practitioner():
 
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
     return success_response(practitioner.serialize(), 201)
@@ -466,7 +472,6 @@ def create_intake_form():
     return success_response({"form_id" : form_id}, 201)
 
 @app.route("/practitioners/get/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioners():
     practitioners = crud.get_practitioners()
 
@@ -655,7 +660,6 @@ def get_filtered_practitioners():
 
 
 def check_soft_pass(specializations, practitioner):
-    #TODO: need to look at the logic
     specialization_matches = []
     if specializations: 
         practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
@@ -668,7 +672,6 @@ def check_soft_pass(specializations, practitioner):
 
 
 def check_hard_pass(locations, paymentmethods, practitioner):
-    #TODO: need to look at the logic
     location_matches = []
     paymentmethod_matches = []
 
@@ -716,12 +719,16 @@ def match_practitioners(practitioner_id):
     if not soft_pass_success:
         return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
 
+# @app.route('/appointments/update/', methods=['POST'])             
+# def update_appt():
+#     body = json.loads(request.data)
+#     id = body.get("id")
+#     status = body.get("status")
 
+#     if id is None or status is None: return failure_response("Invalid inputs")
+    
+#     return success_response({"id" : id, "message" : update_event_status(id, status)})
 
-#TODO: 
-    # 1. We have: verify_password, verify_session_token, verify_update_token, renew_session
-    # 2. To write: get session token and update token from the (Authorization header)
-    # 3. Endpoints: Endpoint to renew_token , endpoint login, endpoint logout, add pass to create_practitioner endpoint
 
 if __name__ == "__main__":
-    app.run(debug=True, port="8000")
+    app.run(debug=False, port="8000")
