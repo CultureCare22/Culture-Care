@@ -1,4 +1,4 @@
-.details {
+/* .details {
     display: flex;
     flex-direction: row;
     margin-top: 2em;
@@ -19,7 +19,6 @@
 
 .next-button a {
     font-size: 20px;
-    /* color: white; */
     color: white;
     padding-left: 0.5em;
 }
@@ -72,4 +71,4 @@ h4{
 .form-end {
     display: flex;
     flex-direction: row;
-}
+} */

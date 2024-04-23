@@ -36,11 +36,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
-
+from flask_cors import CORS, cross_origin
+CORS(app, support_credentials=True)
 
 
 sql_db.init_app(app)

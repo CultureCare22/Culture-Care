@@ -36,8 +36,10 @@ function Form() {
 
         try {
             console.log(pId)
-            const response = await fetch(`https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/${pId}/match/`, {
-                method: "POST",
+            // const response = await fetch(`https://culture-care-server-a5e264f8c326.herokuapp.com/practitioners/get/${pId}/match/`, {
+            const response = await fetch(`appculturecarehub.com/practitioners/get/${pId}/match/`, {
+
+            method: "POST",
                 body: JSON.stringify({
                     // firstName: firstName,
                     // lastName: lastName,
@@ -60,11 +62,13 @@ function Form() {
                 const res = await response.json()
                 const matched = res.matched
                 console.log(matched)
-                if (matched === 1) {
+                if (matched) {
+                    console.log("1")
                     window.location.href = "/clinician-j-ramirez"
                 }
-                else if (matched === 2) {
+                else {
                     alert("Soft pass")
+                    console.log("2")
                     window.location.href = "/clinician-j-ramirez"
                 }
             }
@@ -265,7 +269,7 @@ function Form() {
                                 <h3>Form of Payment</h3>
                                 <input type='radio' id='self-pay' name='payment-form' value='Self Pay'></input>
                                 <label for='self-pay'>Self Pay</label><br></br>
-                                <input type='radio' id='oon' name='payment-form' value='Oon'></input>
+                                <input type='radio' id='oon' name='payment-form' value='OON'></input>
                                 <label for='oon'>I would like more information about OON payment</label>
 
                             </form>
@@ -282,7 +286,7 @@ function Form() {
                             <h3>What are you looking to discuss? Select all that apply.</h3>
                             <div className='dis-options'>
                                 <div className='dis-check'>
-                                    <input type='checkbox' id='anxiety' name='discuss-details' value='anxiety'></input>
+                                    <input type='checkbox' id='anxiety' name='discuss-details' value='Financial Anxiety'></input>
                                     <label for='anxiety'>Anxiety</label>
                                 </div>
                                 <div className='dis-check'>
