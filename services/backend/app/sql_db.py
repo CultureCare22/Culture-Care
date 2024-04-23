@@ -37,9 +37,9 @@ practitioner_network_table = sql_db.Table('practitioner_paymentmethod',
     sql_db.Column('paymentmethod_id', sql_db.Integer, sql_db.ForeignKey('paymentmethods.id'), primary_key=True)
 )
 
-practitioner_insurance_table = sql_db.Table('practitioner_insurance',
-    sql_db.Column('practitioner_id', sql_db.Integer, sql_db.ForeignKey('practitioners.id'), primary_key=True),
-    sql_db.Column('insurance_id', sql_db.Integer, sql_db.ForeignKey('insurances.id'), primary_key=True)
+practice_insurance_table = sql_db.Table('practice_insurance',
+    sql_db.Column('practice_id', sql_db.Integer, sql_db.ForeignKey('practice.id'), primary_key=True),
+    sql_db.Column('insurance_id', sql_db.Integer, sql_db.ForeignKey('insurance.id'), primary_key=True)
 )
 
 class EmailContent(sql_db.Model):
@@ -340,10 +340,10 @@ class Insurance(sql_db.Model):
     """
     Insurance Model
     """
-    __tablename__ = "insurances"
+    __tablename__ = "insurance"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
-    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_insurance_table, back_populates = "insurances")  
+    practice = sql_db.relationship("Practice", secondary = practice_insurance_table, back_populates = "insurance")  
 
     def __init__(self, **kwargs):
         """
