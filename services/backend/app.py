@@ -1,36 +1,55 @@
 """
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
+import os
+import sys
+import logging
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
+import urllib.parse
+
+# from gcal_manager import update_event_status
+
+import crud
+
 import argparse
 from flask import Flask, request, jsonify
 from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
-import verification
+# import verification
 import datetime
 from flask import Flask, request
 from sql_db import sql_db
 import email_automater
-from email_media import create_pdf, split_string
+# from email_media import create_pdf, split_string
+from flask_cors import CORS
 import json
-db_filename = "culturecaresql.db"
 app = Flask(__name__)
-import crud
-import os
-from dotenv import load_dotenv, find_dotenv
-from flask_cors import CORS, cross_origin
 from pprint import pprint
-load_dotenv(find_dotenv())
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/mydatabase"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/mydatabase"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SQLALCHEMY_ECHO"] = True
+def str_to_bool(s):
+    return s.lower() in ['true']
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ECHO"] = True
 
-from flask_cors import CORS, cross_origin
-CORS(app, support_credentials=True)
+if str_to_bool(os.getenv('PRODUCTION')):
+    # DB_PASSWORD = urllib.parse.quote_plus(os.getenv('PASSWORD'))
+    DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+    DB_USER = os.getenv('POSTGRES_USER')
+    DB_HOST = os.getenv('DB_HOST')
+    POSTGRES_DB = os.getenv('POSTGRES_DB')
+
+    CORS(app, support_credentials=True)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{POSTGRES_DB}"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ECHO"] = True
+else:
+    CORS(app, support_credentials=True)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost/postgres"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_ECHO"] = True
 
 
 sql_db.init_app(app)
@@ -38,13 +57,13 @@ with app.app_context():
     # sql_db.drop_all()
     sql_db.create_all()
 
-
 def session_commited(db):
     try:
         db.session.commit()
     except:
         return False
     return True
+
 
 def assert_none(data):
     """
@@ -91,8 +110,17 @@ def extract_token(request):
 @app.route("/login/", methods=["POST"])
 def login():
     """
+    ::DEPRECIATED::
     Endpoint for logging in a user
     """
+    logging.warning("Deprecated endpoint '/login/' was accessed. Advise user to NOT use this method.")
+
+    response = {
+        "error": "deprecated_endpoint",
+        "message": "This endpoint is deprecated and will be removed in future versions."
+    }
+    return jsonify(response), 410 
+
     body = json.loads(request.data)
     email_address = body.get("email_address")
     password = body.get("password")
@@ -113,8 +141,16 @@ def login():
 @app.route("/session/", methods=["POST"])
 def update_session():
     """
+    ::DEPRECIATED::
     Endpoint for updating a user's session
     """
+    logging.warning("Deprecated endpoint '/session/' was accessed. Advise user to NOT use this method.")
+
+    response = {
+        "error": "deprecated_endpoint",
+        "message": "This endpoint is deprecated and will be removed in future versions."
+    }
+    return jsonify(response), 410 
     success, response = extract_token(request)
     if not success:
         return response
@@ -135,6 +171,20 @@ def update_session():
                        "update_token": practitioner.update_token
     })
 
+def add_consultation_change(consultation_request_id, new_status):
+    # Create a new ConsultationChange instance
+    new_change = ConsultationChange(consultation_request_id=consultation_request_id, status=new_status, updated_at=datetime.utcnow())
+    db.session.add(new_change)
+    
+    # Fetch the corresponding ConsultationRequest and update its current_status
+    consultation_request = ConsultationRequest.query.get(consultation_request_id)
+    if consultation_request:
+        consultation_request.current_status = new_status
+        db.session.commit()
+    else:
+        # Handle the case where the ConsultationRequest does not exist
+        db.session.rollback()
+        raise ValueError("ConsultationRequest does not exist.")
 
 @app.route("/secret/", methods=["GET"])
 def secret_message():
@@ -269,6 +319,19 @@ def create_patient():
     
     return success_response(patient.serialize(), 201)
 
+
+@app.route("/practitioners/<int:id>/description/add/", methods = ["POST"])
+def add_description(id):
+    body = json.loads(request.data)
+    descr = body.get("description")
+    if not descr: return failure_response("Invalid input")
+    success, practitioner = crud.get_practitioner_by_id(id)
+    if not success: return failure_response("Practitioner does not exists")
+    practitioner.description = descr
+    sql_db.session.commit()
+    return success_response(practitioner.serialize())
+
+
 @app.route("/practitioners/<int:id>/specializations/add/", methods = ["POST"])
 def add_specializations(id):
     body = json.loads(request.data)
@@ -373,6 +436,110 @@ def add_genders(id):
     sql_db.session.commit()
     return success_response({"practitioner" : practitioner.serialize()}, 201)
 
+def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
+    """
+    Adds a new appointment to the appointments for a given practitioner.
+    
+    :param email_address: Email address of the practitioner to update.
+    :param new_appointment: New appointment to be added, expected to be a dict.
+    :return: Boolean indicating if the update was successful.
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    if practitioner is None:
+        return False  
+
+    practitioner.add_appointment(new_appointment)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new appointment: {e}")
+        sql_db.session.rollback()
+        return False
+
+@app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
+def add_appointments(id):
+    """
+    TODO: add documentations
+
+    temporary endpoint. havent thoroughly tested and likely prone to bugs
+    """
+    body = json.loads(request.data)
+    patient_name = body.get("patient_name")
+    paymentmethod = body.get("paymentmethod")
+    referral = body.get("referral")
+    status = body.get("status")
+    pass_status = body.get("pass_status")
+    exists, practitioner = crud.get_practitioner_by_id(id)
+
+    if not exists:
+        return jsonify({"error": "Practitioner does not exist"}), 404
+
+    appointment = {
+        "patient_name": patient_name,
+        "paymentmethod": paymentmethod,
+        "status": status,
+        "clinician": practitioner.name,
+        "referral": referral,
+        "pass_status": pass_status
+    }
+    
+
+    if crud.add_appointment_to_practitioner(sql_db, id, appointment):
+        return success_response({"practitioner" : practitioner.serialize()}, 201)
+    else:
+        return failure_response("adding practitioner failed")
+        
+
+
+@app.route("/practitioners/<string:practitioner_fname>/appointments/update/", methods = ["POST"])
+def update_appointments(practitioner_fname):
+    """
+    TODO: add documentations
+
+    temporary endpoint. havent thoroughly tested and likely prone to bugs
+    """
+    body = json.loads(request.data)
+    patient_name = body.get("patient_name")
+    new_status = body.get("status")
+    exists, practitioner = crud.get_practitioner_by_fname(practitioner_fname)
+    if not exists:
+        return jsonify({"error": "Practitioner does not exist"}), 404
+
+    if crud.update_appointment_status(sql_db, practitioner.id, patient_name, new_status):
+        return success_response({"practitioner" : practitioner.serialize()}, 201)
+    else:
+        return failure_response("adding practitioner failed")
+
+# @app.route("/practitioners/<int:id>/appointments/add/", methods = ["POST"])
+# def add_appointments(id):
+#     """
+#     TODO: add documentations
+
+#     temporary endpoint
+#     body:
+
+#     """
+#     return
+#     body = json.loads(request.data)
+#     genders = body.get("genders")
+#     exists, practitioner = crud.get_practitioner_by_id(id)
+#     if not exists:
+#         return failure_response("Practitioner does not exists")
+#     for name in genders:
+#         exists, gender = crud.get_gender_by_name(name)
+#         created = False
+#         if not exists:
+#             created, gender = crud.create_gender(name)
+#             if created:
+#                 sql_db.session.add(gender)
+#                 practitioner.genders.append(gender)
+#         elif gender not in set(practitioner.genders):
+#             practitioner.genders.append(gender)
+#     sql_db.session.commit()
+#     return success_response({"practitioner" : practitioner.serialize()}, 201)
+
 @app.route("/practitioners/create/", methods = ["POST"])
 def create_practitioner():
     """
@@ -382,11 +549,19 @@ def create_practitioner():
     name = body.get("name")
     email_address = body.get("email_address")
     password = body.get("password")
+    descr = body.get("description")
 
-    if assert_none([name, email_address, password]):
+    languages = body.get("languages")
+    specializations = body.get("specializations")
+    payments = body.get("payments")
+    locations = body.get("locations")
+    genders = body.get("genders")
+    appointments = body.get("appointments")
+
+    if assert_none([name, email_address, password, descr, appointments]):
         return failure_response("Insufficient inputs", 400)
     
-    created, practitioner = crud.create_practitioner(name, email_address, password)
+    created, practitioner = crud.create_practitioner(name, email_address, password, descr, appointments)
 
     if not created:
         return failure_response("Failed to create practitioner", 400)
@@ -398,7 +573,6 @@ def create_practitioner():
 
 
 @app.route("/practitioners/get/<int:id>/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioner(id):
     exists, practitioner = crud.get_practitioner_by_id(id)
     return success_response(practitioner.serialize(), 201)
@@ -466,12 +640,42 @@ def create_intake_form():
     return success_response({"form_id" : form_id}, 201)
 
 @app.route("/practitioners/get/", methods = ["GET"])
-@cross_origin(supports_credentials=True)
 def get_practitioners():
     practitioners = crud.get_practitioners()
 
     return success_response({"practitioners": practitioners})
 
+
+@app.route("/practitioners/delete/<int:id>/", methods = ["POST"])
+def delete_practitioner(id):
+    deleted, practitioner = crud.delete_practioner_by_id(id)
+
+    if not deleted: return failure_response("Practitioner does not exist")
+
+    sql_db.session.commit()
+
+    return success_response(practitioner.serialize())
+
+@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
+def match_practitioners(practitioner_id):
+    """
+    Endpoint for matching practitioners
+    """
+    body = json.loads(request.data)
+    locations = body.get("locations")
+    paymentmethods = body.get("paymentmethods")
+    specializations = body.get("specializations")
+
+    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
+    if not success:
+        return failure_response("Practitioner does not exists")
+
+    if check_auto_pass(locations, paymentmethods, specializations, practitioner):
+        return success_response({"matched": True, "message": "Automatic Pass"})    
+    elif check_soft_pass(locations, paymentmethods, practitioner):
+        return success_response({"matched": True, "message": "Soft Pass"})
+    else:
+        return failure_response({"matched": False, "message": "Rejection"})
 
 def strict_filter(**kwargs):
     filtered_practitioners = set()
@@ -654,74 +858,139 @@ def get_filtered_practitioners():
     return strict_filter(languages=languages, specializations=specializations, genders=genders, locations=locations)
 
 
-def check_soft_pass(specializations, practitioner):
-    #TODO: need to look at the logic
-    specialization_matches = []
-    if specializations: 
-        practitioner_specializations = [specialization.name for specialization in practitioner.specializations]
-        for specialization in practitioner_specializations:
-            if specialization in set(specializations):
-                specialization_matches.append(specialization)
-        if len(specialization_matches) == 0:
-            return False, practitioner
-    return True, practitioner
+def check_soft_pass(locations, paymentmethods, practitioner):
+
+    # paymentmethods as of 20 mar is all pass since all 3 are both
+    # practitioner_paymentmethods = []
+    # for num in practitioner.paymentmethods:
+    #     practitioner_paymentmethods.append(num.name)
+    # if paymentmethods not in practitioner_paymentmethods return False
+
+    practitioner_locations = []
+    for location in practitioner.locations:
+        practitioner_locations.append(location.name)
+    if locations not in practitioner_locations: return False
+
+    return True
 
 
-def check_hard_pass(locations, paymentmethods, practitioner):
-    #TODO: need to look at the logic
-    location_matches = []
-    paymentmethod_matches = []
 
-    practitioner_locations = [location.name for location in practitioner.locations]
-    for location in practitioner_locations:
-        if location in set(locations):
-            location_matches.append(location)
-    if len(location_matches) == 0:
-        return False, "sorry you did not match with the therapist because of the location . Here are a list of resources you can use"
+def check_auto_pass(locations, paymentmethods, specialities, practitioner):
+
+    # paymentmethods as of 20 mar is all pass since all 3 are both
+    # practitioner_paymentmethods = []
+    # for num in practitioner.paymentmethods:
+    #     practitioner_paymentmethods.append(num.name)
+    # if paymentmethods not in practitioner_paymentmethods return False
+
     
-    practitioner_paymentmethods = [paymentmethod.name for paymentmethod in practitioner.paymentmethods]
-    for paymentmethod in practitioner_paymentmethods:
-        if paymentmethod in set(paymentmethods):
-            paymentmethod_matches.append(paymentmethod)
-    if len(paymentmethod_matches) == 0:
-        return False, "sorry you did not match with the therapist because of the payment method . Here are a list of resources you can use. "
-        
-    return True, practitioner
+    practitioner_locations = []
+    for location in practitioner.locations:
+        practitioner_locations.append(location.name)
+    if locations not in practitioner_locations: return False
 
-@app.route('/practitioners/get/<int:practitioner_id>/match/', methods=['POST'])             
-def match_practitioners(practitioner_id):
+    practitioner_specializations = []
+    for specialization in practitioner.specializations:
+        practitioner_specializations.append(specialization.name)
+
+    # print("practitioner_specializations:\n\n\n\n\n", practitioner_specializations)
+
+    any_speciality_found = False
+
+    for speciality in specialities:
+        if speciality in practitioner_specializations:
+            any_speciality_found = True
+            break  
+
+    if not any_speciality_found:
+        return False
+
+    return True
+
+# @app.route('/appointments/update/', methods=['POST'])             
+# def update_appt():
+#     body = json.loads(request.data)
+#     id = body.get("id")
+#     status = body.get("status")
+
+#     if id is None or status is None: return failure_response("Invalid inputs")
+    
+#     return success_response({"id" : id, "message" : update_event_status(id, status)})
+
+@app.route("/consultation_request/<int:request_id>/update_status/", methods=["POST"])
+def update_consultation_status(request_id):
     """
-    Endpoint for matching practitioners
+    Updates the status of a specific consultation request by creating a ConsultationChange record.
+
+    Incomplete. Need to see how consultations will be fulfilled to get a better 
+        data model. Last worked on 18 March 24
     """
+    logging.warning("WIP endpoint '/consultation_request/<int:request_id>/update_status/' was accessed. ")
+
+    response = {
+        "error": "wip_endpoint",
+        "message": "This endpoint is WIP and should not be used"
+    }
+    return jsonify(response), 410 
+
+    
     body = json.loads(request.data)
-    locations = body.get("locations")
-    paymentmethods = body.get("paymentmethods")
-    specializations = body.get("specializations")
+    new_status = body.get("status")
 
-    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
-    if not success:
-        return failure_response("Practitioner does not exists")
-    
-    
-    success, practitioner = check_hard_pass(locations, paymentmethods, practitioner)
-    
-    if not success:
-        return failure_response({"matched": False, "message" : practitioner})
-    
-    soft_pass_success, practitioner = check_soft_pass(specializations, practitioner) 
-    
-    if soft_pass_success:
-        return success_response({"matched": True, "message" : "Everything matches"})
-    
-    if not soft_pass_success:
-        return success_response({"matched": False, "message" : "Specialization does not match but we will send your information to the therapist and we will let you know when she approves/declines your appointment request"})
+    if not new_status:
+        return failure_response("Missing new status.", 400)
+
+    # fetching ConsultationRequest by id
+    consultation_request = ConsultationRequest.query.get(request_id)
+    if consultation_request is None:
+        return failure_response("ConsultationRequest not found.", 404)
+
+    # create new ConsultationChange record
+    consultation_change = ConsultationChange(
+        consultation_request_id=request_id,
+        status=new_status,
+        updated_at=datetime.datetime.now(datetime.UTC)  # ensure utc 
+    )
+    sql_db.session.add(consultation_change)
+
+    # update current status of the ConsultationRequest
+    consultation_request.current_status = new_status
+
+    try:
+        sql_db.session.commit()
+        return success_response({"message": "Consultation status updated successfully."}, 200)
+    except Exception as e:
+        sql_db.session.rollback()
+        return failure_response(f"Failed to update consultation status: {str(e)}", 500)
 
 
 
-#TODO: 
-    # 1. We have: verify_password, verify_session_token, verify_update_token, renew_session
-    # 2. To write: get session token and update token from the (Authorization header)
-    # 3. Endpoints: Endpoint to renew_token , endpoint login, endpoint logout, add pass to create_practitioner endpoint
+@app.route("/consultation_request/<int:practitioner_id>/update_status/", methods=["POST"])
+def consultation_form(request_id):
+    """
+    write first last, state, email, cliniian, payment method to db
+    endpoint - 6 fields, write into database
+
+    temp endpoint for wednesday call, to be updated
+    """
+
+    return
+
+
+# endpoint to call all appointsments by clinician - jasmine, 
+    # first last, clinician, payment method
+        # codes: “awaiting approval”, “declined”, “approved”
+
+# endpoint - changing appointment status
+    # clinician id, status
+
+# update, writing to form 
+
+# update, given appt id, get the field in the database, update the status
+# wrriting to form: 
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
+# just use const url = "https://culture-care.onrender.com/practitioners/get/"; to get all and load all appts for therapist dashbaord

@@ -92,3 +92,6 @@ Ref: practitioner.id <> location.id // many-to-one
 
 
 
+
+
+{'Jasmine Ramirez': {'start': {'dateTime': '2024-03-14T09:20:00-04:00', 'timeZone': 'America/New_York'}, 'id': '7p0vs699ghmo462pug41p241hg', 'description': {'patient name': 'Jephthah Mensah', 'paymentmethod': 'Self-pay'}}, 'Harmony Prado': {'start': {'dateTime': '2024-03-20T09:00:00-04:00', 'timeZone': 'America/New_York'}, 'id': 'bdslb6cbf086e5cgecbtio4v8g', 'description': {'patient name': 'Jephthah Mensah', 'paymentmethod': 'OON'}}}

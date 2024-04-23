@@ -1,7 +1,8 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, EmailContent, Gender, Specialization, Language, Location, PaymentMethod
+from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod
+from sqlalchemy import func
 
 # from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -51,15 +52,39 @@ def get_practitioner_by_id(practitioner_id):
     """
     Returns practitioner with practitioner_id
     """
-    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id, Practitioner.is_active == True).first()
 
     if not practitioner:
         return False, None
     
     return True, practitioner
 
+def get_practitioner_by_name(practitioner_name):
+    """
+    Returns an active practitioner with the given name.
+    """
+    practitioner = Practitioner.query.filter(
+        Practitioner.name == practitioner_name
+    ).first()
+
+    if not practitioner:
+        return False, None
+    
+    return True, practitioner
+
+
+def delete_practioner_by_id(id):
+    """
+    Sets is_active of practioner of this id to False and returns the practitioner
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == id).first()
+    if not practitioner: return False, None
+    practitioner.is_active = False
+    practitioner.email_address = ""
+    return True, practitioner
+
 def get_practitioners():
-    pracitioners = Practitioner.query.filter().all()
+    pracitioners = Practitioner.query.filter(Practitioner.is_active == True).all()
     pracitioners_json = []
     for practitioner in pracitioners:
         pracitioners_json.append(practitioner.serialize())
@@ -90,7 +115,7 @@ def create_email_content(subject, message, practitioner_id):
     return True, email_content
 
 
-def create_practitioner(name, email_address, password):
+def create_practitioner(name, email_address, password, description, appointments):
     """
     Creates a practitioner object in the database
 
@@ -99,9 +124,58 @@ def create_practitioner(name, email_address, password):
     practitioner = get_practitioner_by_email(email_address)
     if practitioner is not None:
         return False, practitioner
-    practitioner = Practitioner(name=name, email_address=email_address, password=password)
+    practitioner = Practitioner(name=name, email_address=email_address, password=password, description = description, appointments = appointments)
     return True, practitioner
 
+from sqlalchemy.orm.attributes import flag_modified
+
+def update_appointment_status(sql_db, practitioner_id, patient_name, new_status):
+    """
+    Updates the status of a specific appointment for a practitioner.
+
+    :param email_address: Email address of the practitioner.
+    :param appointment_id: The ID of the appointment to update.
+    :param new_status: The new status to apply to the appointment.
+    :return: Boolean indicating if the update was successful.
+
+    ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    if practitioner is None:
+        return False
+
+
+    practitioner.update_appointment(patient_name, new_status)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new status: {e}")
+        sql_db.session.rollback()
+        return False
+
+def add_appointment_to_practitioner(sql_db, practitioner_id, new_appointment):
+    """
+    Adds a new appointment to the appointments for a given practitioner.
+    
+    :param email_address: Email address of the practitioner to update.
+    :param new_appointment: New appointment to be added, expected to be a dict.
+    :return: Boolean indicating if the update was successful.
+    """
+    practitioner = Practitioner.query.filter(Practitioner.id == practitioner_id).first()
+    if practitioner is None:
+        return False  
+
+    practitioner.add_appointment(new_appointment)
+
+    try:
+        sql_db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error adding new appointment: {e}")
+        sql_db.session.rollback()
+        return False
 
 def get_practitioner_by_session_token(session_token):
     """

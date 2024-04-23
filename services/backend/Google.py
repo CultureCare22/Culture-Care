@@ -13,7 +13,7 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes, prefix=''
 	
 	cred = None
 	working_dir = os.getcwd()
-	token_dir = 'token files'
+	token_dir = ''
 	pickle_file = f'token_{API_SERVICE_NAME}_{API_VERSION}{prefix}.pickle'
 
 	### Check if token dir exists first, if not, create the folder
@@ -21,14 +21,18 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes, prefix=''
 		os.mkdir(os.path.join(working_dir, token_dir))
 
 	if os.path.exists(os.path.join(working_dir, token_dir, pickle_file)):
+
 		with open(os.path.join(working_dir, token_dir, pickle_file), 'rb') as token:
 			cred = pickle.load(token)
+
+	
 
 	if not cred or not cred.valid:
 		if cred and cred.expired and cred.refresh_token:
 			cred.refresh(Request())
 		else:
-			flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+			flow = InstalledAppFlow.from_client_secrets_file(os.path.join(working_dir, token_dir, CLIENT_SECRET_FILE), SCOPES)
+
 			cred = flow.run_local_server()
 
 		with open(os.path.join(working_dir, token_dir, pickle_file), 'wb') as token:
