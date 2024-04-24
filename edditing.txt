@@ -1,0 +1,86 @@
+# class ConsultationRequest(sql_db.Model):
+#     """
+#     consultation requests
+
+#     temporary, to be updated
+#     """
+#     __tablename__ = "consultation_requests"
+#     id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
+#     patient_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('patients.id'), nullable=False)
+#     practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), nullable=False)
+#     created_at = sql_db.Column(sql_db.DateTime, nullable=False) 
+#     current_status = sql_db.Column(sql_db.String, nullable=False, default='pending')
+#     referral_source = sql_db.Column(sql_db.String, nullable=False) 
+#         # e.g., 'latinxtherapy', 'therapy4blackgirls'    
+
+# # ---------------------------------------------------------------------------------
+# #  Requests per practitioner 
+#     # count the number of consultations per clinician within a specific 
+#     # timeframe, (group_by practitioner_id//using the backref)
+
+#             # Time Saved metric
+#         # filter consultations w/ "rejected" status, multiply count by 15 (minutes)
+# # ---------------------------------------------------------------------------------
+
+#     # Relationships
+#     patient = sql_db.relationship("Patient", back_populates="consultation_requests")
+#     practitioner = sql_db.relationship("Practitioner", back_populates="consultation_requests")
+
+
+#     def __init__(self, patient_id, practitioner_id, created_at, referral_source):
+#         self.patient_id = patient_id
+#         self.practitioner_id = practitioner_id
+#         self.created_at = created_at
+#         self.referral_source = referral_source
+
+# class ConsultationRequest(sql_db.Model):
+#     """
+#     consultation requests
+
+#     temporary, to be updated
+#     """
+#     __tablename__ = "consultation_requests"
+#     id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
+#     first_name = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('patients.id'), nullable=False)
+#     last_name = sql_db.Column(sql_db.String)
+#     state = sql_db.Column(sql_db.String)
+#     practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), nullable=False)
+#     payment_method = sql_db.Column(sql_db.String)
+#     status = sql_db.Column(sql_db.String, default="pending")
+
+        # e.g., 'latinxtherapy', 'therapy4blackgirls'    
+
+# ---------------------------------------------------------------------------------
+#  Requests per practitioner 
+    # count the number of consultations per clinician within a specific 
+    # timeframe, (group_by practitioner_id//using the backref)
+
+            # Time Saved metric
+        # filter consultations w/ "rejected" status, multiply count by 15 (minutes)
+# ---------------------------------------------------------------------------------
+
+    # Relationships
+#     patient = sql_db.relationship("Patient", back_populates="consultation_requests")
+#     practitioner = sql_db.relationship("Practitioner", back_populates="consultation_requests")
+
+
+#     def __init__(self, patient_id, practitioner_id, created_at, referral_source):
+#         self.patient_id = patient_id
+#         self.practitioner_id = practitioner_id
+#         self.created_at = created_at
+#         self.referral_source = referral_source
+
+# class ConsultationChange(sql_db.Model):
+#     __tablename__ = "consultation_changes"
+#     id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
+#     consultation_request_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('consultation_requests.id'), nullable=False)
+#     status = sql_db.Column(sql_db.String, nullable=False)  # e.g., 'accepted', 'rejected', pending
+#     updated_at = sql_db.Column(sql_db.DateTime, nullable=False)
+
+#     # Relationship
+#     consultation_request = sql_db.relationship("ConsultationRequest", backref="changes")
+
+#     def __init__(self, consultation_request_id, status, updated_at):
+#         self.consultation_request_id = consultation_request_id
+#         self.status = status
+#         self.updated_at = updated_at
