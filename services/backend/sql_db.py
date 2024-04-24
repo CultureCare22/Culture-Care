@@ -324,6 +324,18 @@ class Insurance(sql_db.Model):
     name = sql_db.Column(sql_db.String, nullable = False)
     practices = sql_db.relationship("Practice", secondary = practice_insurance_table, back_populates = "insurances")
 
+    def __init__(self, **kwargs):
+        """
+        Initializes a insurance object
+        """
+        self.name = kwargs.get("name")
+
+    def simple_serialize(self):
+        """
+        Simple serializes a insurance object
+        """
+        return {"id" : self.id, "name" : self.name}
+
 
 class Consultation(sql_db.Model):
     """Consultation Model"""
