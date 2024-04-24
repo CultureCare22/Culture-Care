@@ -1,6 +1,7 @@
 body {
   padding: 0pt;
 }
+
 .row-flex {
   display: flex;
   flex-direction: row;
@@ -17,13 +18,14 @@ body {
   font-size: 20pt;
   font-weight: normal;
 }
+
 .cover-box1 h2 {
   margin-top: 1em;
   margin-bottom: 1em;
   margin-left: 1em;
 }
 
-.data-stats{
+.data-stats {
   margin-left: 2em;
   flex: 1;
   background-color: #E5F5FD;
@@ -31,7 +33,7 @@ body {
   box-shadow: 2px 2px 2px lightgrey;
 }
 
-.data-stats h2{
+.data-stats h2 {
   font-size: 20pt;
   font-weight: normal;
   margin-left: 1em;
@@ -94,9 +96,11 @@ h1 {
 
 }
 
-.request-1 h3,h4 {
+.request-1 h3,
+h4 {
   font-weight: normal;
 }
+
 .request-1 h3 {
   font-size: 20pt;
   margin-top: 0.5em;
@@ -117,7 +121,7 @@ h1 {
 }
 
 .clinician_1 {
-  margin-top:0.5em;
+  margin-top: 0.5em;
   margin-bottom: 0.5em;
   font-size: 14pt;
 }
@@ -184,7 +188,7 @@ h1 {
   margin-bottom: 1em;
 }
 
-.check-all span{
+.check-all span {
   margin-left: 0.5em;
 }
 
@@ -255,7 +259,7 @@ h1 {
 }
 
 .box_2 {
-  background-color:#2563EB;
+  background-color: #2563EB;
   color: white;
   text-align: center;
   width: 8em;
@@ -267,7 +271,7 @@ h1 {
 }
 
 .box_3 {
-  background-color:#38BDF8;
+  background-color: #38BDF8;
   color: white;
   text-align: center;
   width: 8em;
@@ -279,7 +283,7 @@ h1 {
 }
 
 .box_4 {
-  background-color:#717171;
+  background-color: #717171;
   color: white;
   text-align: center;
   width: 8em;
@@ -294,12 +298,15 @@ h1 {
   width: 5em;
   height: 100%
 }
+
 .box_2 p {
   margin-left: 0px;
 }
+
 .box_3 p {
   margin-left: 0px;
 }
+
 .box_4 p {
   margin-left: 0px;
 }
@@ -318,12 +325,13 @@ h1 {
   margin-top: 1em;
   border-collapse: collapse;
 }
+
 .request-table thead {
   background-color: #F8F8F8;
   border-radius: 5pt;
 }
 
-.request-table thead th{
+.request-table thead th {
   font-weight: normal;
   color: #717171;
   padding-top: 0.25em;
@@ -333,7 +341,8 @@ h1 {
   text-align: left;
 }
 
-.request-table tbody th, td {
+.request-table tbody th,
+td {
   font-weight: normal;
   padding-left: 1em;
   text-align: left;
@@ -349,7 +358,7 @@ h1 {
 
 .request-table a {
   color: white;
-  background-color:#2563EB;
+  background-color: #2563EB;
   padding: 0.5em;
   padding-left: 1em;
   padding-right: 1em;
@@ -374,4 +383,43 @@ h1 {
 
 .link_details {
   padding-right: 1em;
+}
+
+.filter-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.filter-popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.filter-popup-header,
+.filter-popup-footer {
+  margin-bottom: 20px;
+}
+
+.filter-buttons button {
+  margin-right: 10px;
+  padding: 5px 15px;
+}
+
+.apply-button {
+  background-color: #0044cc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

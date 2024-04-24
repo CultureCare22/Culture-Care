@@ -8,6 +8,46 @@ import { FaUserCheck } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import dummy_data from "../../dummy_clinician.json";
 
+function FilterPopup({ isOpen, onClose }) {
+    if (!isOpen) return null;
+
+    return (
+        <div className="filter-popup-backdrop">
+            <div className="filter-popup">
+                <div className="filter-popup-header">
+                    <h2>Filter Options</h2>
+                </div>
+                <div className="filter-section">
+                    <h4>By Status:</h4>
+                    <div className="filter-buttons">
+                        <button>Approved</button>
+                        <button>Rejected</button>
+                        <button>Awaiting Confirmation</button>
+                    </div>
+                </div>
+                <div className="filter-section">
+                    <h4>By Requested Clinician:</h4>
+                    <div className="filter-buttons">
+                        <button>Jasmine Ramirez</button>
+                        <button>Lilliana Tapia</button>
+                        <button>Sierra Silva</button>
+                    </div>
+                </div>
+                <div className="filter-section">
+                    <h4>By Payment Method:</h4>
+                    <div className="filter-buttons">
+                        <button>Self-Pay</button>
+                        <button>OON</button>
+                    </div>
+                </div>
+                <div className="filter-popup-footer">
+                    <button className="apply-button" onClick={onClose}>Apply</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 var run = 1
 const url = "https://culture-care.onrender.com"
 function Category() {
@@ -38,6 +78,12 @@ function Category() {
     //     }
     //     checkAuth();
     // })
+
+    const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
+
+    const toggleFilterPopup = () => {
+        setIsFilterPopupOpen(!isFilterPopupOpen);
+    };
 
 
 
@@ -85,7 +131,7 @@ function Category() {
                 const response = await fetch(url + endpoint);
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("\n\n\nddddata",data);
+                    console.log("\n\n\nddddata", data);
                     setData(data);
                     setIsLoading(false);
                 } else {
@@ -102,13 +148,13 @@ function Category() {
 
         const handleStatusChange = async (event) => {
             const newStatus = event.target.value;
-    
+
             const requestBody = {
                 patient_name: patient_name,
                 paymentmethod: payment_method,
                 status: newStatus,
             };
-    
+
             try {
                 const slugified = requested_clinician.toLowerCase().replace(/ /g, '-');
                 const response = await fetch(url + `/practitioners/${encodeURIComponent(requested_clinician)}/appointments/update/`, {
@@ -118,11 +164,11 @@ function Category() {
                     },
                     body: JSON.stringify(requestBody),
                 });
-    
+
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status}`);
                 }
-    
+
                 const data = await response.json();
                 console.log('Success:', data);
             } catch (error) {
@@ -131,17 +177,17 @@ function Category() {
         };
 
         return (
-                <tr>
-                    <th scope='row'>{patient_name}</th>
-                    <td>{requested_clinician}</td>
-                    <td>{payment_method}</td>
-                    {/* <td>{referral}</td> */}
-                    <td>Anxiety</td>
-                    <td>{pass_status}</td>
-                    <td className='appt_status'><p>Awaiting Approval</p></td>
-                    <td className='link_details'><a href='/'>View</a></td>
+            <tr>
+                <th scope='row'>{patient_name}</th>
+                <td>{requested_clinician}</td>
+                <td>{payment_method}</td>
+                {/* <td>{referral}</td> */}
+                <td>Anxiety</td>
+                <td>{pass_status}</td>
+                <td className='appt_status'><p>Awaiting Approval</p></td>
+                <td className='link_details'><a href='/pending-request-details/:id'>View</a></td>
 
-                    {/* <td>
+                {/* <td>
                     <select
                         name='update_status'
                         id={`update_status_${patient_name}`} 
@@ -153,7 +199,7 @@ function Category() {
                             <option value='Declined'>Declined</option>
                         </select>
                     </td> */}
-                </tr>
+            </tr>
         )
     }
 
@@ -174,7 +220,7 @@ function Category() {
     //         } else {
     //             appointmentsArray = [];
     //         }
-            
+
     //         return appointmentsArray.map(appointment => ({
     //             ...appointment,
     //             clinician: practitioner.name,
@@ -195,12 +241,12 @@ function Category() {
                         appointmentsArray = JSON.parse(practitioner.appointments);
                     } catch (error) {
                         console.error("Error parsing appointments JSON", error);
-                        appointmentsArray = []; 
+                        appointmentsArray = [];
                     }
                 } else {
                     appointmentsArray = [];
                 }
-                
+
                 return appointmentsArray.map(appointment => ({
                     ...appointment,
                     clinician: practitioner.name,
@@ -220,18 +266,18 @@ function Category() {
     const ApptRequests = ({ appointments_test }) => {
         return (
             <>
-              {appointments_test.map((appointment, index) => (
-                <Appt
-                  key={index}
-                  id={appointment.id} 
-                  patient_name={appointment.patient_name}
-                  payment_method={appointment.paymentmethod} 
-                  status={appointment.status}
-                  requested_clinician={appointment.clinician}
-                  referral={appointment.referral}
-                  pass_status={appointment.pass_status}
-                />
-              ))}
+                {appointments_test.map((appointment, index) => (
+                    <Appt
+                        key={index}
+                        id={appointment.id}
+                        patient_name={appointment.patient_name}
+                        payment_method={appointment.paymentmethod}
+                        status={appointment.status}
+                        requested_clinician={appointment.clinician}
+                        referral={appointment.referral}
+                        pass_status={appointment.pass_status}
+                    />
+                ))}
             </>
         )
     }
@@ -242,11 +288,11 @@ function Category() {
     var formattedPercentage = oonPercentage.toFixed(1) + "%";
 
 
-    const referralCounts = allAppointments.reduce((acc, {referral}) => {
+    const referralCounts = allAppointments.reduce((acc, { referral }) => {
         acc[referral] = (acc[referral] || 0) + 1;
         return acc;
     }, {});
-    
+
     // Find highest referral source
     const highestReferralSource = Object.keys(referralCounts).reduce((a, b) => referralCounts[a] > referralCounts[b] ? a : b);
     console.log("highestReferralSource", highestReferralSource)
@@ -254,7 +300,7 @@ function Category() {
     // Calculate percentage dominance
     const totalReferrals = allAppointments.length;
     const percentageDominance = ((referralCounts[highestReferralSource] / totalReferrals) * 100).toFixed(1);
-    
+
     console.log(`Highest Referral Source: ${highestReferralSource}, Percentage Dominance: ${percentageDominance}%`);
     console.log(allAppointments.length)
 
@@ -265,8 +311,10 @@ function Category() {
                 <div class="allrequests">
                     <h2>Appointment Requests</h2>
 
+                    <button onClick={toggleFilterPopup} className="filter-button">Filter ⚙️</button>
+
                     <table class='request-table'>
-                    <thead>
+                        <thead>
                             <tr>
                                 <th scope='col'>Name</th>
                                 <th scope='col'>Requested Clinician</th>
@@ -274,13 +322,13 @@ function Category() {
                                 <th scope='col'>Concerns</th>
                                 <th scope='col'>Pass Status</th>
                                 <th scope='col'>Appt Status</th>
-                                <th scope='col'>Details</th>
+                                <th scope='col'>View/Update</th>
                             </tr>
                         </thead>
-                    <tbody>
-                        <ApptRequests appointments_test={allAppointments}/>
-                    </tbody>
-                            
+                        <tbody>
+                            <ApptRequests appointments_test={allAppointments} />
+                        </tbody>
+
                     </table>
                 </div>
                 <div className='data-stats'>
@@ -326,6 +374,7 @@ function Category() {
                     </div>
                 </div>
             </div >
+            <FilterPopup isOpen={isFilterPopupOpen} onClose={toggleFilterPopup} />
         </div>
     );
 }
