@@ -39,10 +39,14 @@ practitioner_network_table = sql_db.Table('practitioner_paymentmethod',
     sql_db.Column('paymentmethod_id', sql_db.Integer, sql_db.ForeignKey('paymentmethods.id'), primary_key=True)
 )
 
-
 practice_insurance_table = sql_db.Table('practice_insurance',
     sql_db.Column('practice_id', sql_db.Integer, sql_db.ForeignKey('practices.id'), primary_key=True),
     sql_db.Column('insurance_id', sql_db.Integer, sql_db.ForeignKey('insurances.id'), primary_key=True)
+)
+
+patient_gender_table = sql_db.Table('patient_gender',
+    sql_db.Column('patient_gender_id', sql_db.Integer, sql_db.ForeignKey('consutaltions.id'), primary_key=True),
+    sql_db.Column('gender_id', sql_db.Integer, sql_db.ForeignKey('genders.id'), primary_key=True)
 )
     
 
@@ -200,7 +204,10 @@ class Gender(sql_db.Model):
     __tablename__ = "genders"
     id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
     name = sql_db.Column(sql_db.String, nullable = False)
-    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_gender_table, back_populates = "genders")  
+    practitioners = sql_db.relationship("Practitioner", secondary = practitioner_gender_table, back_populates = "genders") 
+
+    patients = sql_db.relationship("Consultation", secondary = patient_gender_table, back_populates = "genders")  
+
 
 
     def __init__(self, **kwargs):
@@ -344,10 +351,19 @@ class Consultation(sql_db.Model):
     patient_name = sql_db.Column(sql_db.String, nullable = False)
     patient_email = sql_db.Column(sql_db.String, nullable = False)
     patient_phone = sql_db.Column(sql_db.String, nullable = False)
-    patient_interest = sql_db.Column(sql_db.String, nullable = False)
+    patient_area_of_need = sql_db.Column(sql_db.String, nullable = False)
     patient_state = sql_db.Column(sql_db.String, nullable = False)
     practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), unique=True)
     practitioner = sql_db.relationship("Practitioner", back_populates="consultations")
     practice_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practices.id'), unique= False)
     practice = sql_db.relationship("Practice", back_populates="consultations")
+
+    status = sql_db.Column(sql_db.String, nullable = False, default = "pending")
+    patient_date_of_birth = sql_db.Column(sql_db.String, nullable = False)
+
+    patient_genders = sql_db.relationship("Gender", secondary = patient_gender_table, back_populates = "consultations")  
+
+
+
+
 
