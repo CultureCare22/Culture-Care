@@ -3,6 +3,7 @@ A module to access data from database
 """
 from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod
 from sqlalchemy import func
+import logging
 
 # from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -93,8 +94,10 @@ def get_practitioners():
 
 def get_emailcontent_by_id(emailcontent_id):
     """
+    ::DEPRECIATED::
     Returns emailcontent with emailcontent_id
     """
+    logging.warning("Deprecated endpoint '/login/' was accessed. Advise user to NOT use this method.")
     email_content = EmailContent.query.filter(EmailContent.id == emailcontent_id).first()
 
     if not email_content:

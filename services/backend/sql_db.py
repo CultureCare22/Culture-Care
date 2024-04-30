@@ -81,6 +81,8 @@ class Practitioner(sql_db.Model):
 
 
     consultation = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
+    metrics = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
+
 
     def __init__(self, **kwargs):
         """
@@ -365,5 +367,27 @@ class Consultation(sql_db.Model):
 
 
 
+class Metric(sql_db.Model):
+    """
+    Metric Model
+    """
+    __tablename__ = "metrics"
+    id = sql_db.Column(sql_db.Integer, primary_key = True, autoincrement = True)
+    number_of_rejections = sql_db.Column(sql_db.String, default = 0, nullable = False)
+
+    practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), unique=True)
+    practitioner = sql_db.relationship("Practitioner", back_populates="consultations")
 
 
+
+
+
+
+# get all consultation endpoint
+# get all consultation given the practitioner id
+# normal crud endpoints for consultation
+# update appointment status endpoint
+    
+# develop the Metric table to store number of rejections
+    
+# location of the practice to the Practice table
