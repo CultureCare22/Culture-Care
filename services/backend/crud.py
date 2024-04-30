@@ -30,17 +30,6 @@ from sqlalchemy import func
 #     return True, form
 
 
-def get_consultations():
-    """
-    Returns all consultations 
-    """
-    consuls = Consultation.query.filter().all()
-    res = []
-    for c in consuls:
-        res.append(c.serialize())
-    return res
-
-
 def get_practitioner_by_email(email_address):
     """
     Returns a practitioner object from the database given an email

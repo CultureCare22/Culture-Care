@@ -76,6 +76,7 @@ class Practitioner(sql_db.Model):
     consultations = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
     metrics = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
 
+    #TODO: establish practice-practitioner relationship
 
     def __init__(self, **kwargs):
         """
@@ -216,6 +217,7 @@ class Specialization(sql_db.Model):
     
 class PaymentMethod(sql_db.Model):
     """
+    ::DEPRECATAED::
     Network Model
     """
     __tablename__ = "paymentmethods"
@@ -245,7 +247,9 @@ class Practice(sql_db.Model):
     name = sql_db.Column(sql_db.String, nullable = False)
     consultation = sql_db.relationship("Consultation", back_populates="practices", uselist = False)
     insurances = sql_db.relationship("Insurance", secondary = practice_insurance_table, back_populates = "practices")
-    location = sql_db.Column(sql_db.String, nullable = False)
+    location = sql_db.Column(sql_db.String, nullable = False) #no relationship
+
+    # missing member and head
 
     def __init__(self, kwargs):
         """Initializes Practice object"""
@@ -301,6 +305,7 @@ class Consultation(sql_db.Model):
     patient_genders = sql_db.relationship("Gender", secondary = patient_gender_table, back_populates = "consultations")
 
     def __init__(self, **kwargs):
+        """Initializes Consultation object"""
         self.patient_name = kwargs.get("patient_name")
         self.patient_email = kwargs.get("patient_email")
         self.patient_phone = kwargs.get("patient_phone")
@@ -322,7 +327,6 @@ class Consultation(sql_db.Model):
             "status" : self.status,
             "patient_date_of_birth" : self.patient_date_of_birth,
             "patient_genders" : [gender.simple_serialize() for gender in self.patient_genders],
-            "practice" : "TODO"
         }
 
 
@@ -354,8 +358,5 @@ class Metric(sql_db.Model):
 # get all consultation endpoint
 # get all consultation given the practitioner id
 # normal crud endpoints for consultation
-# update appointment status endpoint
-    
-# develop the Metric table to store number of rejections  ::done
     
 # location of the practice to the Practice table
