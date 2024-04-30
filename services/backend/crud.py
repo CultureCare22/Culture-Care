@@ -1,9 +1,8 @@
 """
 A module to access data from database
 """
-from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod
+from sql_db import Patient, Practitioner, Gender, Specialization, Language, Location, PaymentMethod, Consultation
 from sqlalchemy import func
-import logging
 
 # from mongo_db import insert_into_forms_collection, find_form_by_id
 
@@ -30,6 +29,16 @@ import logging
     
 #     return True, form
 
+
+def get_consultations():
+    """
+    Returns all consultations 
+    """
+    consuls = Consultation.query.filter().all()
+    res = []
+    for c in consuls:
+        res.append(c.serialize())
+    return res
 
 
 def get_practitioner_by_email(email_address):
@@ -91,31 +100,6 @@ def get_practitioners():
         pracitioners_json.append(practitioner.serialize())
 
     return pracitioners_json
-
-def get_emailcontent_by_id(emailcontent_id):
-    """
-    ::DEPRECIATED::
-    Returns emailcontent with emailcontent_id
-    """
-    logging.warning("Deprecated endpoint '/login/' was accessed. Advise user to NOT use this method.")
-    email_content = EmailContent.query.filter(EmailContent.id == emailcontent_id).first()
-
-    if not email_content:
-        return False, None
-    
-    return True, email_content
-
-
-def create_email_content(subject, message, practitioner_id):
-    """
-    Creates and returns an email content
-    """
-    email_content = EmailContent(subject = subject, message = message, practitioner_id = practitioner_id)
-
-    if not email_content:
-        return False, None
-    
-    return True, email_content
 
 
 def create_practitioner(name, email_address, password, description, appointments):

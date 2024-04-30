@@ -107,6 +107,35 @@ def extract_token(request):
     return True, bearer_token
 
 
+@app.route("/consultations/<int:id>/", methods=["POST"])
+def update_consultation(id):
+    """Endpoint to update consultation"""
+    body = json.loads(request.data)
+    subject = body.get("subject")
+    message = body.get("message")
+    practitioner_id = body.get("practitioner_id")
+
+    if assert_none([subject, message, practitioner_id]):
+        return failure_response("Insufficient inputs", 400)
+    
+    success, practitioner = crud.get_practitioner_by_id(practitioner_id)
+
+    if not success:
+        return failure_response("Practitioner does not exists", 400)
+    
+    created, email_content = crud.create_email_content(subject, message, practitioner_id, [])
+
+    if not created:
+        return failure_response("Failed to create email", 400)
+    
+
+    sql_db.session.add(email_content)
+    sql_db.session.commit()
+    
+    return success_response(email_content.serialize(), 201)
+
+    
+
 @app.route("/login/", methods=["POST"])
 def login():
     """

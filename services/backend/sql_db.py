@@ -3,14 +3,7 @@ The database of culture care api
 """
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timezone
 import bcrypt
-
-import json
-
-import datetime
-import hashlib
-import os
 
 sql_db = SQLAlchemy()
 
@@ -59,7 +52,7 @@ class Practitioner(sql_db.Model):
 
     name = sql_db.Column(sql_db.String, nullable = False)
     email_address = sql_db.Column(sql_db.String, nullable = False, unique = True)
-    is_active = sql_db.Column(sql_db.Boolean, default = True, nullable = False)
+    is_deleted = sql_db.Column(sql_db.Boolean, default = False, nullable = False)
 
     description = sql_db.Column(sql_db.String, nullable = True)
 
@@ -80,7 +73,7 @@ class Practitioner(sql_db.Model):
     update_token_expiration = sql_db.Column(sql_db.DateTime, nullable=False)
 
 
-    consultation = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
+    consultations = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
     metrics = sql_db.relationship("Consultation", back_populates="practitioners", uselist = False)
 
 
@@ -95,80 +88,6 @@ class Practitioner(sql_db.Model):
         self.appointments = kwargs.get("appointments")
         self.renew_session()
 
-
-    def verify_token(self, token, token_expiration, input_token):
-        """
-        Verifies the session token of a user
-        """
-        return token == input_token and datetime.datetime.now() < token_expiration
-        #TODO: change to UTC
-
-    def verify_password(self, password):
-        """
-        Verifies the password of a polling agent
-        """
-        password_digest_bytes = self.password_digest
-        if isinstance(password_digest_bytes, str):
-            password_digest_bytes = password_digest_bytes.encode('utf-8')
-        return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
-    
-    def renew_session(self):
-        """
-        Renews session
-        """
-        self.session_token = self._urlsafe_base_64()
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=15)
-        self.update_token = self._urlsafe_base_64()
-        self.update_token_expiration = datetime.datetime.now() + datetime.timedelta(minutes=30)
-
-    def _urlsafe_base_64(self):
-        """
-        Randomly generates hashed tokens (used for session/update tokens)
-        """
-        return hashlib.sha1(os.urandom(64)).hexdigest()
-
-    def add_appointment(self, new_appointment):
-        """
-        Adds a new appointment to the appointments list for the practitioner.
-        
-        
-        :param new_appointment: A dictionary representing the new appointment to add.
-
-        ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
-        """
-        if self.appointments is None:
-            self.appointments = []
-        
-        updated_appointments = self.appointments + [new_appointment]
-        self.appointments = updated_appointments
-
-
-    def update_appointment(self, patient_name, new_status):
-        """
-        Updates an appointment for a given patient name with new appointment details.
-
-        :param patient_name: The name of the patient whose appointment needs to be updated.
-        :param new_status: The new status for the appointment.
-
-        ::TEMPORARY, WILL DEPRECIATE AFTER 20 MAR
-        """
-        if self.appointments is None:
-            return False
-
-        updated = False
-
-        for appointment in json.loads(self.appointments):
-            if appointment.get("patient_name") == patient_name:
-                appointment["status"] = new_status
-                updated = True
-                break
-        if updated:
-            self.appointments = json.dumps(self.appointments[:])
-            return True
-
-        return False
-
-
     def simple_serialize(self):
         """
         Simple serializes a practitioner object
@@ -179,7 +98,7 @@ class Practitioner(sql_db.Model):
             "email_address" : self.email_address,
             "password" : self.session_token
         }
-    
+
     def serialize(self):
         """
         Serializes a practitioner
@@ -188,6 +107,7 @@ class Practitioner(sql_db.Model):
         return {
             "id" : self.id,
             "name" : self.name,
+            "is_deleted" : self.is_deleted,
             "email_address" : self.email_address, 
             "description" : self.description,
             "genders" : [gender.simple_serialize() for gender in self.genders],
@@ -195,7 +115,7 @@ class Practitioner(sql_db.Model):
             "locations" : [location.simple_serialize() for location in self.locations],
             "specializations" : [specialization.simple_serialize() for specialization in self.specializations],
             "paymentmethods" : [payment_method.simple_serialize() for payment_method in self.paymentmethods],
-            "appointments" :  self.appointments
+            "appointments" :  [consultation.simple_serialize() for consultation in self.consultations],
         }
 
 
@@ -325,7 +245,20 @@ class Practice(sql_db.Model):
     name = sql_db.Column(sql_db.String, nullable = False)
     consultation = sql_db.relationship("Consultation", back_populates="practices", uselist = False)
     insurances = sql_db.relationship("Insurance", secondary = practice_insurance_table, back_populates = "practices")
+    location = sql_db.Column(sql_db.String, nullable = False)
 
+    def __init__(self, kwargs):
+        """Initializes Practice object"""
+        self.name = kwargs.get("name")
+        self.location = kwargs.get("location")
+
+    def simple_serialize(self):
+        """Simple serialize Practice"""
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "location" : self.location
+        }
 
 class Insurance(sql_db.Model):
     """Insurance Model"""
@@ -355,15 +288,42 @@ class Consultation(sql_db.Model):
     patient_phone = sql_db.Column(sql_db.String, nullable = False)
     patient_area_of_need = sql_db.Column(sql_db.String, nullable = False)
     patient_state = sql_db.Column(sql_db.String, nullable = False)
+
     practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), unique=True)
     practitioner = sql_db.relationship("Practitioner", back_populates="consultations")
-    practice_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practices.id'), unique= False)
+
+    practice_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practices.id'), unique= True)
     practice = sql_db.relationship("Practice", back_populates="consultations")
 
     status = sql_db.Column(sql_db.String, nullable = False, default = "pending")
     patient_date_of_birth = sql_db.Column(sql_db.String, nullable = False)
 
-    patient_genders = sql_db.relationship("Gender", secondary = patient_gender_table, back_populates = "consultations")  
+    patient_genders = sql_db.relationship("Gender", secondary = patient_gender_table, back_populates = "consultations")
+
+    def __init__(self, **kwargs):
+        self.patient_name = kwargs.get("patient_name")
+        self.patient_email = kwargs.get("patient_email")
+        self.patient_phone = kwargs.get("patient_phone")
+        self.patient_area_of_need = kwargs.get("patient_area_of_need")
+        self.patient_state = kwargs.get("patient_state")
+        self.practitioner_id = kwargs.get("practitioner_id")
+        self.practice_id = kwargs.get("practice_id")
+        self.patient_date_of_birth = kwargs.get("patient_date_of_birth")
+
+    def simple_serialize(self):
+        """Simple serialize consulation"""
+        return {
+            "id" : self.id, 
+            "patient_name" : self.patient_name,
+            "patient_email" : self.patient_email,
+            "patient_phone" : self.patient_phone,
+            "patient_area_of_need" : self.patient_area_of_need,
+            "patient_state" : self.patient_state,
+            "status" : self.status,
+            "patient_date_of_birth" : self.patient_date_of_birth,
+            "patient_genders" : [gender.simple_serialize() for gender in self.patient_genders],
+            "practice" : "TODO"
+        }
 
 
 
@@ -378,8 +338,16 @@ class Metric(sql_db.Model):
     practitioner_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('practitioners.id'), unique=True)
     practitioner = sql_db.relationship("Practitioner", back_populates="consultations")
 
+    def __init__(self, kwargs):
+        """Initializes Metric object"""
+        self.number_of_rejections = kwargs.get("number_of_rejections")
 
-
+    def simple_serialize(self):
+        """
+        Simple serialize Metric object
+        """
+        return {"id" : self.id, 
+                "number_of_rejections" : self.number_of_rejections}
 
 
 
@@ -388,6 +356,6 @@ class Metric(sql_db.Model):
 # normal crud endpoints for consultation
 # update appointment status endpoint
     
-# develop the Metric table to store number of rejections
+# develop the Metric table to store number of rejections  ::done
     
 # location of the practice to the Practice table
