@@ -14,6 +14,7 @@ function Form() {
     const [selectedTopics, setSelectedTopics] = useState([]);
     const [referralSource, setReferralSource] = useState('');
     const [passStatus, setPassStatus] = useState('');
+    const [genderIdentity, setGender] = useState("");
 
     useEffect(() => {
         console.log('selectedTopics:', selectedTopics);
@@ -69,7 +70,8 @@ function Form() {
                     paymentmethod: payment[0],
                     status: "Awaiting Approval",
                     referral: referralSource,
-                    pass_status: localPassStatus
+                    pass_status: localPassStatus,
+                    gender: genderIdentity
                 })
             })
 
@@ -107,13 +109,14 @@ function Form() {
             <p>IMPORTANT: By scheduling this appointment request, you are consenting to having your personal information collected.</p>
             <div className='forms'>
                 <div className='container-outer'>
+                    <form>
                     <h2>Contact Information</h2>
                     <div className='contact-info-container'>
                         <div className='flex-row'>
                             {/* Legal first name */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Legal First Name </div>
-                                <input type="text"
+                                <input required type="text"
                                     placeholder="Enter legal first name"
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
@@ -121,7 +124,7 @@ function Form() {
                             {/* Legal last name */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Legal Last Name </div>
-                                <input type="text" placeholder="Enter legal last name"
+                                <input required type="text" placeholder="Enter legal last name"
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
@@ -131,13 +134,13 @@ function Form() {
                             {/* preferred name */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Preferred Name </div>
-                                <input type="text" placeholder="Enter preferred name" />
+                                <input required type="text" placeholder="Enter preferred name" />
                             </div>
 
                             {/* Phone number */}
                             <div className='input-field'>
                                 <div className='sub-heading'> Phone Number </div>
-                                <input type="text" placeholder="Enter phone number" />
+                                <input required type="text" placeholder="Enter phone number" />
                             </div>
                         </div>
 
@@ -157,7 +160,7 @@ function Form() {
 
                             <div className='input-field'>
                                 <div className='sub-sub-heading'> State </div>
-                                <select id='state' name='state' onChange={(e) => setState([
+                                <select required id='state' name='state' onChange={(e) => setState([
                                     ...state,
                                     e.target.value
                                 ])}>
@@ -221,30 +224,46 @@ function Form() {
                         </div>
                         <div className='flex-row'>
                             <div className='long-input-field'>
-                                <div className='sub-heading'>Email Address</div>
+                                <div required className='sub-heading'>Email Address</div>
                                 <input type="email" placeholder="Enter email address" />
                             </div>
                         </div>
                         <div className='flex-row'>
                             <div className='input-field-date'>
-                                <div className='sub-heading'> Date of Birth </div>
+                                <div required className='sub-heading'> Date of Birth </div>
                                 <input type="date" placeholder="MM-DD-YYYY" />
                             </div>
 
                             <div className='input-field'>
-                                <div className='sub-heading'> Language </div>
+                                <div className='sub-heading'> Gender </div>
+                                <select required id='gender' name='gender' onChange={(e) => setGender([
+                                    ...genderIdentity,
+                                    e.target.value
+                                ])}>
+                                <option value=''>Select Gender</option>
+                                <option value='female'>Female</option>
+                                <option value='male'>Male</option>
+                                <option value='nonbinary'>Non-binary</option>
+                                <option value='genderfluid'>Genderfluid</option>
+                                <option value='other'>Other/Prefer not to say</option>
+                                </select>
+                            </div>
+
+                            <div className='input-field'>
+                                <div required className='sub-heading'> Language </div>
                                 {/* <input type="text" placeholder="English or Spanish" /> */}
                                 <select id='language' name='language'>
                                     <option value=''> Please select a preferred language</option>
                                     <option value='English'> English</option>
                                     <option value='Spanish'> Spanish</option>
+                                    <option value='Other'> Other</option>
                                 </select>
                             </div>
                         </div>
                         <div className='flex-row'>
                             <div className='input-field'>
                                 <div className='sub-heading'> Referral Source</div>
-                                <select id='referral-source' name='referral-source' value={referralSource} onChange={(e) => setReferralSource(e.target.value)}>
+                                <select required id='referral-source' name='referral-source' value={referralSource} onChange={(e) => setReferralSource(e.target.value)}>
                                     <option value=''> Please select a referral source</option>
                                     <option value='Directory-links'> Directory Links</option>
                                     <option value='LatinxTherapy'> LatinxTherapy</option>
@@ -269,7 +288,9 @@ function Form() {
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
+                
                 <div className='right-forms'>
                     <div className='payment-info-form'>
                         <h2>Payment Information</h2>
