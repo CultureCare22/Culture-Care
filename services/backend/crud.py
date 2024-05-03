@@ -331,3 +331,15 @@ def get_location_by_name(name):
         return False, None
     
     return True, location
+
+
+def get_all_consultations():
+    """
+    Gets all consultations
+    """
+    consultations = Consultation.query.all()
+    consultations_json = []
+    for consultation in consultations:
+        consultations_json.append(consultation.simple_serialize())
+
+    return consultations_json

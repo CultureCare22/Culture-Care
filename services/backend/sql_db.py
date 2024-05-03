@@ -57,6 +57,8 @@ class Practitioner(sql_db.Model):
     description = sql_db.Column(sql_db.String, nullable = True)
 
     appointments = sql_db.Column(sql_db.JSON, nullable = True)
+    
+    practice_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey("practices.id"))
 
     genders = sql_db.relationship("Gender", secondary = practitioner_gender_table, back_populates = "practitioners")  
     languages = sql_db.relationship("Language", secondary = practitioner_language_table, back_populates = "practitioners")  
@@ -104,12 +106,15 @@ class Practitioner(sql_db.Model):
         """
         Serializes a practitioner
         """
+        
+        practice = Practice.query.filter_by(id = self.practice_id).first()
 
         return {
             "id" : self.id,
             "name" : self.name,
             "is_deleted" : self.is_deleted,
             "email_address" : self.email_address, 
+            "practice": practice.name,
             "description" : self.description,
             "genders" : [gender.simple_serialize() for gender in self.genders],
             "languages" : [language.simple_serialize() for language in self.languages],
@@ -248,6 +253,7 @@ class Practice(sql_db.Model):
     consultation = sql_db.relationship("Consultation", back_populates="practices", uselist = False)
     insurances = sql_db.relationship("Insurance", secondary = practice_insurance_table, back_populates = "practices")
     location = sql_db.Column(sql_db.String, nullable = False) #no relationship
+    practitioners = sql_db.relationship("Practitioners", cascade = "delete")
 
     # missing member and head
 

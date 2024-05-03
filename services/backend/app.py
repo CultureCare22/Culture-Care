@@ -990,6 +990,15 @@ def consultation_form(request_id):
 # wrriting to form: 
 
 
+@app.route("/consultations/get/")
+def get_consultations():
+    """
+    Endpoint to get all consultations
+    """
+    consultations = crud.get_all_consultations()
+    return success_response([consultation.serialize() for consultation in consultations])
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")
