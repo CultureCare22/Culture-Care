@@ -20,9 +20,6 @@ DROP SCHEMA public CASCADE;.pgsql
 node_modules/.cache
 .python-version
 editing
-<<<<<<< HEAD
-*token files
-=======
 ./app/instance
 *pickle
 clientsecret.json
@@ -34,4 +31,3 @@ practitioner_dd.json
 a.json
 as.json
 practitioner_dd.json
->>>>>>> origin/render-deploy
