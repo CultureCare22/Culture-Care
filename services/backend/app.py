@@ -999,6 +999,17 @@ def get_consultations():
     return success_response([consultation.serialize() for consultation in consultations])
 
 
+@app.route("/consultations/get/<int:id>/")
+def get_consultation(id):
+    """
+    Endpoint to get a specific consultation
+    """
+    success, consultation = crud.get_consultation_by_id(id)
+    if not success:
+        return failure_response("Consultation does not exist")
+    return success_response(consultation.serialize())
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port="8000")

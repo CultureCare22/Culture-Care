@@ -343,3 +343,14 @@ def get_all_consultations():
         consultations_json.append(consultation.simple_serialize())
 
     return consultations_json
+
+def get_consultation_by_id(id):
+    """
+    Gets a consultation
+    """
+    consultation = Consultation.query.filter(Consultation.id == id).first()
+
+    if not consultation:
+        return False, None
+    
+    return True, consultation
