@@ -340,13 +340,13 @@ def get_all_consultations():
     consultations = Consultation.query.all()
     consultations_json = []
     for consultation in consultations:
-        consultations_json.append(consultation.simple_serialize())
+        consultations_json.append(consultation.serialize())
 
     return consultations_json
 
 def get_consultation_by_id(id):
     """
-    Gets a consultation
+    Gets a consultation given id
     """
     consultation = Consultation.query.filter(Consultation.id == id).first()
 
@@ -354,3 +354,5 @@ def get_consultation_by_id(id):
         return False, None
     
     return True, consultation
+
+

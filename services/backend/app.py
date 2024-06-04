@@ -2,7 +2,6 @@
 Author: Jephthah Mensah, Blay Ambrose, Jae
 """
 import os
-import sys
 import logging
 
 from dotenv import load_dotenv, find_dotenv
@@ -16,7 +15,7 @@ import crud
 
 import argparse
 from flask import Flask, request, jsonify
-from sql_db import sql_db, Practitioner, Language, Gender, Specialization, PaymentMethod, Location
+from sql_db import sql_db, Practitioner, Language, Gender, Specialization, Location, Consultation
 # import verification
 import datetime
 from flask import Flask, request
@@ -295,29 +294,6 @@ def send_prewritten_email(email_id):
                              "to" : patient_id
                              })
 
-
-@app.route("/patients/create/", methods = ["POST"])
-def create_patient():
-    """
-    Endpoint to create patient
-    """
-    body = json.loads(request.data)
-    name = body.get("name")
-    email_address = body.get("email_address")
-
-    if assert_none([name, email_address]):
-        return failure_response("Insufficient inputs", 400)
-
-
-    created, patient = crud.create_patient(name, email_address)
-
-    if not created:
-        return failure_response("Failed to create practitioner", 400)
-    
-    sql_db.session.add(patient)
-    sql_db.session.commit()
-    
-    return success_response(patient.serialize(), 201)
 
 
 @app.route("/practitioners/<int:id>/description/add/", methods = ["POST"])
@@ -783,7 +759,6 @@ def strict_filter(**kwargs):
                         
 
 def flexible_filter(languages, specializations, genders, locations):
-    #TODO: need to look at the logic
     filtered_practitioners_arrays = []
     if languages:
         
@@ -907,96 +882,13 @@ def check_auto_pass(locations, paymentmethods, specialities, practitioner):
 
     return True
 
-# @app.route('/appointments/update/', methods=['POST'])             
-# def update_appt():
-#     body = json.loads(request.data)
-#     id = body.get("id")
-#     status = body.get("status")
-
-#     if id is None or status is None: return failure_response("Invalid inputs")
-    
-#     return success_response({"id" : id, "message" : update_event_status(id, status)})
-
-@app.route("/consultation_request/<int:request_id>/update_status/", methods=["POST"])
-def update_consultation_status(request_id):
-    """
-    Updates the status of a specific consultation request by creating a ConsultationChange record.
-
-    Incomplete. Need to see how consultations will be fulfilled to get a better 
-        data model. Last worked on 18 March 24
-    """
-    logging.warning("WIP endpoint '/consultation_request/<int:request_id>/update_status/' was accessed. ")
-
-    response = {
-        "error": "wip_endpoint",
-        "message": "This endpoint is WIP and should not be used"
-    }
-    return jsonify(response), 410 
-
-    
-    body = json.loads(request.data)
-    new_status = body.get("status")
-
-    if not new_status:
-        return failure_response("Missing new status.", 400)
-
-    # fetching ConsultationRequest by id
-    consultation_request = ConsultationRequest.query.get(request_id)
-    if consultation_request is None:
-        return failure_response("ConsultationRequest not found.", 404)
-
-    # create new ConsultationChange record
-    consultation_change = ConsultationChange(
-        consultation_request_id=request_id,
-        status=new_status,
-        updated_at=datetime.datetime.now(datetime.UTC)  # ensure utc 
-    )
-    sql_db.session.add(consultation_change)
-
-    # update current status of the ConsultationRequest
-    consultation_request.current_status = new_status
-
-    try:
-        sql_db.session.commit()
-        return success_response({"message": "Consultation status updated successfully."}, 200)
-    except Exception as e:
-        sql_db.session.rollback()
-        return failure_response(f"Failed to update consultation status: {str(e)}", 500)
-
-
-
-@app.route("/consultation_request/<int:practitioner_id>/update_status/", methods=["POST"])
-def consultation_form(request_id):
-    """
-    write first last, state, email, cliniian, payment method to db
-    endpoint - 6 fields, write into database
-
-    temp endpoint for wednesday call, to be updated
-    """
-
-    return
-
-
-# endpoint to call all appointsments by clinician - jasmine, 
-    # first last, clinician, payment method
-        # codes: “awaiting approval”, “declined”, “approved”
-
-# endpoint - changing appointment status
-    # clinician id, status
-
-# update, writing to form 
-
-# update, given appt id, get the field in the database, update the status
-# wrriting to form: 
-
-
 @app.route("/consultations/get/")
 def get_consultations():
     """
     Endpoint to get all consultations
     """
     consultations = crud.get_all_consultations()
-    return success_response([consultation.serialize() for consultation in consultations])
+    return success_response({"consultations" : consultations})
 
 
 @app.route("/consultations/get/<int:id>/")
@@ -1008,6 +900,67 @@ def get_consultation(id):
     if not success:
         return failure_response("Consultation does not exist")
     return success_response(consultation.serialize())
+
+
+@app.route("/consultations/create/", methods = ["POST"])
+def create_consultation():
+    """Endpoint to create consulation"""
+    body = json.loads(request.data)
+    patient_name = body.get("patient_name")
+    patient_email = body.get("patient_email")
+    patient_phone = body.get("patient_phone")
+    patient_state = body.get("patient_state")
+    area_of_need = body.get("area_of_need")
+    practitioner_id = body.get("practitioner_id")
+    practice_id = body.get("practice_id")
+    patient_date_of_birth = body.get("patient_date_of_birth")
+
+    if assert_none([patient_email, patient_name, patient_phone, patient_state, area_of_need, practitioner_id, practice_id, patient_date_of_birth]):
+        return failure_response("Invalid inputs")
+    consultation = crud.create_consultation()
+
+    if consultation is None: return failure_response("Failed to create consultation", 400)
+
+    sql_db.session.add(consultation)
+    sql_db.session.commit()
+
+    return success_response(consultation.serialize(), 201)
+
+    
+@app.route("/consultations/delete/<int:id>/", methods = ["POST"])
+def delete_consultation(id):
+    """Endpoint to delete consultation"""
+    success, consultation = crud.get_consultation_by_id(id)
+    if not success:
+        return failure_response("Consultation does not exist")
+    
+    consultation.is_deleted = True
+    sql_db.session.commit()
+    return success_response(consultation.serialize(), 201)
+
+
+@app.route("/consultations/update/<int:id>/", methods = ["POST"])
+def update_consultation(id):
+    """Endpoint to update consultation"""
+    success, consultation = crud.get_consultation_by_id(id)
+    if not success:
+        return failure_response("Consultation does not exist")
+    sql_db.session.commit()
+    return success_response(consultation.serialize(), 201)
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -309,6 +309,7 @@ class Consultation(sql_db.Model):
     patient_date_of_birth = sql_db.Column(sql_db.String, nullable = False)
 
     patient_genders = sql_db.relationship("Gender", secondary = patient_gender_table, back_populates = "consultations")
+    is_deleted = sql_db.Column(sql_db.Boolean, default = False, nullable = False)
 
     def __init__(self, **kwargs):
         """Initializes Consultation object"""
